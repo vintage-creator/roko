@@ -49,7 +49,7 @@ const signUpFn = async (req, res) => {
       password: hashPassword,
       token,
     });
-    await crmLeads(email, fullname, phone);
+    await crmLeads(email, fullname);
 
     // Send an email with a link containing the token
     const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
