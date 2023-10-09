@@ -46,7 +46,7 @@ app.get("/home(.html)?", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.render("signup", { flashMessages: req.flash() });
+  res.render("signin", { flashMessages: req.flash() });
 });
 
 app.get("/signin", (req, res) => {
