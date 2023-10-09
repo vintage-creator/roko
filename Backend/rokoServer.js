@@ -49,8 +49,8 @@ app.get("/", (req, res) => {
   res.render("signin", { flashMessages: req.flash() });
 });
 
-app.get("/signin", (req, res) => {
-  res.render("signin", { flashMessages: req.flash() });
+app.get("/signup", (req, res) => {
+  res.render("signup", { flashMessages: req.flash() });
 });
 
 // Catch-all handler should be the last route
