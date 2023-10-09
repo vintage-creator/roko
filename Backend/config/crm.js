@@ -28,7 +28,6 @@ const crmToken = async () => {
 const addUserToLeads = async (
   email,
   fullname
-
 ) => {
   const accessToken = await crmToken();
   try {
