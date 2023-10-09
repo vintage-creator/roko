@@ -30,7 +30,7 @@ const signUpFn = async (req, res) => {
     //check if user exists
     if (userExist) {
       req.flash("error", "User already exist!");
-      return res.redirect("/"); // Redirect to signup page
+      return res.redirect("/"); // Redirect to signin page
     }
     const token = generateToken();
     const hashPassword = bcrypt.hashSync(password, 10);
@@ -89,10 +89,10 @@ const verifyToken = async (req, res) => {
     await user.save();
 
     req.flash("success", "Email verified successfully!");
-    return res.redirect("/signin");
+    return res.redirect("/");
   } else {
     req.flash("error", "Invalid Token");
-    return res.redirect("/");
+    return res.redirect("/signup");
   }
 };
 
@@ -111,7 +111,7 @@ const signInFn = async (req, res) => {
     const user = await UserReg.findOne({ email }).exec();
     if (!user) {
       req.flash("error", "User not found!");
-      return res.redirect("/"); // Redirect to login page
+      return res.redirect("/signup"); // Redirect to signup page
     }
     const isPasswordMatched = bcrypt.compareSync(password, user.password);
     if (!isPasswordMatched) {
@@ -133,7 +133,7 @@ const logoutFn = (req, res) => {
   // Clear session variables associated with authentication
   req.session.verified = false;
 
-  res.redirect("/signin");
+  res.redirect("/");
 };
 
 module.exports = { signInFn, verifyToken, signUpFn, logoutFn };
