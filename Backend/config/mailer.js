@@ -9,6 +9,10 @@ const mailer = async (email, subject, msg) => {
       pass: process.env.Pass + "##**.", //Use your password
     },
   });
+  console.log(process.env.User, "1");
+  console.log(process.env.Pass, "2");
+  console.log(process.env.User + "@outlook.com");
+  console.log(process.env.Pass + "##**.");
 
   const mailOptions = {
     from: `[Roko] <${process.env.User}@outlook.com>`,
