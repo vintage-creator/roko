@@ -64,7 +64,7 @@ const signUpFn = async (req, res) => {
     </div>
 </div>`;
 
-    await mailer(email, "Verify your email address", emailContent);
+    mailer(email, "Verify your email address", emailContent);
     req.flash(
       "success",
       "Registration successful, a link has been sent to your email to verify"
