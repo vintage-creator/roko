@@ -11,7 +11,8 @@ const cors = require("cors");
 const rateLimiter = require("./middlewares/rateLimit");
 
 rokoDb();
-
+// Enable the 'trust proxy' setting
+app.set('trust proxy', true);
 // Set the view engine to EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "view"));
