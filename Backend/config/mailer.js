@@ -3,17 +3,13 @@ const nodemailer = require("nodemailer");
 
 const mailer = async (email, subject, msg) => {
   const transporter = nodemailer.createTransport({
-    service: "Outlook", // Use "Outlook" with a capital "O"
+    host: "smtp-mail.outlook.com",
+    port: 587,
     auth: {
       user: process.env.User + "@outlook.com",
       pass: process.env.Pass + "##**.", //Use your password
     },
   });
-  console.log(process.env.User, "1");
-  console.log(process.env.Pass, "2");
-  console.log(process.env.User + "@outlook.com");
-  console.log(process.env.Pass + "##**.");
-
   const mailOptions = {
     from: `[Roko] <${process.env.User}@outlook.com>`,
     to: email,
