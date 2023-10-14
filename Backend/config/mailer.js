@@ -1,3 +1,4 @@
+require("dotenv").config();
 const nodemailer = require("nodemailer");
 
 const mailer = async (email, subject, msg) => {
@@ -8,7 +9,6 @@ const mailer = async (email, subject, msg) => {
       pass: process.env.Pass + "##**.",
     },
   });
-
   const mailOptions = {
     from: `[Roko] <${process.env.User}@zohomail.com>`,
     to: email,

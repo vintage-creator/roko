@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const mailer = require("../../config/mailer");
 const generateToken = require("../../utils/generateToken");
 const { validateUserRegistration } = require("../../utils/userValidation");
-const crmLeads = require("../../config/crm");
+// const crmLeads = require("../../config/crm");
 
 const signUpFn = async (req, res) => {
   const {

@@ -27,9 +27,7 @@ const crmToken = async () => {
 
 const addUserToLeads = async (
   email,
-  fullname,
-  phone
-
+  fullname
 ) => {
   const accessToken = await crmToken();
   try {
@@ -41,9 +39,7 @@ const addUserToLeads = async (
             "Company": "Testing",
             "Email": email,
             "First_Name": fullname,
-            "Last_Name": "",
-            "Phone": phone
-            
+            "Last_Name": ""
           },
         ],
         trigger: ["approval", "workflow", "blueprint"],
