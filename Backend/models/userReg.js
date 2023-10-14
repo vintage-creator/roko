@@ -1,7 +1,8 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const { default: mongoose } = require("mongoose");
+const {userDB}  = require("../config/databases/rokoDatabase");
 
-const userSchema = new Schema({
+
+const userSchema = new mongoose.Schema({
   protect: {
     type: String,
     required: true,
@@ -65,5 +66,5 @@ const userSchema = new Schema({
   }
 });
 
-const UserReg = mongoose.model("UserReg", userSchema);
+const UserReg = userDB.model("UserReg", userSchema);
 module.exports = UserReg;

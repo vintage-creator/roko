@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {signUpFn, verifyToken, signInFn, logoutFn} = require("../controllers/authFn");
+const {signUpFn, verifyToken, signInFn, logoutFn} = require("../../controllers/users_auth/authFn");
 
 router.post("^/signup(.html)?", signUpFn);
 router.get("^/verify(.html)?", verifyToken);

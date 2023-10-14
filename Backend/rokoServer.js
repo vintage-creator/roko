@@ -1,22 +1,23 @@
 require("dotenv").config();
-const mongoose = require("mongoose");
 const path = require("path");
-const rokoDb = require("./config/database");
+const {userDB, paymentDB} = require("./config/databases/rokoDatabase");
 const express = require("express");
 const flash = require("express-flash");
 const session = require("express-session");
-const authRoute = require("./routes/auth");
+const authRoute = require("./routes/users_auth/auth");
+const subscribeRoute = require("./routes/payment_service/subPlan");
+const contactRoute = require("./routes/contact_service/contact");
+const whRoute = require("./routes/payment_service/wh");
 const app = express();
 const cors = require("cors");
 const rateLimiter = require("./middlewares/rateLimit");
 
-rokoDb();
 
 // Set the view engine to EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "view"));
 
-//Middlewares
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,23 +35,25 @@ app.use(
 app.use(flash());
 app.use(rateLimiter);
 app.use("/auth", authRoute);
-// app.use("/cleanup", cleanUpRoute);
+app.use("/subscribe", subscribeRoute);
+app.use("/wh", whRoute);
+app.use("/contact", contactRoute);
 
 const port = process.env.NODE_ENV === "production" ? process.env.PORT : 8000;
 
 app.get("/home(.html)?", (req, res) => {
   if (!req.session.verified) {
-    return res.redirect("/signin");
+    return res.redirect("/");
   }
   res.render("index");
 });
 
 app.get("/", (req, res) => {
-  res.render("signup", { flashMessages: req.flash() });
+  res.render("signin", { flashMessages: req.flash() });
 });
 
-app.get("/signin", (req, res) => {
-  res.render("signin", { flashMessages: req.flash() });
+app.get("/signup", (req, res) => {
+  res.render("signup", { flashMessages: req.flash() });
 });
 
 // Catch-all handler should be the last route
@@ -58,19 +61,26 @@ app.all("*", (req, res) => {
   res.render("404");
 });
 
-mongoose.connection.once("open", async () => {
-  const chalk = (await import("chalk")).default; // Import chalk dynamically
-  console.log(chalk.blue("Connected to Roko Database."));
-  app.listen(port, (err) => {
-    if (err) {
-      throw new Error("Error connecting to the server");
-    }
-    console.log(chalk.bgRed(`Server is running on http://localhost:${port}`));
-  });
-});
+// Define an async function to connect to the databases
+async function connectToDatabases() {
+  const chalk = (await import("chalk")).default;
+  try {
+    await Promise.all([
+      userDB, 
+      paymentDB 
+    ]);
+    console.log(chalk.bgBlack("Roko:: Databases connected successfully"));
 
-mongoose.connection.on("error", async (err) => {
-  const chalk = (await import("chalk")).default; // Import chalk dynamically
-  console.error(chalk.red("Roko database connection error:", err));
-  process.exit(1);
-});
+    // Start the server only after both databases are connected
+    app.listen(port, () => {
+      console.log(chalk.yellow(`Server is running on http://localhost:${port}`));
+    });
+  } catch (error) {
+    console.error(chalk.bgRed("Error connecting to databases:", error));
+  }
+}
+
+// Call the function to connect to the databases
+connectToDatabases();
+
+    

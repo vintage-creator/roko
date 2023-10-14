@@ -1,168 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Roko Medical PI</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Philosopher&family=Roboto+Mono&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&family=Philosopher&family=Roboto+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
     <style>
-        body {
-            font-family: 'Philosopher', sans-serif;
-            background-color: #f8f9fa;
-        }
+      body {
+        background-color: #f8f9fae8;
+        font-family: "Poppins";
+      }
 
-        .navbar {
-            background-color: #343a40;
-        }
+      .btn:hover {
+        transform: scale(1.08); /* Increase scale on hover */
+        transition: transform 0.3s ease; /* Add transition effect */
+        box-shadow: 1px 1px 0;
+      }
 
-        .navbar-nav {
-            margin-left: 44em;
-        }
+      .navbar {
+        background-color: #008080;
+        padding-top: 30px;
+      }
 
-        .navbar-brand {
-            color: #ffffff;
-        }
+      .navbar-nav {
+        padding-left: 46em;
+      }
 
-        .navbar-brand:hover {
-            color: #dddd11;
-        }
+      .nav-link {
+        font-size: 16px;
+      }
 
-        .card {
-            margin: 20px 0;
-        }
+      .navbar-brand {
+        font-family: "Philosopher", sans-serif;
+        color: #ffffff;
+        font-size: 23px;
+        margin-left: -30px;
+      }
 
-        .card-body {
-            text-align: center;
-        }
+      .navbar-brand:hover {
+        color: #dddd11;
+      }
 
-        .card-body h4 {
-            color: #343a40;
-        }
+      .card {
+        margin: 20px 0;
+      }
 
-        .card-body p {
-            color: #6c757d;
-        }
+      .card-body {
+        text-align: center;
+      }
 
-        .active {
-            color: #ffff;
-        }
+      .card-body h4 {
+        color: #343a40;
+      }
 
-        .footer {
-            padding: 20px;
-            text-align: center;
-            background-color: #343a40;
-            color: #ffffff;
-        }
+      .card-body p {
+        color: #6c757d;
+      }
+
+      .active {
+        color: #ffff;
+      }
+
+      .footer {
+        padding: 50px;
+        text-align: center;
+        background-color: #000;
+        color: #ffffff;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Roko MediPI</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/auth/logout">Logout</a>
-                    </li>
-                </ul>
-            </div>
+      <div class="container">
+        <a class="navbar-brand" href="#"><b>Roko</b></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" href="#"
+                >Home <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact/us" style="width: max-content"
+                >Contact us</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/logout">Logout</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
+    <!-- Hero section -->
+    <div
+      class="d-flex justify-content-between p-5"
+      style="background-color: #008080"
+    >
+      <div class="mt-5" style="padding-left: 30px">
+        <h1 class="display-6; mt-2" style="color: white">
+          Nigeria's top medical Protection organization
+        </h1>
+        <p class="lead mt-4" style="color: #f8f9fab4; width: 75%">
+          We emphasize prevention over treatment, providing expert guidance and
+          support to mitigate potential indemnities.
+        </p>
+        <div
+          class="btn btn-lg mt-2"
+          style="background-color: #d1833a; font-size: 18px; color: white"
+          id="getstarted"
+        >
+          Get started
+        </div>
+        <div
+          class="btn btn-lg mt-2"
+          style="
+            background-color: white;
+            margin-left: 15px;
+            font-size: 18px;
+            color: #008080;
+          "
+        >
+          Learn more
+        </div>
+      </div>
+
+      <div class="mt-2" style="margin-right: -40px">
+        <img
+          src="https://res.cloudinary.com/dcoxo8snb/image/upload/v1697023056/Frame_184_tqbrak.png"
+          alt="hero_image"
+          width="88%"
+          style="height: 83%"
+          class="img-fluid"
+        />
+      </div>
+    </div>
+
+    <!--  Content Sections -->
+
     <div class="container my-5">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4>Welcome to Roko Medical PI</h4>
-                        <p>Manage your medical practice efficiently with our powerful platform.</p>
-                    </div>
-                </div>
+      <h3 class="text-center" style="font-weight: 600">
+        Why you should use Roko
+      </h3>
+      <div
+        class="row"
+        data-aos="fade-up"
+        data-aos-delay="50"
+        data-aos-duration="1000"
+      >
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h4>Secure and Efficient</h4>
+              <p>
+                Your data is safe with us. Focus on what matters most - your
+                patients.
+              </p>
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4>Secure and Efficient</h4>
-                        <p>Your data is safe with us. Focus on what matters most - your patients.</p>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h4>Comprehensive Reporting</h4>
+              <p>
+                Access detailed reports and insights to help you make informed
+                decisions for your practice.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-
-    <!-- Additional Content Sections -->
-
-<div class="container my-5">
-    <div class="row">
+    <div class="container my-5">
+      <div
+        class="row"
+        data-aos="fade-up"
+        data-aos-delay="50"
+        data-aos-duration="1000"
+      >
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Streamlined Workflow</h4>
-                    <p>Our platform simplifies administrative tasks, allowing you to focus on patient care.</p>
-                </div>
+          <div class="card">
+            <div class="card-body">
+              <h4>24/7 Support</h4>
+              <p>
+                Our dedicated support team is available around the clock to
+                assist you with any inquiries or issues.
+              </p>
             </div>
+          </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Comprehensive Reporting</h4>
-                    <p>Access detailed reports and insights to help you make informed decisions for your practice.</p>
-                </div>
+          <div class="card">
+            <div class="card-body">
+              <h4>Customizable Features</h4>
+              <p>
+                Tailor our platform to meet the unique needs of your medical
+                practice with customizable settings.
+              </p>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<div class="container my-5">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4>24/7 Support</h4>
-                    <p>Our dedicated support team is available around the clock to assist you with any inquiries or issues.</p>
-                </div>
-            </div>
+    <!-- End Content Sections -->
+
+    <div
+      class="modal fade"
+      id="getstartedModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="getstartedModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4
+              class="modal-title"
+              style="color: #008080"
+              id="getstartedModalLabel"
+            >
+              <b>Let us know your capacity</b>
+            </h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form
+              class="mb-5 mt-2"
+              method="post"
+              action="/subscribe/plan"
+            >
+              <!-- HTML Structure for Hospital Size Selection -->
+              <div id="hospitalSizeSelection" class="mb-3">
+                <label for="hospitalSize" class="form-label"
+                  >Select your hospital size (based on number of beds):</label
+                >
+                <select
+                  id="hospitalSize"
+                  name="hospitalSize"
+                  class="form-select"
+                >
+                  <option value="1-20">1-20 beds</option>
+                  <option value="21-50">21-50 beds</option>
+                  <option value="51-100">51-100 beds</option>
+                  <option value="101-500">101-500 beds</option>
+                  <option value="501-1000">501-1000 beds</option>
+                  <option value="1001+">1001 and above beds</option>
+                </select>
+              </div>
+
+              <!-- Default Option - 1-20 beds -->
+              <div id="defaultCoverage" class="mt-4">
+                <h4><b>₦50,000</b>/Annum</h4>
+                <p>Your insurance plan include:</p>
+                <ul>
+                  <li>Up to 50,000 Naira coverage.</li>
+                  <li>Cover up to 20 beds.</li>
+                  <li>Cover for 8 staff.</li>
+                  <li>Access to educational and risk management materials.</li>
+                </ul>
+              </div>
+
+              <!-- Option - 21-50 beds -->
+              <div id="optionTwoCoverage" class="mt-4" style="display: none">
+                <h4><b>₦70,000</b>/Annum</h4>
+                <p>Your insurance plan include:</p>
+                <ul>
+                  <li>Up to 70,000 Naira coverage.</li>
+                  <li>Cover up to 50 beds.</li>
+                  <li>Cover for 13 staff.</li>
+                  <li>Access to educational and risk management materials.</li>
+                </ul>
+              </div>
+
+              <!-- Option - 51-100 beds -->
+              <div id="optionThreeCoverage" class="mt-4" style="display: none">
+                <h4><b>₦130,000</b>/Annum</h4>
+                <p>Your insurance plan include:</p>
+                <ul>
+                  <li>Up to 130,000 Naira coverage.</li>
+                  <li>Cover up to 100 beds.</li>
+                  <li>Cover for 20 staff.</li>
+                  <li>Access to educational and risk management materials.</li>
+                </ul>
+              </div>
+
+              <div class="d-flex align-items-center justify-content-center">
+                <button
+                  type="submit"
+                  class="btn"
+                  style="background-color: #008080; color: white"
+                >
+                  Proceed to payment
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Customizable Features</h4>
-                    <p>Tailor our platform to meet the unique needs of your medical practice with customizable settings.</p>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-</div>
-
-<!-- End Additional Content Sections -->
-
 
     <div class="footer">
-        <p>
-            Made with <span style="color: #ff9400;">&#10084;&#65039;</span> by
-            <a href="https://www.linkedin.com/in/israel-abazie/" style="color: white; text-decoration: underline;" target="_blank">Israel Abazie</a>
-        </p>
-        <p>&copy; 2023 Roko Medical PI LLC, All rights reserved.</p>
+      <p>
+        Made with <span style="color: #ff9400">&#10084;&#65039;</span> by
+        <a
+          href="https://www.linkedin.com/in/israel-abazie/"
+          style="color: white; text-decoration: underline"
+          target="_blank"
+          >Israel Abazie</a
+        >
+      </p>
+      <p>&copy; 2023 Roko Medical PI LLC, All rights reserved.</p>
     </div>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+      document.addEventListener("DOMContentLoaded", function () {
+        const getstartedButton = document.getElementById("getstarted");
+        const getstartedModal = new bootstrap.Modal(
+          document.getElementById("getstartedModal")
+        );
 
+        getstartedButton.addEventListener("click", function () {
+          getstartedModal.show();
+        });
+      });
+
+      document
+        .getElementById("hospitalSize")
+        .addEventListener("change", function () {
+          document.getElementById("defaultCoverage").style.display = "none";
+          document.getElementById("optionTwoCoverage").style.display = "none";
+          document.getElementById("optionThreeCoverage").style.display = "none";
+
+          var selectedSize = this.value;
+
+          if (selectedSize === "1-20") {
+            document.getElementById("defaultCoverage").style.display = "block";
+          } else if (selectedSize === "21-50") {
+            document.getElementById("optionTwoCoverage").style.display =
+              "block";
+          } else if (selectedSize === "51-100") {
+            document.getElementById("optionThreeCoverage").style.display =
+              "block";
+          }
+        });
+    </script>
+  </body>
 </html>
