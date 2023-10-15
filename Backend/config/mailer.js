@@ -6,7 +6,7 @@ const mailer = async (email, subject, msg) => {
     service: "zoho",
     auth: {
       user: process.env.User + "@zohomail.com",
-      pass: process.env.Pass + "##**.",
+      pass: process.env.Pass + "##**",
     },
   });
   const mailOptions = {
