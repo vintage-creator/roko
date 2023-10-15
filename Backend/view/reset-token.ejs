@@ -68,6 +68,7 @@
         </p>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
     <script>
       // Countdown timer logic
@@ -94,6 +95,10 @@
           }
         }, 1000);
       }
+
+      // Set expiration time (1 hour in milliseconds)
+      const expirationTime = new Date().getTime() + 3600000;
+      countdown(expirationTime);
     </script>
   </body>
 </html>

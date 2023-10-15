@@ -161,10 +161,10 @@ const sendfgPwdFn = async (req, res) => {
     //find the user with the email
     const user = await UserReg.findOne({ email }).exec();
     if (!user) {
-      req.flash("error", "User not found!");
+      req.flash("error", "Email not found, please sign up!");
       return res.status(404).redirect("/signup");
     }
-    
+
     const token = generateToken();
     const timeStamp = new Date().getTime() + 3600000; //1hr expiration timestamp
     user.timeStamp = timeStamp;
@@ -183,10 +183,7 @@ const sendfgPwdFn = async (req, res) => {
 </div>
 `;
     mailer(email, "Reset your password", emailContent);
-    req.flash(
-      "success",
-      "Reset token has been sent to your email"
-    );
+    req.flash("success", "Reset token has been sent to your email");
     req.session.userEmail = email;
     res.status(200).redirect("/auth/reset-token");
   } catch (err) {
@@ -212,17 +209,17 @@ const sendRsTokenFn = async (req, res) => {
   }
   try {
     const resetToken = await UserReg.findOne({ token }).exec();
-  if (!resetToken) {
-    req.flash("error", "Token is invalid!");
-    return res.status(401).redirect("/auth/reset-token");
-  }
-  const tokenTimeStamp = resetToken.timeStamp;
-  const now = new Date().getTime();
-  const expirationTime = tokenTimeStamp - now;
-  if (expirationTime > 0) {
-    req.flash("success", "Enter your new password");
-    return res.status(200).redirect("/auth/change-password");
-  }
+    if (!resetToken) {
+      req.flash("error", "Token is invalid!");
+      return res.status(401).redirect("/auth/reset-token");
+    }
+    const tokenTimeStamp = resetToken.timeStamp;
+    const now = new Date().getTime();
+    const expirationTime = tokenTimeStamp - now;
+    if (expirationTime > 0) {
+      req.flash("success", "Enter your new password");
+      return res.status(200).redirect("/auth/change-password");
+    }
   } catch (error) {
     req.flash("error", "Token has expired!");
     return res.status(500).redirect("/auth/forgot_password");
@@ -232,20 +229,20 @@ const sendRsTokenFn = async (req, res) => {
 //View for change password (GET)
 const changePwdFn = (req, res) => {
   res.status(200).render("change-pwd", { flashMessages: req.flash() });
-}
+};
 
 //Send new password to database (POST)
 const sendChangePwdFn = async (req, res) => {
-  const {
-    password,
-    confirm_password,
-  } = req.body;
+  const { password, confirm_password } = req.body;
   try {
-    //validate form fields
     const email = req.session.userEmail;
 
     // Validate the password against the pattern and confirm_password match
-    const validationResult = await validateUserRegistration(email, password, confirm_password);
+    const validationResult = await validateUserRegistration(
+      email,
+      password,
+      confirm_password
+    );
 
     if (validationResult.error) {
       req.flash(
@@ -261,22 +258,26 @@ const sendChangePwdFn = async (req, res) => {
       user.password = hashPassword;
       await user.save(); // Await the save operation
 
-      req.flash(
-        "success",
-        "Your password has been changed"
-      );
+      const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #ffffff; color: #343a40;">
+      <h2 style="color: #007bff; text-align: center;">Password Change Notification</h2>
+      <p>Hello,</p>
+      <p>We are writing to inform you that your password has been changed successfully.</p>
+      <p>If you did not make this change, please contact us immediately at <a href="mailto:rokoteam@zohomail.com" style="color: #007bff; text-decoration: none;">rokoteam@zohomail.com</a>.</p>
+      <p>Thank you for using our service!</p>
+  
+      <p style="color: #6c757d;">Best regards,<br>The Roko Team</p>
+  </div>
+  `;
+
+      mailer(email, "Password changed", emailContent);
+      req.flash("success", "Your password has been changed");
       return res.status(200).redirect("/"); //Redirect to signin page
     }
- 
   } catch (error) {
-    req.flash(
-      "error",
-      "An error occurred while processing your request"
-    );
+    req.flash("error", "An error occurred while processing your request");
     return res.status(500).redirect("/auth/change-password");
   }
 };
-
 
 module.exports = {
   signInFn,
@@ -288,5 +289,5 @@ module.exports = {
   rsTokenFn,
   sendRsTokenFn,
   changePwdFn,
-  sendChangePwdFn
+  sendChangePwdFn,
 };
