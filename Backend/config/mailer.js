@@ -10,7 +10,7 @@ const mailer = async (email, subject, msg) => {
     },
   });
   const mailOptions = {
-    from: `[Roko] <${process.env.User}@zohomail.com>`,
+    from: `Roko Team <${process.env.User}@zohomail.com>`,
     to: email,
     subject: subject,
     html: msg
