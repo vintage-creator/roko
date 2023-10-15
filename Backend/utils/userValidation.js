@@ -4,7 +4,7 @@ const joi = require("joi");
 const validateUserRegistration = async (email, password, confirm_password) => {
   const userschema = joi
     .object({
-      email: joi.string().email({ minDomainSegments: 2 }),
+      email: joi.string().email({ minDomainSegments: 2 }).optional(),
       password: joi
         .string()
         .pattern(

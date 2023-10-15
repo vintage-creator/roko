@@ -4,6 +4,7 @@ const flw = new Flutterwave(
   process.env.FLW_SECRET_KEY
 );
 const PaymentReg = require("../../models/paymentReg");
+const UserReg = require("../../models/userReg");
 const mailer = require("../../config/mailer");
 
 const whFn = async (req, res) => {
@@ -14,11 +15,11 @@ const whFn = async (req, res) => {
     // This request isn't from Flutterwave; discard
     return res.status(401).send("This request is unauthorized!");
   }
-
   try {
-    if (req.query.status === "successful") {
+    if (req.body.status === "successful") {
+  
       const transactionDetails = await PaymentReg.findOne({
-        ref: req.query.tx_ref,
+        ref: req.body.txRef,
       });
       if (!transactionDetails) {
         return res.status(404).json({ message: "Transaction not found." });
@@ -27,16 +28,18 @@ const whFn = async (req, res) => {
       const email = transactionDetails.email;
       const fullname = transactionDetails.fullname;
       const response = await flw.Transaction.verify({
-        id: req.query.transaction_id,
+        id: req.body.id.toString(),
       });
-
       if (
-        response.data.status === "successful" &&
-        response.data.amount === transactionDetails.amount &&
+        response.data.status === "successful" ||
+        response.data.amount === transactionDetails.amount ||
         response.data.currency === "NGN"
       ) {
+    
         transactionDetails.status = "completed";
+        UserReg.paymentStatus = "completed";
         await transactionDetails.save();
+       
         const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
                 <h3 style="color: #333; text-align: center;">Welcome to Roko, ${fullname}</h3>
                 <p style="color: #666; text-align: center;">
@@ -56,10 +59,11 @@ const whFn = async (req, res) => {
             </div>
             `;
         mailer(email, "Roko Medical PI - Payment Successful", emailContent);
-        return res.redirect("/home");
+
+
       } else {
         return res
-          .status(200)
+          .status(500)
           .json({
             message: "Webhook received but not a successful transaction.",
           });
@@ -73,4 +77,15 @@ const whFn = async (req, res) => {
   }
 };
 
-module.exports = whFn;
+const hmFn = (req, res) => {
+  // Perform any necessary processing
+  req.flash(
+    "success",
+    "Your payment was successful"
+  );
+
+  // Redirect to the "/home" route
+  res.status(200).redirect("/home");
+};
+
+module.exports = {whFn, hmFn};

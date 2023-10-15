@@ -33,7 +33,7 @@ app.use(
   })
 );
 app.use(flash());
-app.use(rateLimiter);
+// app.use(rateLimiter);
 app.use("/auth", authRoute);
 app.use("/subscribe", subscribeRoute);
 app.use("/wh", whRoute);
@@ -45,7 +45,7 @@ app.get("/home(.html)?", (req, res) => {
   if (!req.session.verified) {
     return res.redirect("/");
   }
-  res.render("index");
+  res.render("index", { flashMessages: req.flash() });
 });
 
 app.get("/", (req, res) => {

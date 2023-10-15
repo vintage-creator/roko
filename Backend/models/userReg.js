@@ -60,6 +60,13 @@ const userSchema = new mongoose.Schema({
   token: {
     type: String, 
   },
+  timeStamp: {
+    type: String, 
+  },
+  paymentStatus: {
+    type: String, 
+    default: "pending"
+  },
   verified: {
     type: Boolean,
     default: false, 

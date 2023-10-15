@@ -36,6 +36,13 @@
         padding-top: 30px;
       }
 
+      .flash-message {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
       .navbar-nav {
         padding-left: 46em;
       }
@@ -86,43 +93,55 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" href="#"><b>Roko</b></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" href="#"
-                >Home <span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Courses</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/contact/us" style="width: max-content"
-                >Contact us</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/auth/logout">Logout</a>
-            </li>
-          </ul>
+
+        <div class="container">
+          <a class="navbar-brand" href="#"><b>Roko</b></a>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" href="#"
+                  >Home <span class="sr-only">(current)</span></a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Courses</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="/contact/us"
+                  style="width: max-content"
+                  >Contact us</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/auth/logout">Logout</a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+        <div class="flash-message" data-aos="slide-left"
+        data-aos-delay="50"
+        data-aos-duration="1000">
+          <% if (flashMessages && (flashMessages.error || flashMessages.success)) { %>
+            <% if (flashMessages.error) { %>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= flashMessages.error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% } %>
+            <% if (flashMessages.success) { %>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= flashMessages.success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% } %>
+          <% } %>
+        </div>
     </nav>
 
     <!-- Hero section -->
@@ -268,11 +287,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form
-              class="mb-5 mt-2"
-              method="post"
-              action="/subscribe/plan"
-            >
+            <form class="mb-5 mt-2" method="post" action="/subscribe/plan">
               <!-- HTML Structure for Hospital Size Selection -->
               <div id="hospitalSizeSelection" class="mb-3">
                 <label for="hospitalSize" class="form-label"

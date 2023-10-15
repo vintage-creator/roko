@@ -1,6 +1,6 @@
-const UserReg = require("../../models/userReg");
 const uuid = require("uuid");
 const PaymentReg = require("../../models/paymentReg");
+const UserReg = require("../../models/userReg");
 
 const subPlanFn = async (req, res) => {
   const got = (await import("got")).default;
@@ -8,6 +8,15 @@ const subPlanFn = async (req, res) => {
     const txID = uuid.v4();
     const email = req.session.userEmail;
     const user = await UserReg.findOne({ email }).exec();
+    if (user.paymentStatus === "completed") {
+      req.flash(
+        "error",
+        "You have already purchased a policy"
+      );
+    
+      // Redirect to the "/home" route
+      return res.status(400).redirect("/home");
+    }
     const { phone: phonenumber, fullname: name } = user;
     const { hospitalSize } = req.body;
 
@@ -35,7 +44,7 @@ const subPlanFn = async (req, res) => {
         },
         json: {
           tx_ref: txID,
-          amount: "2500",
+          amount: 2500,
           currency: "NGN",
           redirect_url: "https://rokomedipi.onrender.com/wh/confirm-payment",
           customer: {
