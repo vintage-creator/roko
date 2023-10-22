@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {signUpFn, verifyToken, signInFn, logoutFn, fgPwdFn, sendfgPwdFn, rsTokenFn, sendRsTokenFn, changePwdFn, sendChangePwdFn} = require("../../controllers/users_auth/authFn");
+const {signUpFn, verifyToken, signInFn, logoutFn, fgPwdFn, sendfgPwdFn, rsTokenFn, sendRsTokenFn, changePwdFn, sendChangePwdFn} = require("../../controllers/auth_service/authFn");
 
 //Sign up route
 router.post("^/signup(.html)?", signUpFn);

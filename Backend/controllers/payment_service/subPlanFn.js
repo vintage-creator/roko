@@ -8,15 +8,23 @@ const subPlanFn = async (req, res) => {
     const txID = uuid.v4();
     const email = req.session.userEmail;
     const user = await UserReg.findOne({ email }).exec();
+
     if (user.paymentStatus === "completed") {
-      req.flash(
-        "error",
-        "You have already purchased a policy"
-      );
-    
-      // Redirect to the "/home" route
+      req.flash("error", "You have already purchased a policy");
       return res.status(400).redirect("/home");
     }
+
+    if (user.paymentStatus === "pending") {
+      const existingPayment = await PaymentReg.findOne({
+        email,
+        status: "pending",
+      });
+
+      if (existingPayment) {
+        return res.redirect(existingPayment.paymentLink);
+      }
+    }
+
     const { phone: phonenumber, fullname: name } = user;
     const { hospitalSize } = req.body;
 
@@ -59,7 +67,7 @@ const subPlanFn = async (req, res) => {
       })
       .json();
 
-    await PaymentReg.create({
+    const paymentData = {
       ref: txID,
       fullname: name,
       email: email,
@@ -67,10 +75,15 @@ const subPlanFn = async (req, res) => {
       coverage: hospitalSize,
       amount: "2500",
       currency: "NGN",
-    });
+      status: "pending",
+      paymentLink: response.data.link,
+    };
+
+    await PaymentReg.create(paymentData);
     res.redirect(response.data.link);
   } catch (err) {
-    console.log("Error occurred, but no response body available.");
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

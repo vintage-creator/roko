@@ -1,11 +1,9 @@
 const { default: mongoose } = require("mongoose");
-const {userDB}  = require("../config/databases/rokoDatabase");
-
+const { userDB } = require("../config/databases/rokoDatabase");
 
 const userSchema = new mongoose.Schema({
   protect: {
     type: String,
-    required: true,
     trim: true,
   },
   fullname: {
@@ -58,19 +56,55 @@ const userSchema = new mongoose.Schema({
     trim: true,
   },
   token: {
-    type: String, 
+    type: String,
   },
   timeStamp: {
-    type: String, 
+    type: String,
   },
   paymentStatus: {
-    type: String, 
-    default: "pending"
+    type: String,
+    default: "pending",
+  },
+  lastPaymentDate: {
+    type: Date,
+  },
+  paymentReminderSent: {
+    type: Boolean,
+    default: false 
+  },
+  policyExpiredReminderSent: {
+    type: Boolean,
+    default: false 
+  },
+  day5ReminderSent: {
+    type: Boolean,
+    default: false
+  },
+
+  day4ReminderSent: {
+    type: Boolean,
+    default: false
+  },
+
+  day3ReminderSent: {
+    type: Boolean,
+    default: false
+  },
+
+  day2ReminderSent: {
+    type: Boolean,
+    default: false
+  },
+
+  day1ReminderSent: {
+    type: Boolean,
+    default: false
   },
   verified: {
     type: Boolean,
-    default: false, 
-  }
+    default: false,
+  },
+  claims: [{ type: mongoose.Schema.Types.ObjectId, ref: "ClaimReg" }],
 });
 
 const UserReg = userDB.model("UserReg", userSchema);

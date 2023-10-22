@@ -17,7 +17,6 @@ const whFn = async (req, res) => {
   }
   try {
     if (req.body.status === "successful") {
-  
       const transactionDetails = await PaymentReg.findOne({
         ref: req.body.txRef,
       });
@@ -35,13 +34,21 @@ const whFn = async (req, res) => {
         response.data.amount === transactionDetails.amount ||
         response.data.currency === "NGN"
       ) {
-    
         transactionDetails.status = "completed";
-        UserReg.paymentStatus = "completed";
         await transactionDetails.save();
-       
+        // Retrieve the user
+        const user = await UserReg.findOne({ email: email });
+        if (!user) {
+          return res.status(404).json({ message: "User not found." });
+        }
+
+        // Update the paymentStatus in UserReg model
+        user.paymentStatus = "completed";
+        user.lastPaymentDate = new Date();
+        await user.save();
+
         const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
-                <h3 style="color: #333; text-align: center;">Welcome to Roko, ${fullname}</h3>
+                <h3 style="color: #333; text-align: center;">Welcome to Roko, ${fullname}!</h3>
                 <p style="color: #666; text-align: center;">
                     Thank you for choosing Roko for your insurance needs. We're thrilled to have you as our valued customer.
                 </p>
@@ -59,14 +66,10 @@ const whFn = async (req, res) => {
             </div>
             `;
         mailer(email, "Roko Medical PI - Payment Successful", emailContent);
-
-
       } else {
-        return res
-          .status(500)
-          .json({
-            message: "Webhook received but not a successful transaction.",
-          });
+        return res.status(500).json({
+          message: "Webhook received but not a successful transaction.",
+        });
       }
     } else {
       return res.status(400).json({ message: "Invalid status received." });
@@ -79,13 +82,10 @@ const whFn = async (req, res) => {
 
 const hmFn = (req, res) => {
   // Perform any necessary processing
-  req.flash(
-    "success",
-    "Your payment was successful"
-  );
+  req.flash("success", "Your payment was successful");
 
   // Redirect to the "/home" route
   res.status(200).redirect("/home");
 };
 
-module.exports = {whFn, hmFn};
+module.exports = { whFn, hmFn };

@@ -25,6 +25,16 @@ const signUpFn = async (req, res) => {
   try {
     //validate form fields
     await validateUserRegistration(email, password, confirm_password);
+
+    // Check if user is less than 18 years old
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    const age = today.getFullYear() - birthDate.getFullYear();
+
+    if (age < 18) {
+      req.flash("error", "You must be at least 18 years old to sign up.");
+      return res.status(400).redirect("/"); // Redirect to signup page
+    }
     const userExist = await UserReg.findOne({ email }).exec();
     //check if user exists
     if (userExist) {
@@ -48,7 +58,6 @@ const signUpFn = async (req, res) => {
       password: hashPassword,
       token,
     });
-    // await crmLeads(email, fullname, phone);
 
     // Send an email with a link containing the token
     const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
@@ -63,7 +72,7 @@ const signUpFn = async (req, res) => {
     </div>
 </div>`;
 
-    mailer(email, "Verify your email address", emailContent);
+    mailer(email, "Roko: Verify your email address", emailContent);
     req.flash(
       "success",
       "Registration successful, a link has been sent to your email to verify"
@@ -75,6 +84,7 @@ const signUpFn = async (req, res) => {
       "error",
       "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long"
     );
+    return res.status(400).redirect("/");
   }
 };
 
@@ -122,12 +132,16 @@ const signInFn = async (req, res) => {
     const isPasswordMatched = bcrypt.compareSync(password, user.password);
     if (!isPasswordMatched) {
       req.flash("error", "Email or password is not correct.");
+
       return res.status(500).redirect("/"); // Redirect to login page
     }
     // Set a verified variable to indicate authentication
     req.session.verified = true;
     req.session.userEmail = user.email;
-    res.redirect("/home");
+    req.session.role = user.role;
+    req.session.userId = user._id;
+
+    res.status(200).redirect("/home");
   } catch (err) {
     console.log(err);
     res.status(400).json({
@@ -182,7 +196,7 @@ const sendfgPwdFn = async (req, res) => {
     </div>
 </div>
 `;
-    mailer(email, "Reset your password", emailContent);
+    mailer(email, "Roko Medical PI: Reset your password", emailContent);
     req.flash("success", "Reset token has been sent to your email");
     req.session.userEmail = email;
     res.status(200).redirect("/auth/reset-token");
@@ -269,7 +283,7 @@ const sendChangePwdFn = async (req, res) => {
   </div>
   `;
 
-      mailer(email, "Password changed", emailContent);
+      mailer(email, "Roko Medical PI: Password changed", emailContent);
       req.flash("success", "Your password has been changed");
       return res.status(200).redirect("/"); //Redirect to signin page
     }

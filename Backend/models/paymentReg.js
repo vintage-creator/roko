@@ -37,6 +37,10 @@ const paymentSchema = new mongoose.Schema({
     type: String,
     trim: true,
     default: "pending"
+  },
+  paymentLink: {
+    type: String,
+    trim: true,
   }
 });
 
