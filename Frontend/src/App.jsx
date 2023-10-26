@@ -1,12 +1,12 @@
-import './App.css'
+import "./App.css";
+import { NavRoutes } from "./routes/NavRoutes";
 
 function App() {
-
   return (
-    <>
-      Welcome to Roko Project
-    </>
-  )
+    <div>
+      <NavRoutes />
+    </div>
+  );
 }
 
-export default App
+export default App;
