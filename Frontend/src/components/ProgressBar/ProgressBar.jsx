@@ -8,7 +8,7 @@ export const ProgressBar = () => {
     { color: "bg-gray" },
     { color: "bg-gray" },
     { color: "bg-gray" },
-    { color: "bg-gray" },
+    { color: "bg-gray" }
   ];
 
   const handleNext = () => {
