@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "cd Frontend && npm run build",
+    "client": "cd Frontend && yarn build",
     "dev": "nodemon Backend/rokoServer.js",
     "server": "pm2 start node Backend/rokoServer.js",
     "start": "concurrently \"npm run server\" \"npm run client\""
