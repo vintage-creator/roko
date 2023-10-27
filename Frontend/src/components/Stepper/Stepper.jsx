@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Stepper = ({ activeStep }) => {
+export const Stepper = ({ activeS }) => {
   const steps = ["Corporate", "Individual", "Student"];
 
   return (
@@ -9,7 +9,7 @@ export const Stepper = ({ activeStep }) => {
         <div
           key={step}
           className={`w-20 h-[8px] rounded-[8px] ${
-            index === activeStep ? "bg-base" : "bg-gray"
+            index === activeS ? "bg-base" : "bg-gray"
           }`}
         ></div>
       ))}
