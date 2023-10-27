@@ -8,13 +8,20 @@ import "./SignUp.css";
 import { Student } from "../../components/Student/Student";
 import { Individual } from "../../components/Individual/Individual";
 import { ProgressBar } from "../../components/ProgressBar/ProgressBar";
+import { showToast } from "../../Toastify/Toast";
+import { useMyContext } from "../../context";
 
 export const SignUp = () => {
   const [activeButton, setActiveButton] = useState(null);
   const [isActive, setIsActive] = useState(false);
-  const [CooporateSignUp, setCooporateSignUp] = useState(false);
-  const [IndiviualSignUp, setIndiviualSignUp] = useState(false);
-  const [StudentSignUp, setStudentSignUp] = useState(false);
+  const {
+    CooporateSignUp,
+    setCooporateSignUp,
+    IndiviualSignUp,
+    setIndiviualSignUp,
+    StudentSignUp,
+    setStudentSignUp,
+  } = useMyContext();
 
   const handleButtonClick = (buttonType) => {
     if (activeButton === buttonType) {
@@ -25,7 +32,13 @@ export const SignUp = () => {
   };
 
   const handleNext = (userType) => {
-    if (userType === "Corporate") {
+    if (!userType) {
+      // alert("Please select who you are.");
+      showToast({
+        message: "Please select who you are.",
+        type: "error",
+      });
+    } else if (userType === "Corporate") {
       setCooporateSignUp(true);
     } else if (userType === "Individual") {
       setIndiviualSignUp(true);
@@ -63,7 +76,7 @@ export const SignUp = () => {
                 Get Started
               </h2>
 
-              <ProgressBar />
+              {/* <ProgressBar /> */}
 
               <p className="mt-8 text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels font-regular">
                 Select what you have and would love to protect by using our
