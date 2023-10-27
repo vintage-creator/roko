@@ -1,15 +1,16 @@
 import React from "react";
+import { IoIosHeartEmpty } from "react-icons/io";
 
-export const Stepper = ({ activeS }) => {
+export const Stepper = ({ activeStep }) => {
   const steps = ["Corporate", "Individual", "Student"];
 
   return (
     <div className="mt-8 flex gap-2 w-[100%] justify-between">
-      {steps.map((step, index) => (
+      {steps.map((item, index) => (
         <div
-          key={step}
+          key={IoIosHeartEmpty}
           className={`w-20 h-[8px] rounded-[8px] ${
-            index === activeS ? "bg-base" : "bg-gray"
+            index === activeStep ? "bg-base" : "bg-gray"
           }`}
         ></div>
       ))}
