@@ -11,7 +11,7 @@ const getAdminProfileFn = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ user });
+    res.status(200).json({ user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -33,7 +33,7 @@ const updateAdminProfileFn = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ message: "Profile updated successfully", user: updatedUser });
+    res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -51,7 +51,7 @@ const deleteAdminProfileFn = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ message: "Profile deleted successfully" });
+    res.status(200).json({ message: "Profile deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -69,7 +69,7 @@ const getAProfileFn = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ user });
+    res.status(200).json({ user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -81,7 +81,7 @@ const getUserProfilesFn = async (req, res) => {
   try {
     const users = await UserReg.find({ role: { $ne: 'admin' } }, '-password');
 
-    res.json({ users });
+    res.status(200).json({ users });
 } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -99,7 +99,7 @@ const deleteAProfileFn = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        res.json({ message: 'User profile deleted successfully' });
+        res.status(200).json({ message: 'User profile deleted successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

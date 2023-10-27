@@ -131,7 +131,7 @@ const deleteAPolicyFn = async (req, res) => {
 //Update a Medical PI policy
 const updateAPolicyFn = async (req, res) => {
   try {
-    const policyId = req.params.id; // Assuming you're passing the policy ID as a route parameter
+    const policyId = req.params.id; 
 
     const { type, amount, duration, coverage_details, termsAndConditions } =
       req.body;

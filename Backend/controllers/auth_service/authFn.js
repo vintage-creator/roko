@@ -39,7 +39,7 @@ const signUpFn = async (req, res) => {
     //check if user exists
     if (userExist) {
       req.flash("error", "User already exist!");
-      return res.status(400).redirect("/"); // Redirect to signin page
+      return res.status(401).redirect("/"); // Redirect to signin page
     }
     const token = generateToken();
     const hashPassword = bcrypt.hashSync(password, 10);
@@ -84,7 +84,7 @@ const signUpFn = async (req, res) => {
       "error",
       "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long"
     );
-    return res.status(400).redirect("/");
+    return res.status(400).redirect("/signup");
   }
 };
 
@@ -163,7 +163,7 @@ const fgPwdFn = (req, res) => {
   res.status(200).render("forgot-pwd", { flashMessages: req.flash() });
 };
 
-//Send forgot password token(GET)
+//Send forgot password token(POST)
 const sendfgPwdFn = async (req, res) => {
   const { email } = req.body;
 

@@ -18,6 +18,10 @@ const authenticateUser = require("./middlewares/authenticateUser");
 const app = express();
 const cors = require("cors");
 const rateLimiter = require("./middlewares/rateLimit");
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swaggerConfig');
+const multer = require('multer');
+const upload = multer();
 
 
 // Set the view engine to EJS
@@ -40,6 +44,8 @@ app.use(
   })
 );
 app.use(flash());
+// Use upload middleware to parse form data
+app.use(upload.none()); // This will handle form-data parsing
 // app.use(rateLimiter);
 app.use("/auth", authRoute);
 app.use("/user", userPolicyRoute);
@@ -51,8 +57,14 @@ app.use("/admin", adminProfileRoute);
 app.use("/subscribe", subscribeRoute);
 app.use("/wh", whRoute);
 app.use("/contact", contactRoute);
+app.use('/roko', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 const port = process.env.NODE_ENV === "production" ? process.env.PORT : 8000;
+
+app.get('/api-docs', (req, res) => {
+  res.send(swaggerSpec);
+});
 
 app.get("/home(.html)?", authenticateUser(["user", "admin"]), (req, res) => {
   res.render("index", { flashMessages: req.flash() });

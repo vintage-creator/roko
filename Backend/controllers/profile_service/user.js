@@ -12,7 +12,7 @@ const getUserProfileFn = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ user });
+    res.status(200).json({ user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -33,7 +33,7 @@ const updateProfileFn = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ message: "Profile updated successfully", user: updatedUser });
+    res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -51,7 +51,7 @@ const deleteProfileFn = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ message: "Profile deleted successfully" });
+    res.status(200).json({ message: "Profile deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -96,7 +96,7 @@ const getBannerMessageFn = async (req, res) => {
         user.policyExpiredReminderSent = true;
         await user.save();
 
-        return res.json({
+        return res.status(200).json({
           message: `Your policy has expired, ${userFirstname}.`,
         });
       } else {
@@ -121,7 +121,7 @@ const getBannerMessageFn = async (req, res) => {
           user[`day${daysRemaining}ReminderSent`] = true;
           await user.save();
 
-          return res.json({
+          return res.status(200).json({
             message: `Renew your policy in ${daysRemaining} days.`,
           });
         }
@@ -143,12 +143,12 @@ const getBannerMessageFn = async (req, res) => {
       user.paymentReminderSent = true;
       await user.save();
 
-      return res.json({
+      return res.status(200).json({
         message: `You are yet to purchase a policy, ${userFirstname}.`,
       });
     }
 
-    return res.json({ message: null });
+    return res.status(204).json({ message: null });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });

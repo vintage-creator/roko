@@ -35,7 +35,7 @@ const createClaimFn = async (req, res) => {
 
     res
       .status(201)
-      .json({ message: "Claim created successfully", claim: newClaim });
+      .json({ message: "Claim submitted successfully", claim: newClaim });
   } catch (error) {
     console.error(error);
 

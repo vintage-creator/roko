@@ -5,7 +5,7 @@ const authenticateUser = (roles) => {
       return res.status(401).redirect("/");
     } else {
       if (!roles.includes(req.session.role)) {
-        return res.status(403).send("Access Forbidden");
+        return res.status(403).send("Forbidden. User is not authorized to access this resource");
       }
     }
     next();
