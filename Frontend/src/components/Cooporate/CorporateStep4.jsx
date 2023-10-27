@@ -100,6 +100,8 @@ export const CorporateStep4 = () => {
               <option value="1 Year">1 Year</option>
               <option value="2 Years">2 Years</option>
               <option value="3 Years">3 Years</option>
+              <option value="4 Years">4 Years</option>
+              <option value="5 Years">5 Years</option>
             </select>
           </div>
         </div>
