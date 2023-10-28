@@ -1,6 +1,7 @@
 import React from "react";
 import med from "../../assets/med1.png";
 import Button from "../Button";
+import { Link } from "react-router-dom";
 
 export const HeroSection = () => {
   return (
@@ -15,16 +16,20 @@ export const HeroSection = () => {
           risks and offer professional guidance and support.
         </p>
         <div className="flex gap-4 lg:gap-10">
-          <Button
-            className="lg:mt-4 font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
-            text="text-[10px] lg:text-[16px] text-[#fff]"
-            rounded="rounded-[6px]"
-            bg="bg-secondary"
-            w="w-[100px] lg:w-[123px]"
-            h="h-[30px] lg:h-[42px]"
-          >
-            Join ROKO
-          </Button>
+          <Link to="/register">
+            <Button
+              className="lg:mt-4 font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
+              text="text-[10px] lg:text-[16px] text-[#fff]"
+              rounded="rounded-[6px]"
+              bg="bg-secondary"
+              w="w-[100px] lg:w-[123px]"
+              h="h-[30px] lg:h-[42px]"
+            >
+              Join ROKO
+            </Button>
+          </Link>
+
+          <Link to="/register"></Link>
           <Button
             className="lg:mt-4 font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
             text="text-[10px] lg:text-[16px] text-[#fff]"

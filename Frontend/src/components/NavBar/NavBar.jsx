@@ -49,9 +49,22 @@ export const NavBar = () => {
               </li>
             </Link>
             <Link to="/about-us">
-              <li className="cursor-pointer fot-semibold hover:text-secondary  text-base">
+              <li className="cursor-pointer font-semibold hover:text-secondary  text-base">
                 About Us
               </li>
+            </Link>
+            <Link to="/register">
+              <Button
+                className="font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
+                rounded="rounded-[6px]"
+                bg="bg-secondary"
+                text="text-[12px] text-[#fff]"
+                w="w-[90px]"
+                h="h-[35px]"
+                >
+              
+                Get Started
+              </Button>
             </Link>
           </ul>
         </div>
@@ -72,13 +85,15 @@ export const NavBar = () => {
         </ul>
       </div>
       <div className="hidden lg:flex">
-        <Button
-          className="font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
-          rounded="rounded-[6px]"
-          bg="bg-secondary"
-        >
-          Button
-        </Button>
+        <Link to="/register">
+          <Button
+            className="font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
+            rounded="rounded-[6px]"
+            bg="bg-secondary"
+          >
+            Get Started
+          </Button>
+        </Link>
       </div>
     </div>
   );
