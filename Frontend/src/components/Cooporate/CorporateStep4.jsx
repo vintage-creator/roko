@@ -64,7 +64,7 @@ export const CorporateStep4 = () => {
               </span>
             </h4>
 
-            <p className="text-[#00000080] mt-4">
+            <p className="text-[#00000080] mt-4 text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels">
               Stay protected, gain power, knowledge and practical skills from
               our education materials and risk management tools.
             </p>

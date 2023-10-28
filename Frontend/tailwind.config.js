@@ -28,11 +28,13 @@ export default {
         base: "#008080",
         white: "#ffffff",
         secondary: "#D1833A",
+        secOrange: "#d1833a",
         gray: "#DBDDE1",
       },
       backgroundColor: {
         base: "#008080",
         shades: "#D9D9D9",
+        secOrange: "#d1833a",
       },
       borderColor: {
         base: "#008080",
