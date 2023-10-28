@@ -25,7 +25,7 @@ export const NavRoutes = () => {
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
-{/*         <Route path="*" element={<Notfound />} /> */}
+        <Route path="*" element={<Notfound />} />
       </Routes>
     </BrowserRouter>
   );
