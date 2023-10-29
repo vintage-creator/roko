@@ -1,11 +1,11 @@
 import React from "react";
-import med from "../../assets/med1.png";
-import Button from "../Button";
+import med from "../../../assets/med1.png";
+import Button from "../../../components/Button";
 import { Link } from "react-router-dom";
 
 export const HeroSection = () => {
   return (
-    <div className="w-full flex justify-between mt-4 lg:mt-6 lg:gap-10">
+    <div className="w-full flex justify-between mt-4 lg:mt-6 lg:gap-10 lg:py-4 md:pb-10 lg:pb-16">
       <div className="lg:w-[50%] h-[200px] lg:h-[400px] lg:pt-10 flex flex-col gap-4">
         <h1 className="text-[24px] md:text-[40px] md:w-[80%] lg:w-[100%] lg:text-[50px] leading-[24px] md:leading-[40px] lg:leading-[60px] text-[#fff] font-bold ">
           Nigeria’s top medical protection organization.
