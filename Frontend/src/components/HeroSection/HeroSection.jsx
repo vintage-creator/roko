@@ -15,14 +15,14 @@ export const HeroSection = () => {
           prevention is preferable to treatment; instead, we educate you about
           risks and offer professional guidance and support.
         </p>
-        <div className="flex gap-4 lg:gap-10">
+        <div className="flex gap-2 lg:gap-4">
           <Link to="/register">
             <Button
               className="lg:mt-4 font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
               text="text-[10px] lg:text-[16px] text-[#fff]"
               rounded="rounded-[6px]"
               bg="bg-secondary"
-              w="w-[100px] lg:w-[123px]"
+              w="w-[100px] lg:w-[150px]"
               h="h-[30px] lg:h-[42px]"
             >
               Join ROKO
@@ -35,7 +35,7 @@ export const HeroSection = () => {
             text="text-[10px] lg:text-[16px] text-[#fff]"
             rounded="rounded-[6px]"
             bg="bg-secondary"
-            w="w-[100px] lg:w-[123px]"
+            w="w-[100px] lg:w-[150px]"
             h="h-[30px] lg:h-[42px]"
           >
             Learn more

@@ -17,7 +17,7 @@ export const NavBar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center py-5 relative">
+    <div className="flex justify-between items-center py-5 lg:py-0 relative">
       <div className="text-twentyPixels lg:text-thirtyPixels text-[#fff] font-bold cursor-pointer">
         <img src={Logo} alt="Logo" className="w-28 lg:w-full" />
       </div>
@@ -61,8 +61,7 @@ export const NavBar = () => {
                 text="text-[12px] text-[#fff]"
                 w="w-[90px]"
                 h="h-[35px]"
-                >
-              
+              >
                 Get Started
               </Button>
             </Link>
@@ -88,8 +87,11 @@ export const NavBar = () => {
         <Link to="/register">
           <Button
             className="font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
+            text="text-[10px] lg:text-[16px] text-[#fff]"
             rounded="rounded-[6px]"
             bg="bg-secondary"
+            w="w-[100px] lg:w-[150px]"
+            h="h-[30px] lg:h-[42px]"
           >
             Get Started
           </Button>
