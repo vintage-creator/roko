@@ -30,11 +30,14 @@ export default {
         secondary: "#D1833A",
         secOrange: "#d1833a",
         gray: "#DBDDE1",
+        darkGray: "#545F71B8",
+        lightGreen: "#dcffff",
       },
       backgroundColor: {
         base: "#008080",
         shades: "#D9D9D9",
         secOrange: "#d1833a",
+        lightGreen: "#dcffff",
       },
       borderColor: {
         base: "#008080",

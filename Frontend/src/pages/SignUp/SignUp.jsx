@@ -50,8 +50,8 @@ export const SignUp = () => {
   return (
     <>
       {!CooporateSignUp && !IndiviualSignUp && !StudentSignUp && (
-        <div className="h-screen flex">
-          <div className="lg:w-[50%] bg-base h-screen hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 ">
+        <div className=" flex">
+          <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 h-screen">
             <div>
               <div className="w-[150px] h-[30px] bg-shades mb-12"></div>
               <h1 className="md:text-thirtyPixels lg:text-[45px] font-bold leading-[50px] text-white">
@@ -70,7 +70,7 @@ export const SignUp = () => {
               </p>
             </div>
           </div>
-          <div className="lg:w-[50%] h-screen px-8 sm:px-10 lg:px-20 py-10 flex flex-col justify-between items-center">
+          <div className="lg:w-[50%]  px-8 sm:px-10 lg:px-20 py-10 flex flex-col items-center">
             <div>
               <h2 className="text-twentyPixels md:text-thirtyPixels lg:text-thirtyPixels font-bold">
                 Get Started
@@ -120,7 +120,7 @@ export const SignUp = () => {
                 Student
               </RegButton>
             </div>
-            <div className="lg:mb-4 w-full">
+            <div className=" w-full">
               <Button
                 text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
                 w="w-full"

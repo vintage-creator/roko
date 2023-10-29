@@ -52,7 +52,7 @@ export const SignIn = () => {
   // };
 
   return (
-    <div className="h-screen flex">
+    <div className=" flex">
       {/* LEFT */}
       <div className="lg:w-[50%] bg-base h-screen hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 ">
         <div className="">
@@ -75,7 +75,7 @@ export const SignIn = () => {
       </div>
 
       {/* RIGHT */}
-      <div className="lg:w-[50%] h-screen px-8 sm:px-10 lg:px-20 py-10  flex flex-col justify-between items-center">
+      <div className="lg:w-[50%] px-8 sm:px-10 lg:px-20 py-10  flex flex-col justify-between items-center">
         <div>
           <h2 className="text-twentyPixels md:text-thirtyPixels lg:text-thirtyPixels font-bold">
             Get Started

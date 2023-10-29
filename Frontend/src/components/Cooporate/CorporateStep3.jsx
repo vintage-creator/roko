@@ -39,9 +39,9 @@ export const CorporateStep3 = () => {
   return (
     <>
       {!StepFour && (
-        <div className="flex h-screen">
+        <div className="flex ">
           {/* LEFT */}
-          <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 ">
+          <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 h-screen">
             <div className="">
               <div className="w-[150px] h-[30px] bg-shades mb-12"></div>
               <h1 className="md:text-thirtyPixels lg:text-[45px] font-bold leading-[50px] text-white">
