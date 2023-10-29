@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../../components/NavBar";
-import HeroSection from "../../components/HeroSection";
+import HeroSection from "./HeroSection";
 import WhyRoko from "../../components/WhyRoko";
 import MoreAboutRoko from "../../components/MoreAboutRoko";
 import FAQ from "../../components/FAQ";
@@ -12,7 +12,7 @@ export const Home = () => {
   return (
     <div className="">
       <div className="bg-base">
-        <div className="bg-base px-4 md:pb-10 lg:px-10 lg:py-4 lg:pb-16 max-w-[1500px] m-auto">
+        <div className="bg-base px-4  lg:px-10  max-w-[1500px] m-auto">
           <NavBar />
           <HeroSection />
         </div>
@@ -24,7 +24,9 @@ export const Home = () => {
               className="flex justify-around text-[12px] md:text-[28px] font-bold"
               style={{ wordSpacing: "40px" }}
             >
-              ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO
+              ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO
+              ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO ROKO
+              ROKO ROKO ROKO ROKO
             </h2>
           </Marquee>
         </div>
