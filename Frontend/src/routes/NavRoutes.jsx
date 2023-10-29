@@ -9,6 +9,7 @@ import Notfound from "../pages/Notfound";
 import Dashboard from "../pages/Dashboard";
 import AboutUs from "../pages/AboutUs";
 import Courses from "../pages/Courses";
+import { SingleCourse } from "../pages/Courses/ExploreCourses/SingleCourse";
 
 export const NavRoutes = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -21,6 +22,7 @@ export const NavRoutes = () => {
         <Route path="/register" element={<SignUp />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
         <Route path="/courses" element={<Courses />} />
+        <Route path="/courses/:id" element={<SingleCourse />} />
         <Route path="/about-us" element={<AboutUs />} />
 
         <Route element={<ProtectedRoutes />} isAuthenticated={isAuthenticated}>

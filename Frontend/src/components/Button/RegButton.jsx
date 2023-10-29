@@ -29,7 +29,7 @@ export const RegButton = ({
   return (
     <button
       className={`${combinedClassName} ${
-        isActive ? "border-1 border-[#008080]" : ""
+        isActive ? "border-1 border-secOrange" : ""
       }`}
       disabled={isLoading || disabled}
       onClick={handleButtonClick}
