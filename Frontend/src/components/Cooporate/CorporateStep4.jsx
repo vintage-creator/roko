@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import nurse from "../../assets/nurse.png";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 import { Button } from "../Button/Button";
@@ -10,7 +10,18 @@ export const CorporateStep4 = () => {
   const { activeStep, setActiveStep, StepThree, setStepThree, setStepFour } =
     useMyContext();
 
-  const handleNext = () => {};
+  const [selectedPlanDuration, setSelectedPlanDuration] =
+    useState("Choose duration");
+
+  const handleNext = () => {
+    if (selectedPlanDuration !== "Choose duration") {
+      // Proceed to the next step or perform your logic
+      // For now, it's an empty function
+    } else {
+      // Notify the user to select a plan duration
+      alert("Please select a plan duration before proceeding to payment");
+    }
+  };
 
   const handlePrevious = () => {
     setStepFour(false);
@@ -18,6 +29,12 @@ export const CorporateStep4 = () => {
       setActiveStep(activeStep - 1);
     }
   };
+
+  const handleDurationChange = (e) => {
+    setSelectedPlanDuration(e.target.value);
+  };
+
+  const isPlanDurationSelected = selectedPlanDuration === "Choose duration";
 
   return (
     <div className="flex">
@@ -58,7 +75,7 @@ export const CorporateStep4 = () => {
 
           <div className="border border-gray mt-8 rounded-[8px] px-4 py-6">
             <h4 className="text-[16px] md:text-[20px] lg:text-[24px] text-base font-semibold">
-              $220,000/
+              ₦220,000/
               <span className="text-[14px] md:text-[16px] lg:text-[18px] text-[#00000080] font-bold">
                 Annum
               </span>
@@ -92,16 +109,16 @@ export const CorporateStep4 = () => {
             >
               Plan duration
             </label>
-            <select className="w-full py-3 rounded-[7px] border border-gray px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none">
+            <select
+              value={selectedPlanDuration}
+              onChange={handleDurationChange}
+              className="w-full py-3 rounded-[7px] border border-gray px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+            >
               <option value="Choose duration">Choose duration</option>
 
               <option value="3 Months">3 Months</option>
               <option value="6 Months">6 Months</option>
               <option value="1 Year">1 Year</option>
-              <option value="2 Years">2 Years</option>
-              <option value="3 Years">3 Years</option>
-              <option value="4 Years">4 Years</option>
-              <option value="5 Years">5 Years</option>
             </select>
           </div>
         </div>
@@ -119,6 +136,11 @@ export const CorporateStep4 = () => {
               text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
               w="w-full"
               onClick={handleNext}
+              bg={`${isPlanDurationSelected ? "bg-disabled" : "bg-base"}`}
+              className={`${
+                isPlanDurationSelected ? "cursor-not-allowed" : ""
+              }`}
+              disabled={isPlanDurationSelected && true}
             >
               Proceed to Payment
             </Button>

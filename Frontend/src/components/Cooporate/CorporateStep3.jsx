@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import nurse from "../../assets/nurse.png";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 import { Button } from "../Button/Button";
@@ -19,7 +19,21 @@ export const CorporateStep3 = () => {
   } = useMyContext();
 
   // console.log("steps", steps.length);
- 
+  // const [isLoading, setIsLoading] = useState(false);
+  const [payload, setPayload] = useState({
+    password: "",
+    confirm_password: "",
+  });
+
+  const isEmpty = payload.password === "" || payload.confirm_password === "";
+
+  const handlePayload = (e) => {
+    const { name, value } = e.target;
+    setPayload({
+      ...payload,
+      [name]: value,
+    });
+  };
 
   const handleNext = () => {
     setStepFour(true);
@@ -90,14 +104,14 @@ export const CorporateStep3 = () => {
                   placeholder="************"
                   name="password"
                   id="password"
-                  // value={payload.password}
-                  // onChange={handlePayload}
+                  value={payload.password}
+                  onChange={handlePayload}
                   type="password"
                 />
               </div>
               <div className="mt-4 flex flex-col gap-2">
                 <label
-                  htmlFor="password"
+                  htmlFor="confirm_password"
                   className="text-fourteenPixels font-semibold"
                 >
                   Confirm password
@@ -105,10 +119,10 @@ export const CorporateStep3 = () => {
                 <Input
                   className="w-full py-3 px-[8px] rounded-[7px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                   placeholder="************"
-                  name="password"
-                  id="password"
-                  // value={payload.password}
-                  // onChange={handlePayload}
+                  name="confirm_password"
+                  id="confirm_password"
+                  value={payload.confirm_password}
+                  onChange={handlePayload}
                   type="password"
                 />
               </div>
@@ -127,6 +141,9 @@ export const CorporateStep3 = () => {
                   text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
                   w="w-full"
                   onClick={handleNext}
+                  bg={`${isEmpty ? "bg-disabled" : "bg-base"}`}
+                  className={`${isEmpty ? "cursor-not-allowed" : ""}`}
+                  disabled={isEmpty && true}
                 >
                   Next
                 </Button>

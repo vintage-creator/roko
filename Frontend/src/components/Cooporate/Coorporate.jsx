@@ -22,6 +22,30 @@ export const Coorporate = () => {
     setStudentSignUp,
   } = useMyContext();
 
+  // const [isLoading, setIsLoading] = useState(false);
+  const [payload, setPayload] = useState({
+    name: "",
+    address: "",
+    state: "",
+    reg_number: "",
+    company_number: "",
+  });
+
+  const isEmpty =
+    payload.name === "" ||
+    payload.address === "" ||
+    payload.state === "" ||
+    payload.reg_number === "" ||
+    payload.company_number === "";
+
+  const handlePayload = (e) => {
+    const { name, value } = e.target;
+    setPayload({
+      ...payload,
+      [name]: value,
+    });
+  };
+
   const handleNext = () => {
     setStepTwo(true);
     if (activeStep < steps.length - 1) {
@@ -92,8 +116,8 @@ export const Coorporate = () => {
                   placeholder="Enter full name here"
                   name="name"
                   id="name"
-                  // value={payload.name}
-                  // onChange={handlePayload}
+                  value={payload.name}
+                  onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
               </div>
@@ -111,8 +135,8 @@ export const Coorporate = () => {
                     placeholder="Enter address"
                     name="address"
                     id="address"
-                    // value={payload.address}
-                    // onChange={handlePayload}
+                    value={payload.address}
+                    onChange={handlePayload}
                     // rightIcon={<MdEmail color="#008080" />}
                   />
                 </div>
@@ -129,15 +153,15 @@ export const Coorporate = () => {
                     placeholder="Enter state"
                     name="state"
                     id="state"
-                    // value={payload.state}
-                    // onChange={handlePayload}
+                    value={payload.state}
+                    onChange={handlePayload}
                     // rightIcon={<MdEmail color="#008080" />}
                   />
                 </div>
               </div>
               <div className="mt-4 flex flex-col gap-2">
                 <label
-                  htmlFor="number"
+                  htmlFor="company_number"
                   className="text-fourteenPixels font-semibold"
                 >
                   Company Number
@@ -146,10 +170,10 @@ export const Coorporate = () => {
                   type="text"
                   className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                   placeholder="Enter company number"
-                  name="number"
-                  id="number"
-                  // value={payload.number}
-                  // onChange={handlePayload}
+                  name="company_number"
+                  id="company_number"
+                  value={payload.company_number}
+                  onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
               </div>
@@ -166,8 +190,8 @@ export const Coorporate = () => {
                   placeholder="Enter registration number"
                   name="reg_number"
                   id="reg_number"
-                  // value={payload.reg_number}
-                  // onChange={handlePayload}
+                  value={payload.reg_number}
+                  onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
               </div>
@@ -186,6 +210,9 @@ export const Coorporate = () => {
                   text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
                   w="w-full"
                   onClick={handleNext}
+                  bg={`${isEmpty ? "bg-disabled" : "bg-base"}`}
+                  className={`${isEmpty ? "cursor-not-allowed" : ""}`}
+                  disabled={isEmpty && true}
                 >
                   Next
                 </Button>
