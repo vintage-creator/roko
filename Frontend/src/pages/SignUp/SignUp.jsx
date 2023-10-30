@@ -13,6 +13,7 @@ import { useMyContext } from "../../context";
 
 export const SignUp = () => {
   const [activeButton, setActiveButton] = useState(null);
+  const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const {
     CooporateSignUp,
@@ -26,19 +27,15 @@ export const SignUp = () => {
   const handleButtonClick = (buttonType) => {
     if (activeButton === buttonType) {
       setActiveButton(null);
+      setIsNextDisabled(true);
     } else {
       setActiveButton(buttonType);
+      setIsNextDisabled(false);
     }
   };
 
   const handleNext = (userType) => {
-    if (!userType) {
-      // alert("Please select who you are.");
-      showToast({
-        message: "Please select who you are.",
-        type: "error",
-      });
-    } else if (userType === "Corporate") {
+    if (userType === "Corporate") {
       setCooporateSignUp(true);
     } else if (userType === "Individual") {
       setIndiviualSignUp(true);
@@ -124,7 +121,9 @@ export const SignUp = () => {
               <Button
                 text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
                 w="w-full"
-                className="mt-8"
+                bg={`${isNextDisabled ? "bg-disabled" : "bg-base"}`}
+                className={`mt-8 ${isNextDisabled && "cursor-not-allowed"}`}
+                disabled={isNextDisabled && true}
                 onClick={() => handleNext(activeButton)}
               >
                 Next

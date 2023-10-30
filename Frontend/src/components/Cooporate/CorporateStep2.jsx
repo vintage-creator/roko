@@ -12,6 +12,49 @@ export const CorporateStep2 = () => {
   const { activeStep, setActiveStep, StepThree, setStepThree, setStepTwo } =
     useMyContext();
 
+  // const [isLoading, setIsLoading] = useState(false);
+  const [payload, setPayload] = useState({
+    bed_number: "",
+    staff_number: "",
+    yes: "",
+    no: "",
+    summary: "",
+  });
+
+  const isEmpty =
+    payload.bed_number === "" ||
+    payload.staff_number === "" ||
+    (payload.yes === "" && payload.no === "") ||
+    payload.summary === "";
+
+  const handlePayload = (e) => {
+    const { name, value } = e.target;
+    setPayload({
+      ...payload,
+      [name]: value,
+    });
+  };
+
+  const handleCheckboxChange = (checkboxName, e) => {
+    const { checked } = e.target;
+
+    setTimeout(() => {
+      if (checked) {
+        setPayload((prevPayload) => ({
+          ...prevPayload,
+          [checkboxName]: checkboxName === "yes" ? "yes" : "no",
+        }));
+        if (checkboxName === "yes") {
+          setPayload((prevPayload) => ({ ...prevPayload, no: "" }));
+        } else {
+          setPayload((prevPayload) => ({ ...prevPayload, yes: "" }));
+        }
+      } else {
+        setPayload((prevPayload) => ({ ...prevPayload, [checkboxName]: "" }));
+      }
+    }, 0);
+  };
+
   const handleNext = () => {
     setStepThree(true);
     if (activeStep < steps.length - 1) {
@@ -81,8 +124,8 @@ export const CorporateStep2 = () => {
                   placeholder="Type or select number  of bed spaces"
                   name="bed_number"
                   id="bed_number"
-                  // value={payload.name}
-                  // onChange={handlePayload}
+                  value={payload.bed_number}
+                  onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
               </div>
@@ -99,8 +142,8 @@ export const CorporateStep2 = () => {
                   placeholder="Type or select number of staff"
                   name="staff_number"
                   id="staff_number"
-                  // value={payload.name}
-                  // onChange={handlePayload}
+                  value={payload.staff_number}
+                  onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
               </div>
@@ -115,24 +158,22 @@ export const CorporateStep2 = () => {
                   <div className="border border-gray flex items-center rounded-[8px] pl-2 py-3 pr-6">
                     <input
                       type="checkbox"
-                      className="w-10  px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                       name="yes"
                       id="yes"
-                      // value={payload.yes}
-                      // onChange={handlePayload}
-                      // rightIcon={<MdEmail color="#008080" />}
+                      checked={payload.yes === "yes"}
+                      onChange={(e) => handleCheckboxChange("yes", e)}
+                      className="w-10  px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                     />
                     <label htmlFor="yes">Yes</label>
                   </div>
                   <div className="border border-gray flex items-center pr-2 rounded-[8px] pl-2 py-3 pr-6">
                     <input
                       type="checkbox"
-                      className="w-10  px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                       name="no"
                       id="no"
-                      // value={payload.no}
-                      // onChange={handlePayload}
-                      // rightIcon={<MdEmail color="#008080" />}
+                      checked={payload.no === "no"}
+                      onChange={(e) => handleCheckboxChange("no", e)}
+                      className="w-10  px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                     />
                     <label htmlFor="no">No</label>
                   </div>
@@ -148,6 +189,8 @@ export const CorporateStep2 = () => {
                 <textarea
                   name="summary"
                   id="summary"
+                  value={payload.summary}
+                  onChange={handlePayload}
                   cols="10"
                   rows="5"
                   className="w-full py-3 rounded-[7px] border border-gray px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
@@ -168,6 +211,9 @@ export const CorporateStep2 = () => {
                   text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
                   w="w-full"
                   onClick={handleNext}
+                  bg={isEmpty ? "bg-disabled" : "bg-base"}
+                  className={`${isEmpty ? "cursor-not-allowed" : ""}`}
+                  disabled={isEmpty}
                 >
                   Next
                 </Button>

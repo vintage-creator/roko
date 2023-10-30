@@ -38,6 +38,7 @@ export default {
         shades: "#D9D9D9",
         secOrange: "#d1833a",
         lightGreen: "#dcffff",
+        disabled: "#aad5d5",
       },
       borderColor: {
         base: "#008080",
