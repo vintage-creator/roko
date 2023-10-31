@@ -18,30 +18,35 @@ export const Individual = ({ setFormData, formData }) => {
     setIndiviualSignUp,
   } = useMyContext();
 
+  const [emailError, setEmailError] = useState(false);
 
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-  const initialFormData = formData || {
+  const [payload, setPayload] = useState({
+    ...formData,
     fullname: "",
     phone: "",
     email: "",
-    reg_number: "",
-  };
-
-  const [payload, setPayload] = useState({ ...initialFormData });
+    dateOfBirth: "",
+  });
   console.log("payload", payload);
-
-  useEffect(() => {
-    setPayload({ ...formData });
-  }, [formData]);
 
   const isEmpty =
     payload.fullname === "" ||
     payload.phone === "" ||
     payload.email === "" ||
-    payload.reg_number === "";
+    payload.dateOfBirth === "";
 
   const handleNext = () => {
-    setFormData({ ...payload });
+    if (!isEmailValid(payload.email)) {
+      setEmailError(true);
+      // You might want to display a message to the user or prevent moving to the next step
+      return;
+    }
+
     setStepTwo(true);
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep + 1);
@@ -61,6 +66,10 @@ export const Individual = ({ setFormData, formData }) => {
       ...payload,
       [name]: value,
     });
+
+    if (name === "email") {
+      setEmailError(!isEmailValid(value));
+    }
   };
 
   return (
@@ -118,7 +127,7 @@ export const Individual = ({ setFormData, formData }) => {
                   placeholder="Enter your full name"
                   name="fullname"
                   id="fullname"
-                  value={formData.fullname}
+                  value={payload.fullname}
                   onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
@@ -137,10 +146,17 @@ export const Individual = ({ setFormData, formData }) => {
                   placeholder="Enter your email address"
                   name="email"
                   id="email"
-                  value={formData.email}
+                  value={payload.email}
                   onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
+                {emailError ? (
+                  <p className="text-[14px] text-red-500">
+                    Please enter a valid email address.
+                  </p>
+                ) : (
+                  ""
+                )}
               </div>
 
               <div className="mt-4 flex flex-col gap-2">
@@ -156,25 +172,25 @@ export const Individual = ({ setFormData, formData }) => {
                   placeholder="Enter your phone number"
                   name="phone"
                   id="phone"
-                  value={formData.phone}
+                  value={payload.phone}
                   onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
               </div>
               <div className="mt-4 flex flex-col gap-2">
                 <label
-                  htmlFor="reg_number"
+                  htmlFor="dateOfBirth"
                   className="text-fourteenPixels font-semibold"
                 >
-                  Registration Number
+                  Date of Birth
                 </label>
                 <Input
-                  type="text"
+                  type="date"
                   className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter registration number"
-                  name="reg_number"
-                  id="reg_number"
-                  value={formData.reg_number}
+                  placeholder="Enter your date of birth"
+                  name="dateOfBirth"
+                  id="dateOfBirth"
+                  value={payload.dateOfBirth}
                   onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />

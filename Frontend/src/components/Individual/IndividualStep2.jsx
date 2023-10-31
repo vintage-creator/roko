@@ -16,20 +16,15 @@ export const IndividualStep2 = ({ setPayload, payload }) => {
     setStepThree,
     StepFour,
     setStepFour,
-    setStepTwo
+    setStepTwo,
   } = useMyContext();
 
-  const initialFormData = payload || {
+  const [formData, setFormData] = useState({
+    ...payload,
     idType: "",
     idNumber: "",
-  };
-
-  const [formData, setFormData] = useState({ ...initialFormData });
+  });
   console.log("payload", formData);
-
-  useEffect(() => {
-    setFormData({ ...payload });
-  }, [payload]);
 
   const handlePayload = (e) => {
     const { name, value } = e.target;
@@ -51,7 +46,7 @@ export const IndividualStep2 = ({ setPayload, payload }) => {
   const isEmpty = formData.idType === "" || formData.idNumber === "";
 
   const handleNext = () => {
-    setPayload({ ...formData });
+    // setPayload({ ...formData });
     setStepThree(true);
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep + 1);
@@ -118,7 +113,7 @@ export const IndividualStep2 = ({ setPayload, payload }) => {
                   className="w-full py-3 rounded-[7px] border border-gray px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                   name="idType"
                   id="idType"
-                  value={payload.idType}
+                  value={formData.idType}
                   onChange={handleIdTypeChange}
                 >
                   <option value="">Choose ID Type</option>
@@ -146,7 +141,7 @@ export const IndividualStep2 = ({ setPayload, payload }) => {
                   placeholder="Enter your ID number"
                   name="idNumber"
                   id="idNumber"
-                  value={payload.idNumber}
+                  value={formData.idNumber}
                   onChange={handlePayload}
                   type="text"
                 />
@@ -185,7 +180,7 @@ export const IndividualStep2 = ({ setPayload, payload }) => {
       )}
 
       {StepThree && (
-        <IndividualStep3 setPayload={setPayload} payload={payload} />
+        <IndividualStep3 setFormData={setFormData} formData={formData} />
       )}
     </>
   );
