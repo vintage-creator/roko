@@ -1,69 +1,71 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import nurse from "../../assets/nurse.png";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 import { Button } from "../Button/Button";
 import { Link } from "react-router-dom";
 import { useMyContext } from "../../context";
 import Input from "../Input";
-import { CorporateStep3 } from "./CorporateStep3";
 import steps from "../../utils/data/steps.json";
+import { CorporateStep4 } from "../Cooporate/CorporateStep4";
 
-export const CorporateStep2 = () => {
-  const { activeStep, setActiveStep, StepThree, setStepThree, setStepTwo } =
-    useMyContext();
+export const IndividualStep3 = ({ setPayload, payload }) => {
+  const {
+    activeStep,
+    setActiveStep,
+    StepThree,
+    setStepThree,
+    setStepTwo,
+    setStepFour,
+    StepFour,
+  } = useMyContext();
 
-  // const [isLoading, setIsLoading] = useState(false);
-  const [payload, setPayload] = useState({
-    bed_number: "",
-    staff_number: "",
-    yes: "",
-    no: "",
-    summary: "",
-  });
+  const initialFormData = payload || {
+    fieldOfPractice: "",
+    yearsOfExperience: "",
+    hasPreviousLegalAction: "",
+    summaryOfLegalAction: "",
+  };
 
-  const isEmpty =
-    payload.bed_number === "" ||
-    payload.staff_number === "" ||
-    (payload.yes === "" && payload.no === "") ||
-    payload.summary === "";
+  const [formData, setFormData] = useState({ ...initialFormData });
+  console.log("payload", formData);
+
+  useEffect(() => {
+    setFormData({ ...payload });
+  }, [payload]);
 
   const handlePayload = (e) => {
     const { name, value } = e.target;
-    setPayload({
-      ...payload,
+    setFormData({
+      ...formData,
       [name]: value,
     });
   };
 
-  const handleCheckboxChange = (checkboxName, e) => {
-    const { checked } = e.target;
+  const isEmpty =
+    formData.fieldOfPractice === "" ||
+    formData.yearsOfExperience === "" ||
+    formData.hasPreviousLegalAction === "" ||
+    formData.summaryOfLegalAction === "";
 
-    setTimeout(() => {
-      if (checked) {
-        setPayload((prevPayload) => ({
-          ...prevPayload,
-          [checkboxName]: checkboxName === "yes" ? "yes" : "no",
-        }));
-        if (checkboxName === "yes") {
-          setPayload((prevPayload) => ({ ...prevPayload, no: "" }));
-        } else {
-          setPayload((prevPayload) => ({ ...prevPayload, yes: "" }));
-        }
-      } else {
-        setPayload((prevPayload) => ({ ...prevPayload, [checkboxName]: "" }));
-      }
-    }, 0);
+  const handleCheckboxChange = (e) => {
+    const { checked, name } = e.target;
+    const value = checked ? name : "";
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      hasPreviousLegalAction: value,
+    }));
   };
 
   const handleNext = () => {
-    setStepThree(true);
+    setPayload({ ...formData });
+    setStepFour(true);
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep + 1);
     }
   };
 
   const handlePrevious = () => {
-    setStepTwo(false);
+    setStepThree(false);
     if (activeStep > 0) {
       setActiveStep(activeStep - 1);
     }
@@ -71,7 +73,7 @@ export const CorporateStep2 = () => {
 
   return (
     <>
-      {!StepThree && (
+      {!StepFour && (
         <div className="flex">
           {/* LEFT */}
           <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 ">
@@ -98,7 +100,7 @@ export const CorporateStep2 = () => {
           <div className="lg:w-[50%] px-8 sm:px-10 lg:px-20 py-10  flex flex-col justify-between items-center">
             <div>
               <h2 className="text-twentyPixels md:text-thirtyPixels lg:text-thirtyPixels font-bold">
-                More About Your Company
+                More About Your Field
               </h2>
 
               <ProgressBar
@@ -113,33 +115,36 @@ export const CorporateStep2 = () => {
 
               <div className="mt-4 flex flex-col gap-2">
                 <label
-                  htmlFor="bed_number"
+                  htmlFor="fieldOfPractice"
                   className="text-fourteenPixels font-semibold"
                 >
-                  Select your hospital size (based on number of beds):
+                  Field of Practice
                 </label>
-                <select className="w-full py-3 rounded-[7px] border border-gray px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none">
-                  <option value="Choose bed number">Choose bed number</option>
-                  <option value="1-20 beds">1-20 beds</option>
-                  <option value="21-50 beds">21-50 beds</option>
-                  <option value="51-100 beds">51-100 beds</option>
-                  <option value="101-500 beds">101-500 beds</option>
-                </select>
+                <Input
+                  type="text"
+                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                  placeholder="Enter your field of practice"
+                  name="fieldOfPractice"
+                  id="fieldOfPractice"
+                  value={formData.fieldOfPractice}
+                  onChange={handlePayload}
+                  // rightIcon={<MdEmail color="#008080" />}
+                />
               </div>
               <div className="mt-4 flex flex-col gap-2">
                 <label
-                  htmlFor="staff_number"
+                  htmlFor="yearsOfExperience"
                   className="text-fourteenPixels font-semibold"
                 >
-                  Number of Staff
+                  Years of Experience
                 </label>
                 <Input
                   type="number"
                   className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Type or select number of staff"
-                  name="staff_number"
-                  id="staff_number"
-                  value={payload.staff_number}
+                  placeholder="Enter your years of experience"
+                  name="yearsOfExperience"
+                  id="yearsOfExperience"
+                  value={formData.yearsOfExperience}
                   onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
@@ -156,10 +161,9 @@ export const CorporateStep2 = () => {
                     <input
                       type="checkbox"
                       name="yes"
-                      id="yes"
-                      checked={payload.yes === "yes"}
-                      onChange={(e) => handleCheckboxChange("yes", e)}
-                      className="w-10  px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                      checked={formData.hasPreviousLegalAction === "yes"}
+                      onChange={handleCheckboxChange}
+                      className="w-10 px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                     />
                     <label htmlFor="yes">Yes</label>
                   </div>
@@ -167,10 +171,9 @@ export const CorporateStep2 = () => {
                     <input
                       type="checkbox"
                       name="no"
-                      id="no"
-                      checked={payload.no === "no"}
-                      onChange={(e) => handleCheckboxChange("no", e)}
-                      className="w-10  px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                      checked={formData.hasPreviousLegalAction === "no"}
+                      onChange={handleCheckboxChange}
+                      className="w-10 px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                     />
                     <label htmlFor="no">No</label>
                   </div>
@@ -178,15 +181,15 @@ export const CorporateStep2 = () => {
               </div>
               <div className="mt-4 flex flex-col gap-2">
                 <label
-                  htmlFor="summary"
+                  htmlFor="summaryOfLegalAction"
                   className="text-fourteenPixels font-semibold"
                 >
                   If Yes, please summarize here
                 </label>
                 <textarea
-                  name="summary"
-                  id="summary"
-                  value={payload.summary}
+                  name="summaryOfLegalAction"
+                  id="summaryOfLegalAction"
+                  value={formData.summaryOfLegalAction}
                   onChange={handlePayload}
                   cols="10"
                   rows="5"
@@ -226,7 +229,7 @@ export const CorporateStep2 = () => {
         </div>
       )}
 
-      {StepThree && <CorporateStep3 />}
+      {StepFour && <CorporateStep4 />}
     </>
   );
 };

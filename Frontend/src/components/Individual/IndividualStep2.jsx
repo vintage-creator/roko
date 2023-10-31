@@ -1,74 +1,76 @@
 import React, { useEffect, useState } from "react";
 import nurse from "../../assets/nurse.png";
-import { Link } from "react-router-dom";
-import { Button } from "../Button/Button";
-import Input from "../Input";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
-import steps from "../../utils/data/steps.json";
+import { Button } from "../Button/Button";
+import { Link } from "react-router-dom";
 import { useMyContext } from "../../context";
-import { IndividualStep2 } from "./IndividualStep2";
+import Input from "../Input";
+import steps from "../../utils/data/steps.json";
+import { IndividualStep3 } from "./IndividualStep3";
 
-export const Individual = ({ setFormData, formData }) => {
+export const IndividualStep2 = ({ setPayload, payload }) => {
   const {
     activeStep,
     setActiveStep,
-    StepTwo,
-    setStepTwo,
-    IndiviualSignUp,
-    setIndiviualSignUp,
+    StepThree,
+    setStepThree,
+    StepFour,
+    setStepFour,
+    setStepTwo
   } = useMyContext();
 
-
-
-  const initialFormData = formData || {
-    fullname: "",
-    phone: "",
-    email: "",
-    reg_number: "",
+  const initialFormData = payload || {
+    idType: "",
+    idNumber: "",
   };
 
-  const [payload, setPayload] = useState({ ...initialFormData });
-  console.log("payload", payload);
+  const [formData, setFormData] = useState({ ...initialFormData });
+  console.log("payload", formData);
 
   useEffect(() => {
-    setPayload({ ...formData });
-  }, [formData]);
+    setFormData({ ...payload });
+  }, [payload]);
 
-  const isEmpty =
-    payload.fullname === "" ||
-    payload.phone === "" ||
-    payload.email === "" ||
-    payload.reg_number === "";
+  const handlePayload = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleIdTypeChange = (e) => {
+    const { value } = e.target;
+
+    setFormData((prevState) => ({
+      ...prevState,
+      idType: value,
+    }));
+  };
+
+  const isEmpty = formData.idType === "" || formData.idNumber === "";
 
   const handleNext = () => {
-    setFormData({ ...payload });
-    setStepTwo(true);
+    setPayload({ ...formData });
+    setStepThree(true);
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep + 1);
     }
   };
 
   const handlePrevious = () => {
-    setIndiviualSignUp(false);
+    setStepTwo(false);
     if (activeStep > 0) {
       setActiveStep(activeStep - 1);
     }
   };
 
-  const handlePayload = (e) => {
-    const { name, value } = e.target;
-    setPayload({
-      ...payload,
-      [name]: value,
-    });
-  };
-
   return (
     <>
-      {!StepTwo && (
-        <div className="flex">
+      {!StepThree && (
+        <div className="flex ">
           {/* LEFT */}
-          <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 ">
+          <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 h-screen">
             <div className="">
               <div className="w-[150px] h-[30px] bg-shades mb-12"></div>
               <h1 className="md:text-thirtyPixels lg:text-[45px] font-bold leading-[50px] text-white">
@@ -107,76 +109,46 @@ export const Individual = ({ setFormData, formData }) => {
 
               <div className="mt-4 flex flex-col gap-2">
                 <label
-                  htmlFor="name"
+                  htmlFor="idType"
                   className="text-fourteenPixels font-semibold"
                 >
-                  Full Name
+                  ID Type
                 </label>
-                <Input
-                  type="text"
-                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter your full name"
-                  name="fullname"
-                  id="fullname"
-                  value={formData.fullname}
-                  onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-2">
-                <label
-                  htmlFor="email"
-                  className="text-fourteenPixels font-semibold"
+                <select
+                  className="w-full py-3 rounded-[7px] border border-gray px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                  name="idType"
+                  id="idType"
+                  value={payload.idType}
+                  onChange={handleIdTypeChange}
                 >
-                  Email Address
-                </label>
-                <Input
-                  type="email"
-                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter your email address"
-                  name="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-2">
-                <label
-                  htmlFor="phone"
-                  className="text-fourteenPixels font-semibold"
-                >
-                  Phone Number
-                </label>
-                <Input
-                  type="text"
-                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter your phone number"
-                  name="phone"
-                  id="phone"
-                  value={formData.phone}
-                  onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
-                />
+                  <option value="">Choose ID Type</option>
+                  <option value="Driver's License">Driver's License</option>
+                  <option value="Permanent Voter's Card">
+                    Permanent Voter's Card
+                  </option>
+                  <option value="National Identification Number (NIN)">
+                    National Identification Number (NIN)
+                  </option>
+                  <option value="International Passport">
+                    International Passport
+                  </option>
+                </select>
               </div>
               <div className="mt-4 flex flex-col gap-2">
                 <label
-                  htmlFor="reg_number"
+                  htmlFor="idNumber"
                   className="text-fourteenPixels font-semibold"
                 >
-                  Registration Number
+                  ID Number
                 </label>
                 <Input
-                  type="text"
-                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter registration number"
-                  name="reg_number"
-                  id="reg_number"
-                  value={formData.reg_number}
+                  className="w-full py-3 px-[8px] rounded-[7px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                  placeholder="Enter your ID number"
+                  name="idNumber"
+                  id="idNumber"
+                  value={payload.idNumber}
                   onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
+                  type="text"
                 />
               </div>
             </div>
@@ -212,7 +184,9 @@ export const Individual = ({ setFormData, formData }) => {
         </div>
       )}
 
-      {StepTwo && <IndividualStep2 payload={payload} setPayload={setPayload} />}
+      {StepThree && (
+        <IndividualStep3 setPayload={setPayload} payload={payload} />
+      )}
     </>
   );
 };
