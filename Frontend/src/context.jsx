@@ -10,6 +10,7 @@ export const ContextProvider = ({ children }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [StepThree, setStepThree] = useState(false);
   const [StepFour, setStepFour] = useState(false);
+  const [StepFive, setStepFive] = useState(false);
   const [StepTwo, setStepTwo] = useState(false);
   const [CooporateSignUp, setCooporateSignUp] = useState(false);
   const [IndiviualSignUp, setIndiviualSignUp] = useState(false);
@@ -24,7 +25,7 @@ export const ContextProvider = ({ children }) => {
     CooporateSignUp, setCooporateSignUp,
     IndiviualSignUp, setIndiviualSignUp,
     StudentSignUp, setStudentSignUp,
-    StepFour, setStepFour, isActive, setIsActive
+    StepFour, setStepFour, isActive, setIsActive, StepFive, setStepFive
   };
 
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;

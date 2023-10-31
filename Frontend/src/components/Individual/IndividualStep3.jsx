@@ -7,8 +7,9 @@ import { useMyContext } from "../../context";
 import Input from "../Input";
 import steps from "../../utils/data/steps.json";
 import { CorporateStep4 } from "../Cooporate/CorporateStep4";
+import { IndividualStep4 } from "./IndividualStep4";
 
-export const IndividualStep3 = ({ setPayload, payload }) => {
+export const IndividualStep3 = ({ setFormData, formData }) => {
   const {
     activeStep,
     setActiveStep,
@@ -19,45 +20,38 @@ export const IndividualStep3 = ({ setPayload, payload }) => {
     StepFour,
   } = useMyContext();
 
-  const initialFormData = payload || {
+  const [payload, setPayload] = useState({
+    ...formData,
     fieldOfPractice: "",
     yearsOfExperience: "",
     hasPreviousLegalAction: "",
     summaryOfLegalAction: "",
-  };
-
-  const [formData, setFormData] = useState({ ...initialFormData });
-  console.log("payload", formData);
-
-  useEffect(() => {
-    setFormData({ ...payload });
-  }, [payload]);
+  });
+  console.log("payload", payload);
 
   const handlePayload = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setPayload({
+      ...payload,
       [name]: value,
     });
   };
 
   const isEmpty =
-    formData.fieldOfPractice === "" ||
-    formData.yearsOfExperience === "" ||
-    formData.hasPreviousLegalAction === "" ||
-    formData.summaryOfLegalAction === "";
+    payload.fieldOfPractice === "" ||
+    payload.yearsOfExperience === "" ||
+    payload.hasPreviousLegalAction === "";
 
   const handleCheckboxChange = (e) => {
     const { checked, name } = e.target;
     const value = checked ? name : "";
-    setFormData((prevFormData) => ({
+    setPayload((prevFormData) => ({
       ...prevFormData,
       hasPreviousLegalAction: value,
     }));
   };
 
   const handleNext = () => {
-    setPayload({ ...formData });
     setStepFour(true);
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep + 1);
@@ -126,7 +120,7 @@ export const IndividualStep3 = ({ setPayload, payload }) => {
                   placeholder="Enter your field of practice"
                   name="fieldOfPractice"
                   id="fieldOfPractice"
-                  value={formData.fieldOfPractice}
+                  value={payload.fieldOfPractice}
                   onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
@@ -144,7 +138,7 @@ export const IndividualStep3 = ({ setPayload, payload }) => {
                   placeholder="Enter your years of experience"
                   name="yearsOfExperience"
                   id="yearsOfExperience"
-                  value={formData.yearsOfExperience}
+                  value={payload.yearsOfExperience}
                   onChange={handlePayload}
                   // rightIcon={<MdEmail color="#008080" />}
                 />
@@ -161,7 +155,7 @@ export const IndividualStep3 = ({ setPayload, payload }) => {
                     <input
                       type="checkbox"
                       name="yes"
-                      checked={formData.hasPreviousLegalAction === "yes"}
+                      checked={payload.hasPreviousLegalAction === "yes"}
                       onChange={handleCheckboxChange}
                       className="w-10 px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                     />
@@ -171,7 +165,7 @@ export const IndividualStep3 = ({ setPayload, payload }) => {
                     <input
                       type="checkbox"
                       name="no"
-                      checked={formData.hasPreviousLegalAction === "no"}
+                      checked={payload.hasPreviousLegalAction === "no"}
                       onChange={handleCheckboxChange}
                       className="w-10 px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
                     />
@@ -189,7 +183,7 @@ export const IndividualStep3 = ({ setPayload, payload }) => {
                 <textarea
                   name="summaryOfLegalAction"
                   id="summaryOfLegalAction"
-                  value={formData.summaryOfLegalAction}
+                  value={payload.summaryOfLegalAction}
                   onChange={handlePayload}
                   cols="10"
                   rows="5"
@@ -229,7 +223,9 @@ export const IndividualStep3 = ({ setPayload, payload }) => {
         </div>
       )}
 
-      {StepFour && <CorporateStep4 />}
+      {StepFour && (
+        <IndividualStep4 setPayload={setPayload} payload={payload} />
+      )}
     </>
   );
 };
