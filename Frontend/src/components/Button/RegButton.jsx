@@ -15,6 +15,7 @@ export const RegButton = ({
   isActive,
   setIsActive,
 }) => {
+  
   const combinedClassName = `${bg} ${w} ${h} ${text} ${rounded} ${
     className || ""
   }`;

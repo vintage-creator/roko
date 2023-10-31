@@ -1,52 +1,53 @@
 import React, { useState } from "react";
-import nurse from "../../assets/nurse.png";
+import nurse from "../../assets/support_nurse.png";
 import { Link } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { RegButton } from "../../components/Button/RegButton";
 import Coorporate from "../../components/Cooporate";
 import "./SignUp.css";
-import { Student } from "../../components/Student/Student";
 import { Individual } from "../../components/Individual/Individual";
-import { ProgressBar } from "../../components/ProgressBar/ProgressBar";
-import { showToast } from "../../Toastify/Toast";
 import { useMyContext } from "../../context";
 
 export const SignUp = () => {
   const [activeButton, setActiveButton] = useState(null);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
-  const [isActive, setIsActive] = useState(false);
+  const { isActive, setIsActive } = useMyContext();
+
   const {
     CooporateSignUp,
     setCooporateSignUp,
     IndiviualSignUp,
     setIndiviualSignUp,
-    StudentSignUp,
-    setStudentSignUp,
   } = useMyContext();
 
+  const [formData, setFormData] = useState({
+    protect: "",
+  });
+
+  console.log("formData", formData);
   const handleButtonClick = (buttonType) => {
     if (activeButton === buttonType) {
       setActiveButton(null);
       setIsNextDisabled(true);
+      setFormData({ ...formData, protect: "" });
     } else {
       setActiveButton(buttonType);
       setIsNextDisabled(false);
+      setFormData({ ...formData, protect: buttonType });
     }
   };
 
   const handleNext = (userType) => {
     if (userType === "Corporate") {
       setCooporateSignUp(true);
-    } else if (userType === "Individual") {
-      setIndiviualSignUp(true);
     } else {
-      setStudentSignUp(true);
+      setIndiviualSignUp(true);
     }
   };
 
   return (
     <>
-      {!CooporateSignUp && !IndiviualSignUp && !StudentSignUp && (
+      {!CooporateSignUp && !IndiviualSignUp && (
         <div className=" flex">
           <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 h-screen">
             <div>
@@ -59,7 +60,6 @@ export const SignUp = () => {
               <img
                 src={nurse}
                 alt="An image of a Nurse"
-                width={"45%"}
                 className="h-[310px]"
               />
               <p className="mt-40 text-white text-eighteenPixels font-semibold cursor-pointer">
@@ -72,8 +72,6 @@ export const SignUp = () => {
               <h2 className="text-twentyPixels md:text-thirtyPixels lg:text-thirtyPixels font-bold">
                 Get Started
               </h2>
-
-              {/* <ProgressBar /> */}
 
               <p className="mt-8 text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels font-regular">
                 Select what you have and would love to protect by using our
@@ -101,20 +99,9 @@ export const SignUp = () => {
                 }`}
                 onClick={() => handleButtonClick("Individual")}
                 isActive={activeButton === "Individual"}
+                setIsActive={setIsActive}
               >
                 Individual
-              </RegButton>
-              <RegButton
-                text="text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels text-black font-semibold text-left"
-                w="w-full"
-                rounded="rounded-[8px]"
-                className={`mt-2 border border-2 border-gray bg-white font-bold ${
-                  activeButton === "Student" ? "active" : ""
-                }`}
-                onClick={() => handleButtonClick("Student")}
-                isActive={activeButton === "Student"}
-              >
-                Student
               </RegButton>
             </div>
             <div className=" w-full">
@@ -140,8 +127,9 @@ export const SignUp = () => {
       )}
 
       {CooporateSignUp && <Coorporate />}
-      {IndiviualSignUp && <Individual />}
-      {StudentSignUp && <Student />}
+      {IndiviualSignUp && (
+        <Individual formData={formData} setFormData={setFormData} />
+      )}
     </>
   );
 };
