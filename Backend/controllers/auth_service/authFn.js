@@ -32,14 +32,12 @@ const signUpFn = async (req, res) => {
     const age = today.getFullYear() - birthDate.getFullYear();
 
     if (age < 18) {
-      req.flash("error", "You must be at least 18 years old to sign up.");
-      return res.status(400).redirect("/"); // Redirect to signup page
+      return res.status(400).json({"error": "You must be at least 18 years old to sign up."});
     }
     const userExist = await UserReg.findOne({ email }).exec();
     //check if user exists
     if (userExist) {
-      req.flash("error", "User already exist!");
-      return res.status(401).redirect("/"); // Redirect to signin page
+      return res.status(401).json({"error": "User already exist!"});
     }
     const token = generateToken();
     const hashPassword = bcrypt.hashSync(password, 10);
@@ -73,18 +71,12 @@ const signUpFn = async (req, res) => {
 </div>`;
 
     mailer(email, "Roko: Verify your email address", emailContent);
-    req.flash(
-      "success",
-      "Registration successful, a link has been sent to your email to verify"
-    );
-    return res.status(200).redirect("/");
+    return res.status(200).json({"success":
+    "Registration successful, a link has been sent to your email to verify"})
   } catch (err) {
     console.log(err);
-    req.flash(
-      "error",
-      "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long"
-    );
-    return res.status(400).redirect("/signup");
+    return res.status(400).json({"error":
+    "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long"});
   }
 };
 
@@ -99,11 +91,10 @@ const verifyToken = async (req, res) => {
     user.verified = true;
     await user.save();
 
-    req.flash("success", "Email verified successfully!");
-    return res.status(200).redirect("/");
+    return res.status(200).json({"success": "Email verified successfully!"});
   } else {
-    req.flash("error", "Invalid Token");
-    return res.status(400).redirect("/signup");
+
+    return res.status(400).json({"error": "Invalid Token"});
   }
 };
 
@@ -112,7 +103,6 @@ const signInFn = async (req, res) => {
   const { email, password } = req.body;
 
   if (!password || !email) {
-    req.flash("error", "Please enter your email");
     res
       .status(400)
       .json({ status: "error", message: "Please input your credentials" });
@@ -123,17 +113,14 @@ const signInFn = async (req, res) => {
     //find the user with the email
     const user = await UserReg.findOne({ email }).exec();
     if (!user) {
-      req.flash("error", "User not found!");
-      return res.status(404).redirect("/signup"); // Redirect to signup page
+      return res.status(404).json({"error": "User not found!"}); 
     } else if (user && user.verified === false) {
-      req.flash("error", "User not verified!");
-      return res.status(401).redirect("/"); // Redirect to signin page
+      return res.status(401).json({"error": "User not verified!"});
     }
     const isPasswordMatched = bcrypt.compareSync(password, user.password);
     if (!isPasswordMatched) {
-      req.flash("error", "Email or password is not correct.");
 
-      return res.status(500).redirect("/"); // Redirect to login page
+      return res.status(500).json({"error": "Email or password is not correct."});
     }
     // Set a verified variable to indicate authentication
     req.session.verified = true;
@@ -141,7 +128,7 @@ const signInFn = async (req, res) => {
     req.session.role = user.role;
     req.session.userId = user._id;
 
-    res.status(200).redirect("/home");
+    res.status(200).json({"message": "success"});
   } catch (err) {
     console.log(err);
     res.status(400).json({
@@ -155,12 +142,7 @@ const logoutFn = (req, res) => {
   // Clear session variables associated with authentication
   req.session.verified = false;
 
-  res.status(200).redirect("/");
-};
-
-//Forgot password (GET)
-const fgPwdFn = (req, res) => {
-  res.status(200).render("forgot-pwd", { flashMessages: req.flash() });
+  res.status(200).redirect("/login");
 };
 
 //Send forgot password token(POST)
@@ -175,8 +157,7 @@ const sendfgPwdFn = async (req, res) => {
     //find the user with the email
     const user = await UserReg.findOne({ email }).exec();
     if (!user) {
-      req.flash("error", "Email not found, please sign up!");
-      return res.status(404).redirect("/signup");
+      return res.status(404).json({"error": "Email not found, please sign up!"});
     }
 
     const token = generateToken();
@@ -197,9 +178,8 @@ const sendfgPwdFn = async (req, res) => {
 </div>
 `;
     mailer(email, "Roko Medical PI: Reset your password", emailContent);
-    req.flash("success", "Reset token has been sent to your email");
     req.session.userEmail = email;
-    res.status(200).redirect("/auth/reset-token");
+    res.status(200).json({"success": "Reset token has been sent to your email"});
   } catch (err) {
     console.log(err);
     res.status(400).json({
@@ -208,41 +188,28 @@ const sendfgPwdFn = async (req, res) => {
   }
 };
 
-//View for reset token (GET)
-const rsTokenFn = (req, res) => {
-  res.status(200).render("reset-token", { flashMessages: req.flash() });
-};
-
 //Send reset token (POST)
 const sendRsTokenFn = async (req, res) => {
   const { token } = req.body;
 
   if (!token) {
-    req.flash("error", "Please enter reset token");
-    res.status(400).redirect("/auth/reset-token");
+    req.flash();
+    res.status(400).json({"error": "Please enter reset token"});
   }
   try {
     const resetToken = await UserReg.findOne({ token }).exec();
     if (!resetToken) {
-      req.flash("error", "Token is invalid!");
-      return res.status(401).redirect("/auth/reset-token");
+      return res.status(401).json({"error": "Token is invalid!"});
     }
     const tokenTimeStamp = resetToken.timeStamp;
     const now = new Date().getTime();
     const expirationTime = tokenTimeStamp - now;
     if (expirationTime > 0) {
-      req.flash("success", "Enter your new password");
-      return res.status(200).redirect("/auth/change-password");
+      return res.status(200).json({"success": "Enter your new password"});
     }
   } catch (error) {
-    req.flash("error", "Token has expired!");
-    return res.status(500).redirect("/auth/forgot_password");
+    return res.status(500).json({"error": "Token has expired!"});
   }
-};
-
-//View for change password (GET)
-const changePwdFn = (req, res) => {
-  res.status(200).render("change-pwd", { flashMessages: req.flash() });
 };
 
 //Send new password to database (POST)
@@ -259,11 +226,8 @@ const sendChangePwdFn = async (req, res) => {
     );
 
     if (validationResult.error) {
-      req.flash(
-        "error",
-        "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long"
-      );
-      return res.status(406).redirect("/auth/forgot_password");
+      return res.status(406).json({"error":
+      "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long"});
     }
 
     const user = await UserReg.findOne({ email }).exec();
@@ -284,12 +248,10 @@ const sendChangePwdFn = async (req, res) => {
   `;
 
       mailer(email, "Roko Medical PI: Password changed", emailContent);
-      req.flash("success", "Your password has been changed");
-      return res.status(200).redirect("/"); //Redirect to signin page
+      return res.status(200).json({"success": "Your password has been changed"});
     }
   } catch (error) {
-    req.flash("error", "An error occurred while processing your request");
-    return res.status(500).redirect("/auth/change-password");
+    return res.status(500).json({"error": "An error occurred while processing your request"});
   }
 };
 
@@ -298,10 +260,7 @@ module.exports = {
   verifyToken,
   signUpFn,
   logoutFn,
-  fgPwdFn,
   sendfgPwdFn,
-  rsTokenFn,
   sendRsTokenFn,
-  changePwdFn,
   sendChangePwdFn,
 };

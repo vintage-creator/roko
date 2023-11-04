@@ -1,9 +1,5 @@
 const mailer = require("../../config/mailer");
 
-const contactFn = (req, res) => {
-  res.render("contact", { flashMessages: req.flash() });
-};
-
 const sendMsgFn = (req, res) => {
   const { name, email, message, subject } = req.body;
 
@@ -20,11 +16,8 @@ const sendMsgFn = (req, res) => {
 
   const emailContent = `<div><p>Name: ${name}</p><p>Email: ${email}</p><p><b>Message</b>: ${message}</p></div>`;
   mailer("chuksy3@gmail.com", subject, emailContent);
-  req.flash(
-    "success",
-    "Your message has been received, we will reply you shortly!"
-  );
-  return res.redirect("/contact/us");
+  return res.status(200).json({success:
+  "Your message has been received, we will reply you shortly!"})
 };
 
-module.exports = { contactFn, sendMsgFn };
+module.exports = { sendMsgFn };

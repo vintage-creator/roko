@@ -5,11 +5,8 @@ const {
   verifyToken,
   signInFn,
   logoutFn,
-  fgPwdFn,
   sendfgPwdFn,
-  rsTokenFn,
   sendRsTokenFn,
-  changePwdFn,
   sendChangePwdFn,
 } = require("../../controllers/auth_service/authFn");
 
@@ -150,8 +147,6 @@ router.post("^/signin(.html)?", signInFn);
 router.get("^/logout(.html)?", logoutFn);
 
 
-//Forgot password routes
-router.get("^/forgot_password(.html)?", fgPwdFn); //View page for forgot password route
 /**
  * @swagger
  * /auth/forgot_password:
@@ -193,8 +188,6 @@ router.get("^/forgot_password(.html)?", fgPwdFn); //View page for forgot passwor
 router.post("^/forgot_password(.html)?", sendfgPwdFn);
 
 
-//Reset token routes
-router.get("^/reset-token(.html)?", rsTokenFn); //View page for reset token route
 /**
  * @swagger
  * /auth/reset-token:
@@ -241,8 +234,6 @@ router.get("^/reset-token(.html)?", rsTokenFn); //View page for reset token rout
 router.post("^/reset-token(.html)?", sendRsTokenFn);
 
 
-//Change password routes
-router.get("^/change-password(.html)?", changePwdFn); //View page for change password route
 /**
  * @swagger
  * /auth/change-password:
