@@ -4,6 +4,7 @@ import Input from "../../components/Input";
 import { MdEmail } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
+import { showToast } from "../../Toastify/Toast";
 
 export const SignIn = () => {
   // const nav = useNavigate();
@@ -13,6 +14,8 @@ export const SignIn = () => {
     password: "",
   });
 
+  const isEmpty = payload.email === "" || payload.password === "";
+
   const handlePayload = (e) => {
     const { name, value } = e.target;
     setPayload({
@@ -21,38 +24,28 @@ export const SignIn = () => {
     });
   };
 
-  // const handleLogIn = async () => {
-  //   try {
-  //     setIsLoading(true);
+  const handleSignIn = async () => {
+    try {
+      setIsLoading(true);
 
-  //     if (
-  //       payload.email === "" ||
-  //       payload.password === ""
-  //     ) {
-  //       showToast({
-  //         message: "Please fill all fields",
-  //         type: "error",
-  //       });
-  //     } else {
-  //       const response = await LoginApi(payload);
+      // const response = await LoginApi(payload);
 
-  //       setPayload({
-  //         email: "",
-  //         password: "",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     showToast({
-  //       message: error.message,
-  //       type: "error",
-  //     });
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+      // setPayload({
+      //   email: "",
+      //   password: "",
+      // });
+    } catch (error) {
+      showToast({
+        message: error.message,
+        type: "error",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="h-screen flex">
+    <div className=" flex">
       {/* LEFT */}
       <div className="lg:w-[50%] bg-base h-screen hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 ">
         <div className="">
@@ -75,7 +68,7 @@ export const SignIn = () => {
       </div>
 
       {/* RIGHT */}
-      <div className="lg:w-[50%] h-screen px-8 sm:px-10 lg:px-20 py-10  flex flex-col justify-between items-center">
+      <div className="lg:w-[50%] px-8 sm:px-10 lg:px-20 py-10  flex flex-col justify-between items-center">
         <div>
           <h2 className="text-twentyPixels md:text-thirtyPixels lg:text-thirtyPixels font-bold">
             Get Started
@@ -131,8 +124,10 @@ export const SignIn = () => {
           <Button
             text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
             w="w-full"
-            // onClick={handleSubmit}
-            className="mt-8"
+            bg={`${isEmpty ? "bg-disabled" : "bg-base"}`}
+            onClick={handleSignIn}
+            disabled={isEmpty && true}
+            className={`mt-8 ${isEmpty && "cursor-not-allowed"}`}
             isLoading={isLoading}
           >
             Sign in

@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Stepper = ({ activeStep }) => {
+const Stepper = ({ activeStep }) => {
   const steps = ["Corporate", "Individual", "Student"];
 
   return (
@@ -17,3 +17,4 @@ export const Stepper = ({ activeStep }) => {
   );
 };
 
+export default Stepper;

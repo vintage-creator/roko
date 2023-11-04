@@ -1,35 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import steps from "../../utils/data/steps.json";
 
-export const ProgressBar = () => {
-  const [activeStep, setActiveStep] = useState(0);
-
-  const steps = [
-    { color: "bg-base" },
-    { color: "bg-gray" },
-    { color: "bg-gray" },
-    { color: "bg-gray" },
-    { color: "bg-gray" }
-  ];
-
-  const handleNext = () => {
-    if (activeStep < steps.length - 1) {
-      setActiveStep(activeStep + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (activeStep > 0) {
-      setActiveStep(activeStep - 1);
+export const ProgressBar = ({ activeStep }) => {
+  const getStepColor = (index) => {
+    if (index === activeStep) {
+      return steps[index].activeColor;
+    } else {
+      return steps[index].color;
     }
   };
 
   return (
-    <div className="mt-8 flex gap-2 w-[100%] justify-between">
+    <div className="mt-8 flex gap-6 w-[100%] ">
       {steps.map((step, index) => (
         <div
           key={index}
-          className={`w-20 h-[8px] rounded-[8px] ${step.color}`}
-          onClick={() => setActiveStep(index)}
+          className={`w-20 h-[8px] rounded-[8px] ${getStepColor(index)}`}
         ></div>
       ))}
     </div>

@@ -11,9 +11,10 @@ export const Button = ({
   loadingText = "Please wait . . .",
   disabled = false,
   isLoading = false,
+  border,
   onClick,
 }) => {
-  const combinedClassName = `${bg} ${w} ${h} ${text} ${rounded}  ${
+  const combinedClassName = `${bg} ${w} ${h} ${text} ${rounded} ${border}  ${
     className || ""
   }`;
 
