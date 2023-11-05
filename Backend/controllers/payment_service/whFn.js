@@ -56,8 +56,8 @@ const whFn = async (req, res) => {
                     Your payment has been successfully processed, and your policy is now active.
                 </p>
                 <div style="text-align: center; margin-top: 20px;">
-                    <a href="https://rokomedipi.onrender.com/home" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">
-                        Get Started
+                    <a href="http://localhost:8000/dashboard" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">
+                        Go to Dashboard
                     </a>
                 </div>
                 <div style="text-align: center; margin-top: 30px; color: #666;">

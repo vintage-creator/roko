@@ -65,9 +65,15 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
           "Password should be at least 8 characters long and include 1 uppercase letter, 1 lowercase letter, and 1 special character."
         );
       } else {
+        // Add password and confirm_password to payload
+        const updatedPayload = {
+          ...payload,
+          password: formData.password,
+          confirm_password: formData.confirm_password,
+        };
         setPasswordError(false);
-        const res = await CreateAccountApi(payload);
-        console.log("SignUpresponse",res);
+        const res = await CreateAccountApi(updatedPayload);
+        console.log("SignUpresponse", res);
         if (res) {
           showToast({
             type: "success",

@@ -63,7 +63,7 @@ const signUpFn = async (req, res) => {
     <p style="color: #666; text-align: center;">Thank you for registering with Roko Medical PI! We're excited to have you on board.</p>
     <p style="color: #666; text-align: center;">To get started, we just need to verify your email address. Click the button below to complete the verification process:</p>
     <div style="text-align: center; margin-top: 20px;">
-        <a href="https://rokomedipi.onrender.com/auth/verify?token=${token}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Verify Email Address</a>
+        <a href="http://localhost:8000/auth/verify?token=${token}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Verify Email Address</a>
     </div>
     <div style="text-align: center; margin-top: 30px; color: #666;">
         If you have any questions or need assistance, feel free to contact our support team.
@@ -91,7 +91,7 @@ const verifyToken = async (req, res) => {
     user.verified = true;
     await user.save();
 
-    return res.status(200).json({"success": "Email verified successfully!"});
+    return res.status(200).redirect("/login");
   } else {
 
     return res.status(400).json({"error": "Invalid Token"});
