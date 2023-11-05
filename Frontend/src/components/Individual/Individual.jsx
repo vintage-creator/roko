@@ -19,10 +19,25 @@ export const Individual = ({ setFormData, formData }) => {
   } = useMyContext();
 
   const [emailError, setEmailError] = useState(false);
+  const [ageError, setAgeError] = useState(false);
 
   const isEmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const isOver18 = (dob) => {
+    const today = new Date();
+    const birthDate = new Date(dob);
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return age >= 18;
   };
 
   const [payload, setPayload] = useState({
@@ -32,7 +47,6 @@ export const Individual = ({ setFormData, formData }) => {
     email: "",
     dateOfBirth: "",
   });
-  console.log("payload", payload);
 
   const isEmpty =
     payload.fullname === "" ||
@@ -43,7 +57,11 @@ export const Individual = ({ setFormData, formData }) => {
   const handleNext = () => {
     if (!isEmailValid(payload.email)) {
       setEmailError(true);
-      // You might want to display a message to the user or prevent moving to the next step
+      return;
+    }
+
+    if (!isOver18(payload.dateOfBirth)) {
+      setAgeError(true);
       return;
     }
 
@@ -129,7 +147,6 @@ export const Individual = ({ setFormData, formData }) => {
                   id="fullname"
                   value={payload.fullname}
                   onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
                 />
               </div>
 
@@ -148,15 +165,12 @@ export const Individual = ({ setFormData, formData }) => {
                   id="email"
                   value={payload.email}
                   onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
                 />
                 {emailError ? (
                   <p className="text-[14px] text-red-500">
                     Please enter a valid email address.
                   </p>
-                ) : (
-                  ""
-                )}
+                ) : null}
               </div>
 
               <div className="mt-4 flex flex-col gap-2">
@@ -174,7 +188,6 @@ export const Individual = ({ setFormData, formData }) => {
                   id="phone"
                   value={payload.phone}
                   onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
                 />
               </div>
               <div className="mt-4 flex flex-col gap-2">
@@ -192,8 +205,12 @@ export const Individual = ({ setFormData, formData }) => {
                   id="dateOfBirth"
                   value={payload.dateOfBirth}
                   onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
                 />
+                {ageError && (
+                  <p className="text-[14px] text-red-500">
+                    You must be at least 18 years old to sign up.
+                  </p>
+                )}
               </div>
             </div>
 
