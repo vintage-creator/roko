@@ -3,6 +3,7 @@ import { baseUrl } from "./ApiConfig";
 
 export const CreateAccountApi = (Payload) => {
   console.log("CreateAccountApi", Payload);
+  console.log("actualpayload",Payload)
   let data = JSON.stringify(Payload);
   let config = {
     method: "post",
@@ -22,19 +23,9 @@ export const CreateAccountApi = (Payload) => {
     })
     .catch((error) => {
       console.log("error", error);
-      //   if (error.response.data.email) {
-      //     localStorage.setItem("pendingEmail", Payload.email);
-      //     throw new Error(error.response.data.email[0]);
-      //   } else if (error.response.data.phone) {
-      //     localStorage.setItem("pendingEmail", Payload.email);
-      //     throw new Error(error.response.data.phone[0]);
-      //   } else if (error.request) {
-      //     throw new Error(error.message);
-      //   } else {
-      //     throw new Error(error.message);
-      //   }
     });
 };
+
 export const SubscriptionApi = (Payload) => {
   
   let data = JSON.stringify(Payload);
@@ -57,16 +48,27 @@ export const SubscriptionApi = (Payload) => {
     })
     .catch((error) => {
       console.log("error", error);
-      //   if (error.response.data.email) {
-      //     localStorage.setItem("pendingEmail", Payload.email);
-      //     throw new Error(error.response.data.email[0]);
-      //   } else if (error.response.data.phone) {
-      //     localStorage.setItem("pendingEmail", Payload.email);
-      //     throw new Error(error.response.data.phone[0]);
-      //   } else if (error.request) {
-      //     throw new Error(error.message);
-      //   } else {
-      //     throw new Error(error.message);
-      //   }
+    });
+};
+
+export const EmailVerifyApi = (emailToken) => {
+  console.log("emailToken", emailToken);
+
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: `${baseUrl}/auth/verify?token=${emailToken}`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return axios
+    .request(config)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log("error", error);
     });
 };
