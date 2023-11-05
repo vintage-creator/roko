@@ -18,6 +18,7 @@ const cors = require("cors");
 const rateLimiter = require("./middlewares/rateLimit");
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swaggerConfig');
+const authenticate = require("./middlewares/authenticateUser");
 
 // Middlewares
 app.use(cors());
@@ -36,7 +37,7 @@ app.use(
     },
   })
 );
-// app.use(rateLimiter);
+app.use(rateLimiter);
 app.use("/auth", authRoute);
 app.use("/user", userPolicyRoute);
 app.use("/admin", adminPolicyRoute);
@@ -59,6 +60,7 @@ app.get('/api-docs', (req, res) => {
 app.get("*", (req, res) => {
   res.sendFile(path.join(staticFilePath, "index.html"));
 });
+
 
 // Define an async function to connect to the databases
 async function connectToDatabases() {
