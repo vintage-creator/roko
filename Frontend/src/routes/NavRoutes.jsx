@@ -10,6 +10,7 @@ import Dashboard from "../pages/Dashboard";
 import AboutUs from "../pages/AboutUs";
 import Courses from "../pages/Courses";
 import { SingleCourse } from "../pages/Courses/ExploreCourses/SingleCourse";
+import Verification from "../pages/EmailVerify/Verification";
 
 export const NavRoutes = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,6 +25,7 @@ export const NavRoutes = () => {
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<SingleCourse />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/auth/verify" element={<Verification />} />
 
         <Route element={<ProtectedRoutes />} isAuthenticated={isAuthenticated}>
           <Route path="/dashboard" element={<Dashboard />} />

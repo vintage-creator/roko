@@ -8,6 +8,7 @@ import Input from "../Input";
 import { IndividualStep5 } from "./IndividualStep5";
 import steps from "../../utils/data/steps.json";
 import { CreateAccountApi } from "../../utils/ApiCalls";
+import { showToast } from "../../Toastify/Toast";
 
 export const IndividualStep4 = ({ setPayload, payload }) => {
   const {
@@ -20,7 +21,7 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
     StepFive,
     setStepFive,
   } = useMyContext();
-
+  const [loading, setLoading] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const isStrongPassword = (password) => {
     const passwordRegex =
@@ -38,7 +39,7 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
     confirm_password: "",
   });
 
-  console.log("payload", formData);
+  console.log("formdata", formData);
 
   const handlePayload = (e) => {
     const { name, value } = e.target;
@@ -56,6 +57,7 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
 
   const handlePayment = async () => {
     try {
+      setLoading(true);
       if (!isPasswordMatching(formData.password, formData.confirm_password)) {
         setPasswordError("Passwords do not match.");
       } else if (!isStrongPassword(formData.password)) {
@@ -64,13 +66,28 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
         );
       } else {
         setPasswordError(false);
-        const response = await CreateAccountApi(payload);
-        console.log("SignUpresponse", response);
+        const res = await CreateAccountApi(payload);
+        console.log("SignUpresponse",res);
+        if (res) {
+          showToast({
+            type: "success",
+            message:
+              "Account Creation Successful! A verification link has been sent to your email for confirmation.",
+          });
+        } else {
+          showToast({
+            type: "error",
+            message: res?.response?.data?.error,
+          });
+        }
       }
     } catch (error) {
-      console.error("Error creating an account", error);
+      showToast({
+        type: "error",
+        message: error.message,
+      });
     } finally {
-      // setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -177,8 +194,9 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
                 bg={`${isEmpty ? "bg-disabled" : "bg-base"}`}
                 className={`${isEmpty ? "cursor-not-allowed" : ""}`}
                 disabled={isEmpty && true}
+                isLoading={loading}
               >
-                Proceed to Payment
+                Submit
               </Button>
             </div>
             <Link to="/login">
