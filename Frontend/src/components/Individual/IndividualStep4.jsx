@@ -24,7 +24,7 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
   const [passwordError, setPasswordError] = useState(false);
   const isStrongPassword = (password) => {
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
     return passwordRegex.test(password);
   };
 
@@ -55,15 +55,13 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
   const isEmpty = formData.password === "" || formData.confirm_password === "";
 
   const handlePayment = async () => {
-    // if (!isStrongPassword(formData.password)) {
-    //   setPasswordError(
-    //     "Password should be at least 8 characters long, contain 1 uppercase, 1 lowercase, and 1 special character."
-    //   );
-    // } else
-
     try {
       if (!isPasswordMatching(formData.password, formData.confirm_password)) {
         setPasswordError("Passwords do not match.");
+      } else if (!isStrongPassword(formData.password)) {
+        setPasswordError(
+          "Password should be at least 8 characters long and include 1 uppercase letter, 1 lowercase letter, and 1 special character."
+        );
       } else {
         setPasswordError(false);
         const response = await CreateAccountApi(payload);
