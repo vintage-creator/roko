@@ -10,8 +10,7 @@ const subPlanFn = async (req, res) => {
     const user = await UserReg.findOne({ email }).exec();
 
     if (user.paymentStatus === "completed") {
-      req.flash("error", "You have already purchased a policy");
-      return res.status(400).redirect("/home");
+      return res.status(400).json({"error": "You have already purchased a policy"});
     }
 
     if (user.paymentStatus === "pending") {

@@ -82,10 +82,7 @@ const whFn = async (req, res) => {
 
 const hmFn = (req, res) => {
   // Perform any necessary processing
-  req.flash("success", "Your payment was successful");
-
-  // Redirect to the "/home" route
-  res.status(200).redirect("/home");
+  res.status(200).json({"success": "Your payment was successful"});
 };
 
 module.exports = { whFn, hmFn };
