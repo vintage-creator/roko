@@ -65,7 +65,6 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
           "Password should be at least 8 characters long and include 1 uppercase letter, 1 lowercase letter, and 1 special character."
         );
       } else {
-        // Add password and confirm_password to payload
         const updatedPayload = {
           ...payload,
           password: formData.password,
@@ -74,16 +73,17 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
         setPasswordError(false);
         const res = await CreateAccountApi(updatedPayload);
         console.log("SignUpresponse", res);
-        if (res) {
+        if (res?.status === 200) {
           showToast({
             type: "success",
-            message:
-              "Account Creation Successful! A verification link has been sent to your email for confirmation.",
+            message: res?.data?.success,
           });
-        } else {
-          showToast({
-            type: "error",
-            message: res?.response?.data?.error,
+
+          // Reset all fields to empty
+          setFormData({
+            ...payload,
+            password: "",
+            confirm_password: "",
           });
         }
       }
