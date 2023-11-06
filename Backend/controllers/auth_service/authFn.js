@@ -73,20 +73,16 @@ const signUpFn = async (req, res) => {
 </div>`;
 
     mailer(email, "Roko: Verify your email address", emailContent);
-    return res
-      .status(200)
-      .json({
-        success:
-          "Registration successful, a link has been sent to your email to verify",
-      });
+    return res.status(200).json({
+      success:
+        "Registration successful, a link has been sent to your email to verify",
+    });
   } catch (err) {
     console.log(err);
-    return res
-      .status(400)
-      .json({
-        error:
-          "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long",
-      });
+    return res.status(400).json({
+      error:
+        "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long",
+    });
   }
 };
 
@@ -240,12 +236,10 @@ const sendChangePwdFn = async (req, res) => {
     );
 
     if (validationResult.error) {
-      return res
-        .status(406)
-        .json({
-          error:
-            "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long",
-        });
+      return res.status(406).json({
+        error:
+          "Password must have at least 1 capital letter, 1 small letter, 1 special character, and be at least 8 characters long",
+      });
     }
 
     const user = await UserReg.findOne({ email }).exec();
