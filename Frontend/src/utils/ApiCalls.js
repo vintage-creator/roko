@@ -1,4 +1,5 @@
 import axios from "axios";
+import { baseUrl } from "./ApiConfig";
 
 export const CreateAccountApi = (Payload) => {
   console.log("CreateAccountApi", Payload);
@@ -7,7 +8,7 @@ export const CreateAccountApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/signup`,
+    url: `${baseUrl}/auth/signup`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -33,7 +34,7 @@ export const EmailVerifyApi = (emailToken) => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/auth/verify?token=${emailToken}`,
+    url: `${baseUrl}/auth/verify?token=${emailToken}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -56,7 +57,7 @@ export const SignInApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/signin`,
+    url: `${baseUrl}/auth/signin`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -83,7 +84,7 @@ export const SignInApi = (Payload) => {
 //   let config = {
 //     method: "post",
 //     maxBodyLength: Infinity,
-//     url: `/subscribe/plan`,
+//     url: `${baseUrl}/subscribe/plan`,
 //     headers: {
 //       "Content-Type": "application/json",
 //     },
