@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import nurse from "../../assets/nurse.png";
-import { ProgressBar } from "../ProgressBar/ProgressBar";
 import { Button } from "../Button/Button";
 import { Link } from "react-router-dom";
 import { useMyContext } from "../../context";
-import Input from "../Input";
-import { CreateAccountApi, SubscriptionApi } from "../../utils/ApiCalls";
+// import { CreateAccountApi, SubscriptionApi } from "../../utils/ApiCalls";
 
 export const IndividualStep5 = ({ setFormData, formData }) => {
   const {
@@ -33,17 +31,17 @@ export const IndividualStep5 = ({ setFormData, formData }) => {
     }));
   };
 
-  const handlePayment = async () => {
-    try {
-      // setIsLoading(true);
-      const response = await CreateAccountApi(payload);
-      console.log("SignUpresponse", response);
-    } catch (error) {
-      console.error("Error creating an account", error);
-    } finally {
-      // setIsLoading(false);
-    }
-  };
+  // const handlePayment = async () => {
+  //   try {
+  //     // setIsLoading(true);
+  //     const response = await CreateAccountApi(payload);
+  //     console.log("SignUpresponse", response);
+  //   } catch (error) {
+  //     console.error("Error creating an account", error);
+  //   } finally {
+  //     // setIsLoading(false);
+  //   }
+  // };
 
   const handlePrevious = () => {
     setStepFive(false);

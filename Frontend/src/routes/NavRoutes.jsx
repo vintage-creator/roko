@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
@@ -11,10 +11,11 @@ import AboutUs from "../pages/AboutUs";
 import Courses from "../pages/Courses";
 import { SingleCourse } from "../pages/Courses/ExploreCourses/SingleCourse";
 import Verification from "../pages/EmailVerify/Verification";
+import { useMyContext } from "../context";
+import { EmailVerified } from "../pages/EmailVerify/EmailVerified";
 
 export const NavRoutes = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const { isAuthenticated } = useMyContext();
   return (
     <BrowserRouter>
       <Routes>
@@ -26,10 +27,17 @@ export const NavRoutes = () => {
         <Route path="/courses/:id" element={<SingleCourse />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/auth/verify" element={<Verification />} />
+        <Route path="/email-verification" element={<EmailVerified />} />
 
-        <Route element={<ProtectedRoutes />} isAuthenticated={isAuthenticated}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoutes
+              element={<Dashboard />}
+              isAuthenticated={isAuthenticated}
+            />
+          }
+        />
 
         <Route path="*" element={<Notfound />} />
       </Routes>

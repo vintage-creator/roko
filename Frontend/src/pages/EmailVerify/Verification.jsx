@@ -1,33 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { showToast } from "../../Toastify/Toast";
+import { useNavigate } from "react-router-dom";
+import { EmailVerifyApi } from "../../utils/ApiCalls";
 
 const Verification = () => {
-  const [verificationStatus, setVerificationStatus] = useState("Verifying...");
-
+  const nav = useNavigate();
   const VerifyEmail = async () => {
     try {
       const params = new URLSearchParams(window.location.search);
       const token = params.get("token");
 
       const res = await EmailVerifyApi(token);
-      console.log("emailRes", res);
-      if (res.success) {
-        setVerificationStatus("Verification Successful!");
+
+      if (res) {
+        showToast({
+          type: "success",
+          message: "Email Verified! You can log in now",
+        });
       } else {
-        setVerificationStatus("Verification Failed");
+        showToast({
+          type: "error",
+          message: "Email verification failed. Please try again.",
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      showToast({
+        type: "error",
+        message: "An error occurred during email verification.",
+      });
+    }
   };
 
   useEffect(() => {
     VerifyEmail();
   }, []);
 
-  return (
-    <div>
-      <h1>Verification Status</h1>
-      <p>{verificationStatus}</p>
-    </div>
-  );
+  return null;
 };
 
 export default Verification;
