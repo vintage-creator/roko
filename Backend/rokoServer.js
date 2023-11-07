@@ -33,7 +33,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       maxAge: 8 * 60 * 60 * 1000, // 8 hours in milliseconds
-      secure: true, // Set to true if your app is running over HTTPS
+      secure: false, // Set to true if your app is running over HTTPS
     },
   })
 );

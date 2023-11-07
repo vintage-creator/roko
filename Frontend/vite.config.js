@@ -6,29 +6,29 @@ export default defineConfig({
   server: {
     proxy: {
       '/auth': {
-        target: 'https://rokoui.onrender.com', 
+        target: 'http://localhost:8000', 
         changeOrigin: true
       },
-  //     '/admin': {
-  //       target: 'http://localhost:8000', 
-  //       changeOrigin: true
-  //     },
-  //     '/subscribe': {
-  //       target: 'http://localhost:8000', 
-  //       changeOrigin: true
-  //     },
-  //     '/user': {
-  //       target: 'http://localhost:8000', 
-  //       changeOrigin: true
-  //     },
-  //     '/contact': {
-  //       target: 'http://localhost:8000', 
-  //       changeOrigin: true
-  //     },
-  //     '/wh': {
-  //       target: 'http://localhost:8000', 
-  //       changeOrigin: true
-  //     },
+      '/admin': {
+        target: 'http://localhost:8000', 
+        changeOrigin: true
+      },
+      '/subscribe': {
+        target: 'http://localhost:8000', 
+        changeOrigin: true
+      },
+      '/user': {
+        target: 'http://localhost:8000', 
+        changeOrigin: true
+      },
+      '/contact': {
+        target: 'http://localhost:8000', 
+        changeOrigin: true
+      },
+      '/wh': {
+        target: 'http://localhost:8000', 
+        changeOrigin: true
+      },
       
     }
   }
