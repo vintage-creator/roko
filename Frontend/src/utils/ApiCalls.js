@@ -77,6 +77,87 @@ export const SignInApi = (Payload) => {
     });
 };
 
+export const ForgotPasswordApi = (Payload) => {
+  console.log("ForgotPasswordApi", Payload);
+
+  let data = JSON.stringify(Payload);
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: `${baseUrl}/auth/forgot_password`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  return axios
+    .request(config)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log("error", error);
+      if (error.response.data.error) {
+        throw new Error(error.response.data.error);
+      }
+    });
+};
+
+export const ResetEmailApi = (Payload) => {
+  console.log("ResetEmailApi", Payload);
+
+  let data = JSON.stringify(Payload);
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: `${baseUrl}/auth/reset-token`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  return axios
+    .request(config)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log("error", error);
+      if (error.response.data.error) {
+        throw new Error(error.response.data.error);
+      }
+    });
+};
+
+export const NewPasswordApi = (Payload) => {
+  console.log("NewPasswordApi", Payload);
+
+  let data = JSON.stringify(Payload);
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: `${baseUrl}/auth/change-password`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  return axios
+    .request(config)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log("error", error);
+      if (error.response.data.error) {
+        throw new Error(error.response.data.error);
+      }
+    });
+};
+
 // export const SubscriptionApi = (Payload) => {
 
 //   let data = JSON.stringify(Payload);

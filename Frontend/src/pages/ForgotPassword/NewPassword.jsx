@@ -1,10 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import nurse from "../../assets/nurse.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import Input from "../../components/Input";
+import { NewPasswordApi } from "../../utils/ApiCalls";
+import { showToast } from "../../Toastify/Toast";
 
 export const NewPassword = () => {
+  const nav = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [payload, setPayload] = useState({
+    password: "",
+    confirm_password: "",
+  });
+
+  console.log("NewPasswordPayload", payload);
+
+  const handlePayload = (event) => {
+    const { name, value } = event.target;
+    setPayload({ ...payload, [name]: value });
+  };
+
+  const handleReset = async () => {
+    try {
+      setIsLoading(true);
+
+      const res = await NewPasswordApi(payload);
+
+      if (res?.status === 200) {
+        showToast({
+          type: "success",
+          message: "Successful! Your password has been changed",
+        });
+        nav("/login");
+      }
+    } catch (error) {
+      showToast({
+        type: "error",
+        message: error.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="h-screen flex ">
       <div className="lg:w-[50%] bg-base h-screen hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 ">
@@ -41,15 +81,15 @@ export const NewPassword = () => {
               htmlFor="email"
               className="text-fourteenPixels font-semibold"
             >
-              New Password
+              Password
             </label>
             <Input
               className=" w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
               placeholder="************"
-              name="new_password"
-              id="new_password"
-              // value={payload.password}
-              // onChange={handlePayload}
+              name="password"
+              id="password"
+              value={payload.password}
+              onChange={handlePayload}
               type="password"
             />
           </div>
@@ -59,15 +99,15 @@ export const NewPassword = () => {
               htmlFor="email"
               className="text-fourteenPixels font-semibold"
             >
-              Confirm New Password
+              Confirm Password
             </label>
             <Input
               className="w-full py-3 px-[8px] rounded-[7px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
               placeholder="************"
-              name="confirm_new_password"
-              id="confirm_new_password"
-              // value={payload.confirm_new_password}
-              // onChange={handlePayload}
+              name="confirm_password"
+              id="confirm_password"
+              value={payload.confirm_password}
+              onChange={handlePayload}
               type="password"
             />
           </div>
@@ -76,9 +116,9 @@ export const NewPassword = () => {
           <Button
             text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
             w="w-full"
-            // onClick={handleReset}
+            onClick={handleReset}
             className="mt-8"
-            // isLoading={isLoading}
+            isLoading={isLoading}
           >
             Reset Password
           </Button>
