@@ -5,12 +5,41 @@ import { Button } from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { OPTPage } from "./OPTPage";
+import { ForgotPasswordApi } from "../../utils/ApiCalls";
+import { showToast } from "../../Toastify/Toast";
+import { useMyContext } from "../../context";
 
 export const ForgotPassword = () => {
+  const { email, setEmail } = useMyContext();
   const [openOTP, setOpenOTP] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleReset = () => {
-    setOpenOTP(true);
+  console.log("email", email);
+
+  const handlePayload = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleReset = async () => {
+    try {
+      setIsLoading(true);
+      const res = await ForgotPasswordApi({ email: email });
+
+      if (res?.status === 200) {
+        showToast({
+          type: "success",
+          message: "Reset token has been sent to your email",
+        });
+        setOpenOTP(true);
+      }
+    } catch (error) {
+      showToast({
+        type: "error",
+        message: error.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -61,8 +90,8 @@ export const ForgotPassword = () => {
                   name="email"
                   id="email"
                   rightIcon={<MdEmail color="#008080" />}
-                  // value={payload.email}
-                  // onChange={handlePayload}
+                  value={email}
+                  onChange={handlePayload}
                 />
               </div>
             </div>
@@ -72,7 +101,7 @@ export const ForgotPassword = () => {
                 w="w-full"
                 onClick={handleReset}
                 className="mt-8"
-                // isLoading={isLoading}
+                isLoading={isLoading}
               >
                 Reset Password
               </Button>

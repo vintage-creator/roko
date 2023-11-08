@@ -3,20 +3,52 @@ import { Link } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import nurse from "../../assets/nurse.png";
 import { NewPassword } from "./NewPassword";
+import { useMyContext } from "../../context";
+import { ResetEmailApi } from "../../utils/ApiCalls";
+import { showToast } from "../../Toastify/Toast";
 
 export const OPTPage = () => {
+  const { email } = useMyContext();
   const [otp, setOtp] = useState(Array(6).fill(""));
   const [newPassword, setNewPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (element, index) => {
-    if (isNaN(element.value)) return;
-    setOtp([...otp.map((d, i) => (i === index ? element.value : d))]);
+    const inputValue = element.value;
+
+    // Allowing alphanumeric characters
+    if (!/^[0-9a-zA-Z]*$/.test(inputValue)) return;
+
+    setOtp([...otp.map((d, i) => (i === index ? inputValue : d))]);
+
     if (element.nextSibling) {
       element.nextSibling.focus();
     }
   };
-  const handleVerify = () => {
-    setNewPassword(true);
+
+  const handleVerify = async () => {
+    try {
+      setIsLoading(true);
+
+      const otpString = otp.join("");
+
+      const res = await ResetEmailApi({ token: otpString });
+
+      if (res?.status === 200) {
+        showToast({
+          type: "success",
+          message: "Successful! Enter your new password",
+        });
+        setNewPassword(true);
+      }
+    } catch (error) {
+      showToast({
+        type: "error",
+        message: error.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,10 +82,8 @@ export const OPTPage = () => {
 
               <p className="mt-4 text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels font-regular">
                 Enter code sent to{" "}
-                <span className="text-base font-semibold">
-                  akomolafe403@gmail.com
-                </span>{" "}
-                to proceed to reset password. Code is valid for 10 minutes.
+                <span className="text-base font-semibold">{email}</span> to
+                proceed to reset password. Code is valid for 10 minutes.
               </p>
 
               <div className="mt-4 flex flex-col gap-2">
@@ -84,9 +114,9 @@ export const OPTPage = () => {
                 w="w-full"
                 onClick={handleVerify}
                 className="mt-8"
-                // isLoading={isLoading}
+                isLoading={isLoading}
               >
-                Verify OTP
+                Verify Account
               </Button>
 
               <Link to="/login">
