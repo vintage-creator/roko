@@ -156,8 +156,7 @@ const sendfgPwdFn = async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    req.flash("error", "Please enter your email");
-    res.status(400).redirect("/auth/forgot_password");
+    res.status(400).json({error: "Please enter your email"});
   }
   try {
     //find the user with the email
@@ -185,7 +184,7 @@ const sendfgPwdFn = async (req, res) => {
     </div>
 </div>
 `;
-    mailer(email, "Roko Medical PI: Reset your password", emailContent);
+    mailer(email, "Roko: Reset your password", emailContent);
     req.session.userEmail = email;
     res
       .status(200)
@@ -203,7 +202,6 @@ const sendRsTokenFn = async (req, res) => {
   const { token } = req.body;
 
   if (!token) {
-    req.flash();
     res.status(400).json({ error: "Please enter reset token" });
   }
   try {
