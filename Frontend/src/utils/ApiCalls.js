@@ -158,6 +158,29 @@ export const NewPasswordApi = (Payload) => {
     });
 };
 
+export const LogOutApi = () => {
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: `${baseUrl}/auth/signup`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return axios
+    .request(config)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log("error", error);
+      if (error.response.data.error) {
+        throw new Error(error.response.data.error);
+      }
+    });
+};
+
 // export const SubscriptionApi = (Payload) => {
 
 //   let data = JSON.stringify(Payload);
