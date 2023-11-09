@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { SideBar } from "./SideBar";
 import { DashNav } from "./DashNav";
-import { DashboardComponent } from "./DashboardComponent/DashboardComponent";
+import DashboardComponent from "./DashboardComponent/DashboardComponent";
 import { SettingsComponent } from "./SettingsComponent/SettingsComponent";
 
 export const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -25,9 +25,19 @@ export const Dashboard = () => {
   return (
     <div className="flex bg-[#f9f7f7]">
       <SideBar handleDashboardClick={handleTabClick} />
-      <div className="w-[100%]">
+      <div className="w-full">
         <DashNav activeTab={activeTab} />
-        <div className="px-10 py-2">{renderTabComponent()}</div>
+        <div
+          className="px-4 py-2"
+          style={{
+            overflowY: "auto",
+            maxHeight: "520px",
+            scrollbarWidth: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {renderTabComponent()}
+        </div>
       </div>
     </div>
   );
