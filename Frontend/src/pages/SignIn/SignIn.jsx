@@ -39,6 +39,7 @@ export const SignIn = () => {
       setIsLoading(true);
       const res = await SignInApi(payload);
       if (res?.status === 200) {
+        // localStorage.setItem("RokoUser", res)
         showToast({ type: "success", message: "Welcome to your Dashboard" });
         setIsAuthenticated(true);
         nav("/dashboard");
