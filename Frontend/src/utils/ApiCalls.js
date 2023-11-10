@@ -1,5 +1,4 @@
 import axios from "axios";
-import { baseUrl } from "./ApiConfig";
 
 export const CreateAccountApi = (Payload) => {
   console.log("CreateAccountApi", Payload);
@@ -8,7 +7,7 @@ export const CreateAccountApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseUrl}/auth/signup`,
+    url: `/auth/signup`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -34,7 +33,7 @@ export const EmailVerifyApi = (emailToken) => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `${baseUrl}/auth/verify?token=${emailToken}`,
+    url: `/auth/verify?token=${emailToken}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -57,7 +56,7 @@ export const SignInApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseUrl}/auth/signin`,
+    url: `/auth/signin`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -84,7 +83,7 @@ export const ForgotPasswordApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseUrl}/auth/forgot_password`,
+    url: `/auth/forgot_password`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -111,7 +110,7 @@ export const ResetEmailApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseUrl}/auth/reset-token`,
+    url: `/auth/reset-token`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -138,7 +137,7 @@ export const NewPasswordApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseUrl}/auth/change-password`,
+    url: `/auth/change-password`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -162,7 +161,7 @@ export const LogOutApi = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `${baseUrl}/auth/signup`,
+    url: `/auth/signup`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -188,7 +187,7 @@ export const LogOutApi = () => {
 //   let config = {
 //     method: "post",
 //     maxBodyLength: Infinity,
-//     url: `${baseUrl}/subscribe/plan`,
+//     url: `/subscribe/plan`,
 //     headers: {
 //       "Content-Type": "application/json",
 //     },
