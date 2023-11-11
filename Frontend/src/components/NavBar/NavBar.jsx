@@ -62,7 +62,7 @@ export const NavBar = () => {
                 About Us
               </li>
             </Link>
-            <Link to="/register">
+            <Link to="/login">
               <Button
                 className="font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
                 rounded="rounded-[6px]"
@@ -71,7 +71,7 @@ export const NavBar = () => {
                 w="w-[90px]"
                 h="h-[35px]"
               >
-                Get Started
+                Sign In
               </Button>
             </Link>
           </ul>
@@ -117,7 +117,7 @@ export const NavBar = () => {
         </ul>
       </div>
       <div className="hidden lg:flex">
-        <Link to="/register">
+        <Link to="/login">
           <Button
             className="font-bold hover:bg-[#fff] hover:text-secondary transition duration-500"
             text="text-[10px] lg:text-[16px] text-[#fff]"
@@ -126,7 +126,7 @@ export const NavBar = () => {
             w="w-[100px] lg:w-[150px]"
             h="h-[30px] lg:h-[42px]"
           >
-            Get Started
+            Sign In
           </Button>
         </Link>
       </div>

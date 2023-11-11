@@ -25,7 +25,7 @@ export const HeroSection = () => {
               w="w-[100px] lg:w-[150px]"
               h="h-[30px] lg:h-[42px]"
             >
-              Join ROKO
+              Get Started
             </Button>
           </Link>
 
@@ -38,7 +38,7 @@ export const HeroSection = () => {
             w="w-[100px] lg:w-[150px]"
             h="h-[30px] lg:h-[42px]"
           >
-            Learn more
+            Learn more 
           </Button>
         </div>
       </div>
