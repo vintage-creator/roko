@@ -17,8 +17,6 @@ export const SignIn = () => {
     password: "",
   });
 
-  console.log("payload", payload);
-
   const isEmpty = payload.email === "" || payload.password === "";
 
   const handlePayload = (e) => {
@@ -42,7 +40,7 @@ export const SignIn = () => {
       if (res?.status === 200) {
         document.cookie = res.headers["set-cookie"];
         // document.cookie = `sessionId=${sessionId}; max-age=${maxAge}; path=/`
-        console.log("cookie", document.cookie);
+        // console.log("cookie", document.cookie);
         showToast({ type: "success", message: "Welcome to your Dashboard" });
 
         setIsAuthenticated(true);

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8000"
+const baseURL = "http://localhost:8000";
 
 export const CreateAccountApi = (Payload) => {
   console.log("CreateAccountApi", Payload);
@@ -75,7 +75,7 @@ export const SignInApi = (Payload) => {
   return axios
     .request(config)
     .then((response) => {
-      console.log('apiCall', response);
+      console.log("apiCall", response);
 
       return response;
     })
@@ -214,6 +214,27 @@ export const SubscriptionApi = (Payload) => {
       "Content-Type": "application/json",
     },
     data: data,
+  };
+
+  return axios
+    .request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      return response;
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
+};
+
+export const GetUserProfileApi = () => {
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: `${baseURL}/user/getuserprofile`,
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
 
   return axios
