@@ -3,6 +3,7 @@ import { MdStar } from "react-icons/md";
 import Modal from "../../../components/Modal/Modal";
 import FileClaim from "../../../components/FileClaim";
 import Download from "../../../components/Download";
+import { HospitalSize } from "../../../components/HospitalSize/HospitalSize";
 
 const OrangeStar = () => {
   return <MdStar color="#d1833a" size={12} />;
@@ -15,6 +16,7 @@ const PlainStar = () => {
 const DashboardComponent = () => {
   const [openFileClaimModal, setOpenFileClaimModal] = useState(false);
   const [openDownloadModal, setOpenDownloadModal] = useState(false);
+  const [openPolicyModal, setOpenPolicyModal] = useState(false);
   const [courseProgress, setCourseProgress] = useState([
     { progress: 20 },
     { progress: 50 },
@@ -36,10 +38,14 @@ const DashboardComponent = () => {
     setOpenDownloadModal(true);
   };
 
+  const PurchasePolicy = () => {
+    setOpenPolicyModal(true)
+  };
+
   return (
     <>
       <div>
-        <h3 className="font-semibold mt-2 text-[20px]">Active policy</h3>
+        <h3 className="font-semibold mt-2 text-[18px]">Active policy</h3>
         <div className="mt-4 h-40 flex w-full justify-between gap-4">
           <div className="h-48 bg-[#fff] w-[70%] rounded-[10px] shadow-md p-4 flex gap-4">
             <div className="w-[60%] bg-base rounded-[5px] px-4 py-6 flex flex-col gap-6">
@@ -98,24 +104,34 @@ const DashboardComponent = () => {
               </div>
             </div>
           </div>
-          <div className="flex w-[30%] gap-4 justify-end">
-            <button
-              onClick={HandleFileClaim}
-              className="flex gap-2 items-center cursor-pointer px-4 py-1 bg-[#545f71] rounded-[5px] h-10"
-            >
-              {/* File a Claim button */}
-              <h2 className="font-semibold text-[#fff]">File a Claim</h2>
-            </button>
-            <button
-              onClick={HandleDownload}
-              className="flex gap-2 items-center cursor-pointer px-4 py-1 bg-[#545f71] rounded-[5px] h-10"
-            >
-              {/* Download button */}
-              <h2 className="font-semibold text-[#fff]">Download</h2>
-            </button>
+          <div className="flex flex-col">
+            <div>
+              <button
+                onClick={PurchasePolicy}
+                className="flex gap-2 w-full items-center  justify-center text-white font-bold cursor-pointer px-4 py-1 bg-[#545f71] rounded-[5px] h-10"
+              >
+                Purchase a Policy
+              </button>
+            </div>
+            <div className="flex mt-5 gap-4 justify-end">
+              <button
+                onClick={HandleFileClaim}
+                className="flex gap-2 items-center cursor-pointer px-4 py-1 bg-[#545f71] rounded-[5px] h-10"
+              >
+                {/* File a Claim button */}
+                <h2 className="font-bold text-[#fff]">File a Claim</h2>
+              </button>
+              <button
+                onClick={HandleDownload}
+                className="flex gap-2 items-center cursor-pointer px-4 py-1 bg-[#545f71] rounded-[5px] h-10"
+              >
+                {/* Download button */}
+                <h2 className="font-bold text-[#fff]">Download</h2>
+              </button>
+            </div>
           </div>
         </div>
-        <h3 className="font-semibold mt-14 text-[20px]">Courses in progress</h3>
+        <h3 className="font-semibold mt-14 text-[18px]">Courses in progress</h3>
         <div className="flex gap-10">
           <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-x-6">
             {courseProgress.map((course, index) => (
@@ -184,6 +200,11 @@ const DashboardComponent = () => {
       {openDownloadModal && (
         <Modal>
           <Download setOpenDownloadModal={setOpenDownloadModal} />
+        </Modal>
+      )}
+      {openPolicyModal && (
+        <Modal>
+          <HospitalSize setOpenPolicyModal={setOpenPolicyModal} />
         </Modal>
       )}
     </>

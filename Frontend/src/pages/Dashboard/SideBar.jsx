@@ -3,9 +3,12 @@ import { MdDashboard } from "react-icons/md";
 import { IoIosSettings } from "react-icons/io";
 import { LogOutApi } from "../../utils/ApiCalls";
 import { showToast } from "../../Toastify/Toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "../../assets/med_logo.png";
+import { useMyContext } from "../../context";
 
 export const SideBar = ({ handleDashboardClick }) => {
+  const { setIsAuthenticated } = useMyContext();
   const nav = useNavigate();
   const [activeTab, setActiveTab] = useState("Dashboard");
 
@@ -19,6 +22,8 @@ export const SideBar = ({ handleDashboardClick }) => {
       const res = await LogOutApi();
 
       if (res?.status === 200) {
+        document.cookie = `sessionId=; max-age=0; path=/`;
+        setIsAuthenticated(false);
         showToast({
           type: "success",
           message: "Successfully Logged Out",
@@ -34,11 +39,15 @@ export const SideBar = ({ handleDashboardClick }) => {
   };
 
   return (
-    <div className="w-1/5 h-screen bg-white border-r-2 border-shades py-5 px-10 flex flex-col justify-between">
+    <div className="w-1/5 h-screen bg-white border-r-2 border-shades py-2 px-10 flex flex-col justify-between">
       <div>
-        <div className="h-10 bg-base"></div>
+        <Link to="/">
+          <div className="">
+            <img src={Logo} alt="Logo" />
+          </div>
+        </Link>
 
-        <div className="py-12 flex flex-col gap-4 justify-center">
+        <div className="py-4 flex flex-col gap-4 justify-center">
           <div
             className={`flex gap-2 items-center cursor-pointer  px-6 py-1 ${
               activeTab === "dashboard" && "bg-[#cce6e6]  rounded-[10px]"
