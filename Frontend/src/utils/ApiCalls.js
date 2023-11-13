@@ -75,6 +75,8 @@ export const SignInApi = (Payload) => {
   return axios
     .request(config)
     .then((response) => {
+      console.log('apiCall', response);
+
       return response;
     })
     .catch((error) => {
@@ -199,27 +201,28 @@ export const LogOutApi = () => {
     });
 };
 
-// export const SubscriptionApi = (Payload) => {
+export const SubscriptionApi = (Payload) => {
+  console.log("SubscriptionHospitalSizeApi", SubscriptionApi);
 
-//   let data = JSON.stringify(Payload);
-//   console.log("SubscriptionApi", data);
-//   let config = {
-//     method: "post",
-//     maxBodyLength: Infinity,
-//     url: `${baseURL}/subscribe/plan`,
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     data: data,
-//   };
+  let data = JSON.stringify(Payload);
+  console.log("SubscriptionApi", data);
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: `${baseURL}/subscribe/plan`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
 
-//   return axios
-//     .request(config)
-//     .then((response) => {
-//       console.log(JSON.stringify(response.data));
-//       return response;
-//     })
-//     .catch((error) => {
-//       console.log("error", error);
-//     });
-// };
+  return axios
+    .request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      return response;
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
+};

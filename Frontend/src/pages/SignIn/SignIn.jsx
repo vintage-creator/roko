@@ -38,9 +38,13 @@ export const SignIn = () => {
     try {
       setIsLoading(true);
       const res = await SignInApi(payload);
+
       if (res?.status === 200) {
-        // localStorage.setItem("RokoUser", res)
+        document.cookie = res.headers["set-cookie"];
+        // document.cookie = `sessionId=${sessionId}; max-age=${maxAge}; path=/`
+        console.log("cookie", document.cookie);
         showToast({ type: "success", message: "Welcome to your Dashboard" });
+
         setIsAuthenticated(true);
         nav("/dashboard");
       }

@@ -2,7 +2,7 @@ import React from "react";
 
 export const DashNav = ({ activeTab }) => {
   return (
-    <div className="w-[100%] h-20 bg-[#fff] px-10 flex items-center border-b-2 border-shades">
+    <div className="w-[100%] h-20 bg-[#fff] px-4 flex items-center border-b-2 border-shades">
       <div className="flex justify-between w-full items-center">
         <h1 className="text-[24px] font-bold text-[#008080]">
           {activeTab === "dashboard"
