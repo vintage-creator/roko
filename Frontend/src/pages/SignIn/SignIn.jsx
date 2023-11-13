@@ -33,16 +33,31 @@ export const SignIn = () => {
     } else {
       return;
     }
+  
     try {
       setIsLoading(true);
       const res = await SignInApi(payload);
-
+  
       if (res?.status === 200) {
-        document.cookie = res.headers["set-cookie"];
-        // document.cookie = `sessionId=${sessionId}; max-age=${maxAge}; path=/`
-        // console.log("cookie", document.cookie);
+        // Extract the session ID and Expires value from the Set-Cookie header
+        const cookieHeader = res.headers["set-cookie"];
+        console.log(cookieHeader, "1")
+        const sessionIdMatch = cookieHeader.match(/connect\.sid=([^;]+)/);
+        console.log(sessionIdMatch)
+        const expiresMatch = cookieHeader.match(/Expires=([^;]+)/);
+        console.log(expiresMatch)
+  
+        const sessionId = sessionIdMatch ? sessionIdMatch[1] : null;
+        console.log(sessionId)
+        const expires = expiresMatch ? expiresMatch[1] : null;
+        console.log(expires)
+  
+        // Set the session ID as a cookie with the extracted attributes
+        if (sessionId && expires) {
+          document.cookie = `connect.sid=${sessionId}; Path=/; Expires=${expires}; HttpOnly`;
+        }
+  
         showToast({ type: "success", message: "Welcome to your Dashboard" });
-
         setIsAuthenticated(true);
         nav("/dashboard");
       }
@@ -55,6 +70,7 @@ export const SignIn = () => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center">

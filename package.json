@@ -9,9 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd Frontend && yarn ----frozen-lockfile && yarn build",
-    "dev": "cd Frontend && yarn run dev",
+    "dev": "cd Frontend && yarn dev",
     "server": "nodemon Backend/rokoServer.js",
-    "start": "concurrently \"npm run server \" \"npm run dev\""
+    "start": "concurrently \"npm run server \" \"npm run client\""
   },
   "keywords": [],
   "author": "",
