@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdStar } from "react-icons/md";
 import Modal from "../../../components/Modal/Modal";
 import FileClaim from "../../../components/FileClaim";
 import Download from "../../../components/Download";
 import { HospitalSize } from "../../../components/HospitalSize/HospitalSize";
+import { GetUserProfileApi } from "../../../utils/ApiCalls";
 
 const OrangeStar = () => {
   return <MdStar color="#d1833a" size={12} />;
@@ -39,8 +40,10 @@ const DashboardComponent = () => {
   };
 
   const PurchasePolicy = () => {
-    setOpenPolicyModal(true)
+    setOpenPolicyModal(true);
   };
+
+
 
   return (
     <>

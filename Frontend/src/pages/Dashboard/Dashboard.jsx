@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SideBar } from "./SideBar";
 import { DashNav } from "./DashNav";
 import DashboardComponent from "./DashboardComponent/DashboardComponent";
 import { SettingsComponent } from "./SettingsComponent/SettingsComponent";
 import { useMyContext } from "../../context";
+import { GetUserProfileApi } from "../../utils/ApiCalls";
 
 export const Dashboard = () => {
   const { isAuthenticated } = useMyContext();
@@ -12,6 +13,23 @@ export const Dashboard = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  const UserProfile = async () => {
+    try {
+      const res = GetUserProfileApi();
+      console.log("UserProfile", res);
+      if (res?.status === 200) {
+      }else{
+        
+      }
+    } catch (error) {
+      showToast({ type: "error", message: error.message });
+    }
+  };
+
+  useEffect(() => {
+    UserProfile();
+  }, []);
 
   const renderTabComponent = () => {
     switch (activeTab) {
