@@ -1,5 +1,26 @@
 import axios from "axios";
 
+export const checkSessionApi = () => {
+  let config = {
+    method: 'get',
+    url: `/check-session`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  return axios
+    .request(config)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log('User not authenticated. Redirecting to login.');
+      throw new Error('User not authenticated.');
+    });
+};
+
+
 // const baseURL = "http://localhost:8000";
 
 export const CreateAccountApi = (Payload) => {
@@ -180,7 +201,7 @@ export const LogOutApi = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/auth/signup`,
+    url: `/auth/logout`,
     headers: {
       "Content-Type": "application/json",
     },

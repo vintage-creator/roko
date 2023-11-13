@@ -145,10 +145,12 @@ const signInFn = async (req, res) => {
 
 //Logout session (GET)
 const logoutFn = (req, res) => {
-  // Clear session variables associated with authentication
-  req.session.verified = false;
+  // Clear the session cookie
+  res.clearCookie('connect.sid', {path: '/'});
+  console.log("session:", req.session)
+  
 
-  res.status(200).redirect("/login");
+  res.status(200).json({message: "Successfully Logged Out!"});
 };
 
 //Send forgot password token(POST)

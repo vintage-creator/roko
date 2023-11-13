@@ -5,7 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { showToast } from "../../Toastify/Toast";
-import { SignInApi } from "../../utils/ApiCalls";
+import { SignInApi, checkSessionApi } from "../../utils/ApiCalls";
 import { useMyContext } from "../../context";
 
 export const SignIn = () => {
@@ -33,6 +33,7 @@ export const SignIn = () => {
     } else {
       return;
     }
+  
   
     try {
       setIsLoading(true);
@@ -70,6 +71,7 @@ export const SignIn = () => {
       setIsLoading(false);
     }
   };
+  
   
 
   return (

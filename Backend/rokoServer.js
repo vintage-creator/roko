@@ -26,6 +26,10 @@ const staticFilePath = path.join(__dirname, "..", "Frontend/dist");
 app.use(express.static(staticFilePath));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(staticFilePath, "index.html"));
+});
+
 app.use(
   session({
     secret: process.env.Secret_ID,
@@ -53,8 +57,19 @@ app.use('/roko', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const port = process.env.NODE_ENV === "production" ? process.env.PORT : 8000;
 
-app.get('/api-docs', (req, res) => {
+app.get("/api-docs", (req, res) => {
   res.send(swaggerSpec);
+});
+
+// Route to check if the session is valid
+app.get("/check-session", (req, res) => {
+  console.log(req.session)
+  if (req.session && req.session.cookie) {
+    console.log(req.session)
+    res.status(200).json({ authenticated: true });
+  } else {
+    res.status(401).json({ authenticated: false });
+  }
 });
 
 app.get("*", (req, res) => {
