@@ -28,34 +28,27 @@ export const SignIn = () => {
   };
 
   const handleSignIn = async (e) => {
-    if (e.cancelable) {
-      e.preventDefault();
-    } else {
-      return;
-    }
-  
+    if (!e.cancelable) return;
   
     try {
       setIsLoading(true);
       const res = await SignInApi(payload);
   
       if (res?.status === 200) {
-        // Extract the session ID and Expires value from the Set-Cookie header
-        const cookieHeader = res.headers["set-cookie"];
-        console.log(cookieHeader, "1")
-        const sessionIdMatch = cookieHeader.match(/connect\.sid=([^;]+)/);
-        console.log(sessionIdMatch)
-        const expiresMatch = cookieHeader.match(/Expires=([^;]+)/);
-        console.log(expiresMatch)
+        const cookieHeader = res.headers && res.headers['Set-Cookie'];
   
-        const sessionId = sessionIdMatch ? sessionIdMatch[1] : null;
-        console.log(sessionId)
-        const expires = expiresMatch ? expiresMatch[1] : null;
-        console.log(expires)
+        if (cookieHeader) {
+          const cookieRegex = /connect\.sid=([^;]+);.*Expires=([^;]+)/;
+          const match = cookieHeader.match(cookieRegex);
   
-        // Set the session ID as a cookie with the extracted attributes
-        if (sessionId && expires) {
-          document.cookie = `connect.sid=${sessionId}; Path=/; Expires=${expires}; HttpOnly`;
+          if (match) {
+            const [_, sessionId, expires] = match;
+            document.cookie = `connect.sid=${sessionId}; Path=/; Expires=${expires}; HttpOnly`;
+          } else {
+            console.error("Invalid format in Set-Cookie header");
+          }
+        } else {
+          console.error("Set-Cookie header not present in the response");
         }
   
         showToast({ type: "success", message: "Welcome to your Dashboard" });
@@ -63,16 +56,15 @@ export const SignIn = () => {
         nav("/dashboard");
       }
     } catch (error) {
+      console.error('Error during sign-in:', error);
       showToast({
-        message: error.message,
+        message: "An error occurred during sign-in. Please try again.",
         type: "error",
       });
     } finally {
       setIsLoading(false);
     }
-  };
-  
-  
+  };  
 
   return (
     <div className="flex justify-center items-center">
