@@ -5,10 +5,8 @@ import { LogOutApi } from "../../utils/ApiCalls";
 import { showToast } from "../../Toastify/Toast";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/med_logo.png";
-import { useMyContext } from "../../context";
 
 export const SideBar = ({ handleDashboardClick }) => {
-  const { setIsAuthenticated } = useMyContext();
   const nav = useNavigate();
   const [activeTab, setActiveTab] = useState("Dashboard");
 
@@ -22,8 +20,7 @@ export const SideBar = ({ handleDashboardClick }) => {
       const res = await LogOutApi();
 
       if (res?.status === 200) {
-        document.cookie = `sessionId=; max-age=0; path=/`;
-        setIsAuthenticated(false);
+        sessionStorage.removeItem("user");
         showToast({
           type: "success",
           message: "Successfully Logged Out",

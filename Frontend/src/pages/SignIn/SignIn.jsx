@@ -5,8 +5,9 @@ import { MdEmail } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { showToast } from "../../Toastify/Toast";
-import { SignInApi } from "../../utils/ApiCalls";
+import { GetUserProfileApi, SignInApi } from "../../utils/ApiCalls";
 import { useMyContext } from "../../context";
+import { setUserDataWithExpiry } from "../../Auth/Exp";
 
 export const SignIn = () => {
   const { setIsAuthenticated } = useMyContext();
@@ -37,10 +38,25 @@ export const SignIn = () => {
     try {
       setIsLoading(true);
       const res = await SignInApi(payload);
+
+      console.log("SignInData", res);
+
       if (res?.status === 200) {
-        showToast({ type: 'success', message: 'Welcome to your Dashboard' });
-        setIsAuthenticated(true);
-        nav('/dashboard');
+        const resProfile = await GetUserProfileApi();
+        console.log("UserProfile", resProfile);
+
+        const userData = resProfile?.data?.user;
+
+        setUserDataWithExpiry(userData, 5);
+
+        showToast({
+          type: "success",
+          message: "Welcome to your Dashboard",
+        });
+
+        nav("/dashboard");
+
+     
       }
     } catch (error) {
       console.error('Error during sign-in:', error);

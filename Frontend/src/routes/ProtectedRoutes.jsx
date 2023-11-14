@@ -1,9 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { showToast } from "../Toastify/Toast";
+import { isAuthenticated } from "../Auth";
 
-const ProtectedRoutes = ({ element, isAuthenticated }) => {
-  if (!isAuthenticated) {
+const ProtectedRoutes = ({ element }) => {
+  let auth = { token: isAuthenticated() };
+
+  if (!auth.token) {
     showToast({
       type: "error",
       message: "Please, Login to Continue",
@@ -11,7 +14,7 @@ const ProtectedRoutes = ({ element, isAuthenticated }) => {
     return <Navigate to="/" replace />;
   }
 
-  return element;
+  return auth.token && element;
 };
 
 export default ProtectedRoutes;

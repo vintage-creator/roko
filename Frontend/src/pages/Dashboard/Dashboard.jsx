@@ -3,12 +3,14 @@ import { SideBar } from "./SideBar";
 import { DashNav } from "./DashNav";
 import DashboardComponent from "./DashboardComponent/DashboardComponent";
 import { SettingsComponent } from "./SettingsComponent/SettingsComponent";
-import { useMyContext } from "../../context";
 import { GetUserProfileApi } from "../../utils/ApiCalls";
+import { isAuthenticated } from "../../Auth/index";
+import { Navigate } from "react-router-dom";
 
 export const Dashboard = () => {
-  const { isAuthenticated } = useMyContext();
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [userDetails, setUserDetails] = useState({});
+  console.log("userDetails", userDetails);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -16,11 +18,13 @@ export const Dashboard = () => {
 
   const UserProfile = async () => {
     try {
-      const res = GetUserProfileApi();
+      const res = await GetUserProfileApi();
       console.log("UserProfile", res);
       if (res?.status === 200) {
-      }else{
-        
+        const userData = res?.data?.user;
+        setUserDetails(userData);
+      } else {
+        showToast({ type: "error", message: "Failed to fetch user profile" });
       }
     } catch (error) {
       showToast({ type: "error", message: error.message });
@@ -44,25 +48,25 @@ export const Dashboard = () => {
 
   return (
     <>
-      {isAuthenticated && (
-        <div className="flex bg-[#f9f7f7]">
-          <SideBar handleDashboardClick={handleTabClick} />
-          <div className="w-full">
-            <DashNav activeTab={activeTab} />
-            <div
-              className="px-4 py-2"
-              style={{
-                overflowY: "auto",
-                maxHeight: "520px",
-                scrollbarWidth: "none",
-                WebkitOverflowScrolling: "touch",
-              }}
-            >
-              {renderTabComponent()}
-            </div>
+      {/* {isAuthenticated && ( */}
+      <div className="flex bg-[#f9f7f7]">
+        <SideBar handleDashboardClick={handleTabClick} />
+        <div className="w-full">
+          <DashNav activeTab={activeTab} />
+          <div
+            className="px-4 py-2"
+            style={{
+              overflowY: "auto",
+              maxHeight: "520px",
+              scrollbarWidth: "none",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            {renderTabComponent()}
           </div>
         </div>
-      )}
+      </div>
+      {/* )} */}
     </>
   );
 };
