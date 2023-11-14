@@ -5,7 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { showToast } from "../../Toastify/Toast";
-import { SignInApi, checkSessionApi } from "../../utils/ApiCalls";
+import { SignInApi } from "../../utils/ApiCalls";
 import { useMyContext } from "../../context";
 
 export const SignIn = () => {
@@ -28,43 +28,31 @@ export const SignIn = () => {
   };
 
   const handleSignIn = async (e) => {
-    if (!e.cancelable) return;
+    if (e.cancelable) {
+      e.preventDefault();
+    } else {
+      return;
+    }
   
     try {
       setIsLoading(true);
       const res = await SignInApi(payload);
-  
       if (res?.status === 200) {
-        const cookieHeader = res.headers && res.headers['Set-Cookie'];
-  
-        if (cookieHeader) {
-          const cookieRegex = /connect\.sid=([^;]+);.*Expires=([^;]+)/;
-          const match = cookieHeader.match(cookieRegex);
-  
-          if (match) {
-            const [_, sessionId, expires] = match;
-            document.cookie = `connect.sid=${sessionId}; Path=/; Expires=${expires}; HttpOnly`;
-          } else {
-            console.error("Invalid format in Set-Cookie header");
-          }
-        } else {
-          console.error("Set-Cookie header not present in the response");
-        }
-  
-        showToast({ type: "success", message: "Welcome to your Dashboard" });
+        showToast({ type: 'success', message: 'Welcome to your Dashboard' });
         setIsAuthenticated(true);
-        nav("/dashboard");
+        nav('/dashboard');
       }
     } catch (error) {
       console.error('Error during sign-in:', error);
       showToast({
-        message: "An error occurred during sign-in. Please try again.",
-        type: "error",
+        message: 'An error occurred during sign-in. Please try again.',
+        type: 'error',
       });
     } finally {
       setIsLoading(false);
     }
-  };  
+  };
+  
 
   return (
     <div className="flex justify-center items-center">

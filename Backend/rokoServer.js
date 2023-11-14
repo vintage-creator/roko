@@ -18,7 +18,6 @@ const cors = require("cors");
 const rateLimiter = require("./middlewares/rateLimit");
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swaggerConfig');
-const authenticate = require("./middlewares/authenticateUser");
 
 // Middlewares
 app.use(cors());
@@ -26,21 +25,20 @@ const staticFilePath = path.join(__dirname, "..", "Frontend/dist");
 app.use(express.static(staticFilePath));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.get("/", (req, res) => {
-  res.sendFile(path.join(staticFilePath, "index.html"));
-});
 
 app.use(
   session({
     secret: process.env.Secret_ID,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
-      maxAge: 8 * 60 * 60 * 1000, // 8 hours in milliseconds
-      secure: false, // Set to true if your app is running over HTTPS
+      maxAge: 5 * 60 * 60 * 1000,
+      secure: false,  // Set to true if your app is running over HTTPS
+      httpOnly: true,
     },
   })
 );
+
 app.use(rateLimiter);
 app.use("/auth", authRoute);
 app.use("/user", userPolicyRoute);
@@ -61,16 +59,6 @@ app.get("/api-docs", (req, res) => {
   res.send(swaggerSpec);
 });
 
-// Route to check if the session is valid
-app.get("/check-session", (req, res) => {
-  console.log(req.session)
-  if (req.session && req.session.cookie) {
-    console.log(req.session)
-    res.status(200).json({ authenticated: true });
-  } else {
-    res.status(401).json({ authenticated: false });
-  }
-});
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(staticFilePath, "index.html"));

@@ -1,27 +1,6 @@
 import axios from "axios";
 
-export const checkSessionApi = () => {
-  let config = {
-    method: 'get',
-    url: `/check-session`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  return axios
-    .request(config)
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      console.log('User not authenticated. Redirecting to login.');
-      throw new Error('User not authenticated.');
-    });
-};
-
-
-// const baseURL = "http://localhost:8000";
+const baseURL = "http://localhost:8000";
 
 export const CreateAccountApi = (Payload) => {
   console.log("CreateAccountApi", Payload);
@@ -30,7 +9,7 @@ export const CreateAccountApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/signup`,
+    url: `${baseURL}/auth/signup`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -58,7 +37,7 @@ export const EmailVerifyApi = (emailToken) => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/auth/verify?token=${emailToken}`,
+    url: `${baseURL}/auth/verify?token=${emailToken}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -86,7 +65,7 @@ export const SignInApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/signin`,
+    url: `${baseURL}/auth/signin`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -117,7 +96,7 @@ export const ForgotPasswordApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/forgot_password`,
+    url: `${baseURL}/auth/forgot_password`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -146,7 +125,7 @@ export const ResetEmailApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/reset-token`,
+    url: `${baseURL}/auth/reset-token`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -175,7 +154,7 @@ export const NewPasswordApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/change-password`,
+    url: `${baseURL}/auth/change-password`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -201,7 +180,7 @@ export const LogOutApi = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/auth/logout`,
+    url: `${baseURL}/auth/signup`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -230,7 +209,7 @@ export const SubscriptionApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/subscribe/plan`,
+    url: `${baseURL}/subscribe/plan`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -252,7 +231,7 @@ export const GetUserProfileApi = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/user/getuserprofile`,
+    url: `${baseURL}/user/getuserprofile`,
     headers: {
       "Content-Type": "application/json",
     },
