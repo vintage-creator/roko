@@ -247,3 +247,32 @@ export const GetUserProfileApi = () => {
       console.log("error", error);
     });
 };
+
+export const FileClaimApi = (Payload) => {
+  console.log("FileClaimApi", Payload);
+
+  let data = JSON.stringify(Payload);
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: `${baseURL}/user/submitclaim`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  return axios
+    .request(config)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log("error", error);
+      if (error.response.data) {
+        throw new Error(error.response.data);
+      } else if (error.response.status) {
+        throw new Error(error.response.status);
+      }
+    });
+};

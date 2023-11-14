@@ -48,7 +48,7 @@ const DashboardComponent = () => {
   return (
     <>
       <div>
-        <h3 className="font-semibold mt-2 text-[18px]">Active policy</h3>
+        <h3 className="font-semibold mt-2 text-[18px]">Active new policy</h3>
         <div className="mt-4 h-40 flex w-full justify-between gap-4">
           <div className="h-48 bg-[#fff] w-[70%] rounded-[10px] shadow-md p-4 flex gap-4">
             <div className="w-[60%] bg-base rounded-[5px] px-4 py-6 flex flex-col gap-6">
