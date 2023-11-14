@@ -1,4 +1,5 @@
 const UserReg = require("../../models/userReg");
+const PaymentReg = require("../../models/paymentReg");
 const mailer = require("../../config/mailer");
 
 //Get a user's profile
@@ -70,6 +71,8 @@ const getBannerMessageFn = async (req, res) => {
 
     const paymentStatus = user.paymentStatus;
     const lastPaymentDate = user.lastPaymentDate;
+    const userEmail = user.email;
+    const subscriber = await PaymentReg.findOne({ email: userEmail });
     const userFullnames = user.fullname.split(" ");
     const userFirstname = userFullnames[0];
 
@@ -87,14 +90,17 @@ const getBannerMessageFn = async (req, res) => {
         <p style="color: #666; text-align: center;">Your policy has expired. Please log in to your account to renew your policy.</p>
       </div>`;
         mailer(
-          user.email,
+          userEmail,
           "Roko: Policy Expiration Reminder",
           expirationEmailContent
         );
 
         // Set the flag to indicate that the reminder has been sent
         user.policyExpiredReminderSent = true;
+        paymentStatus = "pending";
+        subscriber.status = "pending";
         await user.save();
+        await subscriber.save();
 
         return res.status(200).json({
           message: `Your policy has expired, ${userFirstname}.`,
@@ -112,7 +118,7 @@ const getBannerMessageFn = async (req, res) => {
             <p style="color: #666; text-align: center;">Renew your policy in ${daysRemaining} days.</p>
           </div>`;
           mailer(
-            user.email,
+            userEmail,
             `Roko: Policy Renewal Reminder (${daysRemaining} days remaining)`,
             reminderEmailContent
           );
@@ -134,7 +140,7 @@ const getBannerMessageFn = async (req, res) => {
         <p style="color: #666; text-align: center;">You are yet to purchase a policy. Click here to proceed.</p>
       </div>`;
       mailer(
-        user.email,
+        userEmail,
         "Roko: Policy Purchase Reminder",
         paymentReminderEmailContent
       );

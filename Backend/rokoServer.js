@@ -18,7 +18,6 @@ const cors = require("cors");
 const rateLimiter = require("./middlewares/rateLimit");
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swaggerConfig');
-const authenticate = require("./middlewares/authenticateUser");
 
 // Middlewares
 app.use(cors());
@@ -26,17 +25,20 @@ const staticFilePath = path.join(__dirname, "..", "Frontend/dist");
 app.use(express.static(staticFilePath));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use(
   session({
     secret: process.env.Secret_ID,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
-      maxAge: 8 * 60 * 60 * 1000, // 8 hours in milliseconds
-      secure: false, // Set to true if your app is running over HTTPS
+      maxAge: 5 * 60 * 60 * 1000,
+      secure: false,  // Set to true if your app is running over HTTPS
+      httpOnly: true,
     },
   })
 );
+
 app.use(rateLimiter);
 app.use("/auth", authRoute);
 app.use("/user", userPolicyRoute);
@@ -53,9 +55,10 @@ app.use('/roko', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const port = process.env.NODE_ENV === "production" ? process.env.PORT : 8000;
 
-app.get('/api-docs', (req, res) => {
+app.get("/api-docs", (req, res) => {
   res.send(swaggerSpec);
 });
+
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(staticFilePath, "index.html"));
