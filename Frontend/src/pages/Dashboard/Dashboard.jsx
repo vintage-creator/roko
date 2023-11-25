@@ -48,25 +48,25 @@ export const Dashboard = () => {
 
   return (
     <>
-      {/* {isAuthenticated && ( */}
-      <div className="flex bg-[#f9f7f7]">
-        <SideBar handleDashboardClick={handleTabClick} />
-        <div className="w-full">
-          <DashNav activeTab={activeTab} />
-          <div
-            className="px-4 py-2"
-            style={{
-              overflowY: "auto",
-              maxHeight: "520px",
-              scrollbarWidth: "none",
-              WebkitOverflowScrolling: "touch",
-            }}
-          >
-            {renderTabComponent()}
+      {isAuthenticated && (
+        <div className="flex bg-[#f9f7f7]">
+          <SideBar handleDashboardClick={handleTabClick} />
+          <div className="w-full">
+            <DashNav activeTab={activeTab} />
+            <div
+              className="px-4 py-2"
+              style={{
+                overflowY: "auto",
+                maxHeight: "520px",
+                scrollbarWidth: "none",
+                WebkitOverflowScrolling: "touch",
+              }}
+            >
+              {renderTabComponent()}
+            </div>
           </div>
         </div>
-      </div>
-      {/* )} */}
+      )}
     </>
   );
 };
