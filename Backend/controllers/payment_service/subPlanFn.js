@@ -53,7 +53,8 @@ const subPlanFn = async (req, res) => {
           tx_ref: txID,
           amount: 2500,
           currency: "NGN",
-          redirect_url: "https://rokoui.onrender.com/wh/confirm-payment",
+          redirect_url: "http://localhost:8000/wh/confirm-payment", //development
+          // redirect_url: "https://rokoui.onrender.com/wh/confirm-payment",
           customer: {
             email,
             phonenumber,

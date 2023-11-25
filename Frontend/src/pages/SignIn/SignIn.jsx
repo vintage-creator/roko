@@ -34,9 +34,11 @@ export const SignIn = () => {
     } else {
       return;
     }
+  
     try {
       setIsLoading(true);
       const res = await SignInApi(payload);
+
       console.log("SignInData", res);
 
       if (res?.status === 200) {
@@ -53,16 +55,20 @@ export const SignIn = () => {
         });
 
         nav("/dashboard");
+
+     
       }
     } catch (error) {
+      console.error('Error during sign-in:', error);
       showToast({
-        message: error.message,
-        type: "error",
+        message: 'An error occurred during sign-in. Please try again.',
+        type: 'error',
       });
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center">

@@ -133,7 +133,6 @@ const signInFn = async (req, res) => {
     req.session.userEmail = user.email;
     req.session.role = user.role;
     req.session.userId = user._id;
-
     res.status(200).json({ message: "success" });
   } catch (err) {
     console.log(err);
@@ -145,10 +144,13 @@ const signInFn = async (req, res) => {
 
 //Logout session (GET)
 const logoutFn = (req, res) => {
-  // Clear session variables associated with authentication
   req.session.verified = false;
-
-  res.status(200).redirect("/login");
+  // Clear the session cookie
+  res.clearCookie('connect.sid', {
+    secure: false,
+    httpOnly: true,
+  });
+  res.status(200).json({message: "Successfully Logged Out!"});
 };
 
 //Send forgot password token(POST)
