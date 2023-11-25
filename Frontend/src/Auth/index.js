@@ -6,7 +6,7 @@ export const isAuthenticated = () => {
     try {
       const user = JSON.parse(userData);
 
-      if (user && user.token && user.expires) {
+      if (user && user.expires) {
         const currentTime = new Date().getTime();
 
         // Check if the token is not expired
@@ -19,4 +19,3 @@ export const isAuthenticated = () => {
 
   return false;
 };
-

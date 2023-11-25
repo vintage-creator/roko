@@ -40,12 +40,12 @@ export const SignIn = () => {
       console.log("SignInData", res);
 
       if (res?.status === 200) {
-        const resProfile = await GetUserProfileApi();
-        console.log("UserProfile", resProfile);
+        // const resProfile = await GetUserProfileApi();
+        // console.log("UserProfile", resProfile);
 
-        const userData = resProfile?.data?.user;
+        // const userData = resProfile?.data?.user;
 
-        setUserDataWithExpiry(userData, 5);
+        // setUserDataWithExpiry(userData, 5);
 
         showToast({
           type: "success",

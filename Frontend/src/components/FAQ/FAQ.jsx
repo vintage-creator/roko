@@ -18,12 +18,12 @@ export const FAQ = () => {
   return (
     <div className="bg-gray px-4 md:px-10 py-7 md:py-10 2xl:mt-14">
       <div className="max-w-[1500px] m-auto flex flex-col md:flex-row">
-        <div className="md:w-[50%]  md:flex md:items-center">
+        <div className="md:w-[30%]  md:flex md:items-center">
           <h3 className="font-bold text-[25px] lg:text-[40px] md:w-[80%] lg:w-[50%]  leading-[25px] lg:leading-[40px] text-center md:text-left">
             Frequently asked questions
           </h3>
         </div>
-        <div className="md:w-[50%] md:flex md:flex-col md:justify-center md:pb-10">
+        <div className="md:w-[70%] md:flex md:flex-col md:justify-center md:pb-10">
           {isOpen.map((item, index) => (
             <div key={index} className="cursor-pointer">
               <div
