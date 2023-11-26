@@ -11,6 +11,7 @@ export const DashNav = ({ activeTab, userDetails }) => {
             ? "Settings"
             : "Dashboard"}
         </h1>
+
         <div className="flex items-center gap-2 cursor-pointer">
           <div className="w-10 h-10 bg-base rounded-[50%] mt-[5px]"></div>
           <div className="flex flex-col leading-[10px]">
