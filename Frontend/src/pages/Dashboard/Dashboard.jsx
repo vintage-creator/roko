@@ -16,24 +16,24 @@ export const Dashboard = () => {
     setActiveTab(tab);
   };
 
-  const UserProfile = async () => {
-    try {
-      const res = await GetUserProfileApi();
-      console.log("UserProfile", res);
-      if (res?.status === 200) {
-        const userData = res?.data?.user;
-        setUserDetails(userData);
-      } else {
-        showToast({ type: "error", message: "Failed to fetch user profile" });
-      }
-    } catch (error) {
-      showToast({ type: "error", message: error.message });
-    }
-  };
+  // const UserProfile = async () => {
+  //   try {
+  //     const res = await GetUserProfileApi();
+  //     console.log("UserProfile", res);
+  //     if (res?.status === 200) {
+  //       const userData = res?.data?.user;
+  //       setUserDetails(userData);
+  //     } else {
+  //       showToast({ type: "error", message: "Failed to fetch user profile" });
+  //     }
+  //   } catch (error) {
+  //     showToast({ type: "error", message: error.message });
+  //   }
+  // };
 
-  useEffect(() => {
-    UserProfile();
-  }, []);
+  // useEffect(() => {
+  //   UserProfile();
+  // }, []);
 
   const renderTabComponent = () => {
     switch (activeTab) {

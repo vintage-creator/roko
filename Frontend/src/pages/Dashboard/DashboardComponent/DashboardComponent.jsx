@@ -17,6 +17,7 @@ const PlainStar = () => {
 const DashboardComponent = () => {
   const [openFileClaimModal, setOpenFileClaimModal] = useState(false);
   const [openDownloadModal, setOpenDownloadModal] = useState(false);
+  const [userDetails, setUserDetails] = useState({});
   const [openPolicyModal, setOpenPolicyModal] = useState(false);
   const [courseProgress, setCourseProgress] = useState([
     { progress: 20 },
@@ -43,7 +44,27 @@ const DashboardComponent = () => {
     setOpenPolicyModal(true);
   };
 
+  const UserProfile = async () => {
+    try {
+      const res = await GetUserProfileApi();
+      console.log("UserProfile", res);
+      if (res?.status === 200) {
+        const userData = res?.data?.user;
+        setUserDetails(userData);
+      } else {
+        showToast({ type: "error", message: "Failed to fetch user profile" });
+      }
+    } catch (error) {
+      showToast({ type: "error", message: error.message });
+    }
+  };
 
+  useEffect(() => {
+    UserProfile();
+  }, []);
+
+  const fullname = userDetails.fullname;
+  const fieldOfPractice = userDetails.fieldOfPractice;
 
   return (
     <>
@@ -58,10 +79,10 @@ const DashboardComponent = () => {
                   <div className="w-12 h-12 bg-white rounded-[50%]"></div>
                   <div className="leading-4">
                     <h2 className="text-[20px] text-white font-bold">
-                      Kunle Afolabi
+                     {fullname}
                     </h2>
                     <p className="text-[10px] text-white font-thin">
-                      Gynecologist
+                      {fieldOfPractice}
                     </p>
                   </div>
                 </div>
