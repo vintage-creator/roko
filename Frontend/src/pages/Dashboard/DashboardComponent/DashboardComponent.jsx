@@ -14,7 +14,7 @@ const PlainStar = () => {
   return <MdStar color="#d9d9d9" size={12} />;
 };
 
-const DashboardComponent = () => {
+const DashboardComponent = ({userDetails}) => {
   const [openFileClaimModal, setOpenFileClaimModal] = useState(false);
   const [openDownloadModal, setOpenDownloadModal] = useState(false);
   const [openPolicyModal, setOpenPolicyModal] = useState(false);
@@ -57,11 +57,11 @@ const DashboardComponent = () => {
                   {/* User avatar */}
                   <div className="w-12 h-12 bg-white rounded-[50%]"></div>
                   <div className="leading-4">
-                    <h2 className="text-[20px] text-white font-bold">
-                      Kunle Afolabi
+                    <h2 className="text-[18px] text-white font-bold">
+                    {userDetails.fullname}
                     </h2>
-                    <p className="text-[10px] text-white font-thin">
-                      Gynecologist
+                    <p className="text-[12px] text-white font-thin">
+                      {userDetails.fieldOfPractice}
                     </p>
                   </div>
                 </div>
