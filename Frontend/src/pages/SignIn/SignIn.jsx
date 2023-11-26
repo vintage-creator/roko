@@ -29,12 +29,8 @@ export const SignIn = () => {
   };
 
   const handleSignIn = async (e) => {
-    if (e.cancelable) {
-      e.preventDefault();
-    } else {
-      return;
-    }
-  
+    e.preventDefault();
+
     try {
       setIsLoading(true);
       const res = await SignInApi(payload);
@@ -55,20 +51,17 @@ export const SignIn = () => {
         });
 
         nav("/dashboard");
-
-     
       }
     } catch (error) {
-      console.error('Error during sign-in:', error);
+      console.error("Error during sign-in:", error);
       showToast({
-        message: 'An error occurred during sign-in. Please try again.',
-        type: 'error',
+        message: "An error occurred during sign-in. Please try again.",
+        type: "error",
       });
     } finally {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <div className="flex justify-center items-center">
