@@ -55,19 +55,11 @@ const DashboardComponent = ({userDetails}) => {
                   {/* User avatar */}
                   <div className="w-12 h-12 bg-white rounded-[50%]"></div>
                   <div className="leading-4">
-<<<<<<< HEAD
                     <h2 className="text-[20px] text-white font-bold">
                     {userDetails.fullname}
                     </h2>
                     <p className="text-[10px] text-white font-thin">
                     {userDetails.fieldOfPractice}
-=======
-                    <h2 className="text-[18px] text-white font-bold">
-                    {userDetails.fullname}
-                    </h2>
-                    <p className="text-[12px] text-white font-thin">
-                      {userDetails.fieldOfPractice}
->>>>>>> 67b3971f6a95fb9405b9eca742af0b7b7644ee80
                     </p>
                   </div>
                 </div>

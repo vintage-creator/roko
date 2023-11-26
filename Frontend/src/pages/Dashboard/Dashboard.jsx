@@ -38,11 +38,7 @@ export const Dashboard = () => {
   const renderTabComponent = () => {
     switch (activeTab) {
       case "dashboard":
-<<<<<<< HEAD
         return <DashboardComponent userDetails={userDetails}/>;
-=======
-        return <DashboardComponent userDetails={userDetails} />;
->>>>>>> 67b3971f6a95fb9405b9eca742af0b7b7644ee80
       case "settings":
         return <SettingsComponent />;
       default:
@@ -56,11 +52,7 @@ export const Dashboard = () => {
         <div className="flex bg-[#f9f7f7]">
           <SideBar handleDashboardClick={handleTabClick} />
           <div className="w-full">
-<<<<<<< HEAD
             <DashNav activeTab={activeTab} userDetails={userDetails}/>
-=======
-            <DashNav activeTab={activeTab} userDetails={userDetails} />
->>>>>>> 67b3971f6a95fb9405b9eca742af0b7b7644ee80
             <div
               className="px-4 py-2"
               style={{
