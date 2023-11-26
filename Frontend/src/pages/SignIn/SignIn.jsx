@@ -54,15 +54,41 @@ export const SignIn = () => {
       }
     } catch (error) {
       console.error("Error during sign-in:", error);
-      showToast({
-        message: "An error occurred during sign-in. Please try again.",
-        type: "error",
-      });
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        if (error.response.status === 401) {
+          showToast({
+            message: "User not verified! Please verify your email.",
+            type: "error",
+          });
+        } else if (error.response.status === 404) {
+          showToast({
+            message: "User not found. Please check your email.",
+            type: "error",
+          });
+        } else if (error.response.status === 500) {
+          showToast({
+            message: "Incorrect email or password. Please try again.",
+            type: "error",
+          });
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        showToast({
+          message: "Network error. Please check your internet connection.",
+          type: "error",
+        });
+      } else {
+        // Something happened in setting up the request that triggered an error
+        showToast({
+          message: "An unexpected error occurred during sign-in. Please try again.",
+          type: "error",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="flex justify-center items-center">
       {/* LEFT */}
