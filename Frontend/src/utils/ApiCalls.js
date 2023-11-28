@@ -9,7 +9,7 @@ export const CreateAccountApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseURL}/auth/signup`,
+    url: `/auth/signup`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -37,7 +37,7 @@ export const EmailVerifyApi = (emailToken) => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `${baseURL}/auth/verify?token=${emailToken}`,
+    url: `/auth/verify?token=${emailToken}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -65,7 +65,7 @@ export const SignInApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseURL}/auth/signin`,
+    url: `/auth/signin`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -94,7 +94,7 @@ export const ForgotPasswordApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseURL}/auth/forgot_password`,
+    url: `/auth/forgot_password`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -123,7 +123,7 @@ export const ResetEmailApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseURL}/auth/reset-token`,
+    url: `/auth/reset-token`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -152,7 +152,7 @@ export const NewPasswordApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseURL}/auth/change-password`,
+    url: `/auth/change-password`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -178,7 +178,7 @@ export const LogOutApi = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `${baseURL}/auth/signup`,
+    url: `/auth/signup`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -207,7 +207,7 @@ export const SubscriptionApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseURL}/subscribe/plan`,
+    url: `/subscribe/plan`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -234,7 +234,7 @@ export const GetUserProfileApi = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `${baseURL}/user/getuserprofile`,
+    url: `/user/getuserprofile`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -263,7 +263,7 @@ export const FileClaimApi = (Payload) => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${baseURL}/user/submitclaim`,
+    url: `/user/submitclaim`,
     headers: {
       "Content-Type": "application/json",
     },

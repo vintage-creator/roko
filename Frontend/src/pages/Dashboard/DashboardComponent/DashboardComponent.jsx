@@ -43,8 +43,6 @@ const DashboardComponent = ({userDetails}) => {
     setOpenPolicyModal(true);
   };
 
-
-
   return (
     <>
       <div>
@@ -57,11 +55,11 @@ const DashboardComponent = ({userDetails}) => {
                   {/* User avatar */}
                   <div className="w-12 h-12 bg-white rounded-[50%]"></div>
                   <div className="leading-4">
-                    <h2 className="text-[18px] text-white font-bold">
+                    <h2 className="text-[20px] text-white font-bold">
                     {userDetails.fullname}
                     </h2>
-                    <p className="text-[12px] text-white font-thin">
-                      {userDetails.fieldOfPractice}
+                    <p className="text-[10px] text-white font-thin">
+                    {userDetails.fieldOfPractice}
                     </p>
                   </div>
                 </div>

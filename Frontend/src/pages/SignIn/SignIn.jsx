@@ -30,27 +30,53 @@ export const SignIn = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
+  
     try {
       setIsLoading(true);
       const res = await SignInApi(payload);
-
+  
       console.log("SignInData", res);
-
+  
       if (res?.status === 200) {
         const resProfile = await GetUserProfileApi();
         console.log("UserProfile", resProfile);
-
+  
         const userData = resProfile?.data?.user;
-
+  
         setUserDataWithExpiry(userData, 5);
-
+  
         showToast({
           type: "success",
           message: "Welcome to your Dashboard",
         });
-
+  
         nav("/dashboard");
+      } else {
+        switch (res?.status) {
+          case 401:
+            showToast({
+              message: "User not verified! Please verify your email.",
+              type: "error",
+            });
+            break;
+          case 404:
+            showToast({
+              message: "User not found. Please check your email.",
+              type: "error",
+            });
+            break;
+          case 500:
+            showToast({
+              message: "Incorrect email or password. Please try again.",
+              type: "error",
+            });
+            break;
+          default:
+            showToast({
+              message: "Network error. Please check your internet connection.",
+              type: "error",
+            });
+        }
       }
     } catch (error) {
       showToast({
@@ -60,7 +86,7 @@ export const SignIn = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  };  
 
   return (
     <div className="flex justify-center items-center">
