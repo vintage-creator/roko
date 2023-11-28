@@ -83,9 +83,7 @@ export const SignInApi = (Payload) => {
       console.log("error", error);
       if (error.response.data.error) {
         throw new Error(error.response.data.error);
-      } else if (error.response.status) {
-        throw new Error(error.response.status);
-      }
+      } 
     });
 };
 
@@ -224,6 +222,11 @@ export const SubscriptionApi = (Payload) => {
     })
     .catch((error) => {
       console.log("error", error);
+      if (error.response.data) {
+        throw new Error(error.response.data);
+      } else if (error.response.status) {
+        throw new Error(error.response.status);
+      }
     });
 };
 
@@ -245,6 +248,11 @@ export const GetUserProfileApi = () => {
     })
     .catch((error) => {
       console.log("error", error);
+      if (error.response.data) {
+        throw new Error(error.response.data);
+      } else if (error.response.status) {
+        throw new Error(error.response.status);
+      }
     });
 };
 

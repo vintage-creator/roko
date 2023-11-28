@@ -17,16 +17,11 @@ const Verification = () => {
           type: "success",
           message: "Email Verified! You can log in now",
         });
-      } else {
-        showToast({
-          type: "error",
-          message: "Email verification failed. Please try again.",
-        });
       }
     } catch (error) {
       showToast({
         type: "error",
-        message: "An error occurred during email verification.",
+        message: error.message,
       });
     }
   };

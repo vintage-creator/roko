@@ -53,9 +53,8 @@ export const SignIn = () => {
         nav("/dashboard");
       }
     } catch (error) {
-      console.error("Error during sign-in:", error);
       showToast({
-        message: "An error occurred during sign-in. Please try again.",
+        message: error.message,
         type: "error",
       });
     } finally {

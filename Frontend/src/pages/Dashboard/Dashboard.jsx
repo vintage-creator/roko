@@ -23,8 +23,6 @@ export const Dashboard = () => {
       if (res?.status === 200) {
         const userData = res?.data?.user;
         setUserDetails(userData);
-      } else {
-        showToast({ type: "error", message: "Failed to fetch user profile" });
       }
     } catch (error) {
       showToast({ type: "error", message: error.message });
