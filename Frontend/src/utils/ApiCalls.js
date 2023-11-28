@@ -3,13 +3,13 @@ import axios from "axios";
 const baseURL = "http://localhost:8000";
 
 export const CreateAccountApi = (Payload) => {
-  console.log("CreateAccountApi", Payload);
+  // console.log("CreateAccountApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/signup`,
+    url: `${baseURL}/auth/signup`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -32,12 +32,12 @@ export const CreateAccountApi = (Payload) => {
 };
 
 export const EmailVerifyApi = (emailToken) => {
-  console.log("emailToken", emailToken);
+  // console.log("emailToken", emailToken);
 
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/auth/verify?token=${emailToken}`,
+    url: `${baseURL}/auth/verify?token=${emailToken}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -59,13 +59,13 @@ export const EmailVerifyApi = (emailToken) => {
 };
 
 export const SignInApi = (Payload) => {
-  console.log("SignInApi", Payload);
+  // console.log("SignInApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/signin`,
+    url: `${baseURL}/auth/signin`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -88,13 +88,13 @@ export const SignInApi = (Payload) => {
 };
 
 export const ForgotPasswordApi = (Payload) => {
-  console.log("ForgotPasswordApi", Payload);
+  // console.log("ForgotPasswordApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/forgot_password`,
+    url: `${baseURL}/auth/forgot_password`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -117,13 +117,13 @@ export const ForgotPasswordApi = (Payload) => {
 };
 
 export const ResetEmailApi = (Payload) => {
-  console.log("ResetEmailApi", Payload);
+  // console.log("ResetEmailApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/reset-token`,
+    url: `${baseURL}/auth/reset-token`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -146,13 +146,13 @@ export const ResetEmailApi = (Payload) => {
 };
 
 export const NewPasswordApi = (Payload) => {
-  console.log("NewPasswordApi", Payload);
+  // console.log("NewPasswordApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/auth/change-password`,
+    url: `${baseURL}/auth/change-password`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -178,7 +178,7 @@ export const LogOutApi = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/auth/signup`,
+    url: `${baseURL}/auth/signup`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -200,14 +200,14 @@ export const LogOutApi = () => {
 };
 
 export const SubscriptionApi = (Payload) => {
-  console.log("SubscriptionHospitalSizeApi", SubscriptionApi);
+  // console.log("SubscriptionHospitalSizeApi", SubscriptionApi);
 
   let data = JSON.stringify(Payload);
-  console.log("SubscriptionApi", data);
+  // console.log("SubscriptionApi", data);
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/subscribe/plan`,
+    url: `${baseURL}/subscribe/plan`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -234,7 +234,7 @@ export const GetUserProfileApi = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/user/getuserprofile`,
+    url: `${baseURL}/user/getuserprofile`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -257,13 +257,13 @@ export const GetUserProfileApi = () => {
 };
 
 export const FileClaimApi = (Payload) => {
-  console.log("FileClaimApi", Payload);
+  // console.log("FileClaimApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `/user/submitclaim`,
+    url: `${baseURL}/user/submitclaim`,
     headers: {
       "Content-Type": "application/json",
     },
