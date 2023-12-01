@@ -11,7 +11,7 @@ const createClaimFn = async (req, res) => {
       return res.status(400).json({ message: "Invalid request data" });
     }
 
-    const claimant = req.session.userId;
+    const claimant = req.user._id;
 
     const user = await UserReg.findById(claimant);
     if (user.paymentStatus === "pending") {
@@ -49,7 +49,7 @@ const getClaimFn = async (req, res) => {
     const claimId = req.params.id;
     const claim = await ClaimReg.findOne({
       _id: claimId,
-      claimant: req.session.userId,
+      claimant: req.user._id,
     }).exec();
 
     if (!claim) {
@@ -67,7 +67,7 @@ const getClaimFn = async (req, res) => {
 //Get all claims by claimant
 const getClaimsFn = async (req, res) => {
   try {
-    const claimant = req.session.userId;
+    const claimant = req.user._id;
 
     const claims = await ClaimReg.find({ claimant }).exec();
 
@@ -89,7 +89,7 @@ const getClaimsFn = async (req, res) => {
 const deleteClaimFn = async (req, res) => {
   try {
     const claimId = req.params.id;
-    const claimant = req.session.userId;
+    const claimant = req.user._id;
 
     const deletedClaim = await ClaimReg.findOneAndDelete({
       _id: claimId,
@@ -121,7 +121,7 @@ const deleteClaimFn = async (req, res) => {
 //Delete all claims by claimant
 const deleteClaimsFn = async (req, res) => {
   try {
-    const claimant = req.session.userId;
+    const claimant = req.user._id;
 
     const deletedClaims = await ClaimReg.find({ claimant }).exec();
 

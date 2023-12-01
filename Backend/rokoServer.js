@@ -26,19 +26,6 @@ app.use(express.static(staticFilePath));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(
-  session({
-    secret: process.env.Secret_ID,
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 5 * 60 * 60 * 1000,
-      secure: false,  // Set to true if your app is running over HTTPS
-      httpOnly: true,
-    },
-  })
-);
-
 app.use(rateLimiter);
 app.use("/auth", authRoute);
 app.use("/user", userPolicyRoute);

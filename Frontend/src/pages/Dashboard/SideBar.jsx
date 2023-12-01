@@ -20,6 +20,7 @@ export const SideBar = ({ handleDashboardClick }) => {
       const res = await LogOutApi();
 
       if (res?.status === 200) {
+        localStorage.removeItem('token');
         sessionStorage.removeItem("user");
         showToast({
           type: "success",

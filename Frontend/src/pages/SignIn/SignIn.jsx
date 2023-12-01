@@ -38,6 +38,10 @@ export const SignIn = () => {
       console.log("SignInData", res);
   
       if (res?.status === 200) {
+      const authToken = res?.data.authToken;
+
+      // Store token in local storage
+      localStorage.setItem("token", authToken);
         const resProfile = await GetUserProfileApi();
         console.log("UserProfile", resProfile);
   

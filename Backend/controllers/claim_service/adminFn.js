@@ -23,7 +23,8 @@ const updateClaim = async (req, res) => {
   try {
     const claimId = req.params.claimId;
     const { status, remarks } = req.body;
-    const processedById = req.session.userId;
+    console.log(req)
+    const processedById = req.user._id;
     // Retrieve the admin's name
     const admin = await UserReg.findById(processedById);
     const processedBy = {

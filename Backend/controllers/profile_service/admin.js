@@ -3,7 +3,7 @@ const UserReg = require("../../models/userReg");;
 //Get admin's profile
 const getAdminProfileFn = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.user._id;
 
     const user = await UserReg.findById(userId, '-password');
 
@@ -22,7 +22,7 @@ const getAdminProfileFn = async (req, res) => {
 // Update admin's profile
 const updateAdminProfileFn = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.user._id;
 
     const updatedUser = await UserReg.findByIdAndUpdate(userId, req.body, {
       new: true,
@@ -43,7 +43,7 @@ const updateAdminProfileFn = async (req, res) => {
 // Delete admin's profile
 const deleteAdminProfileFn = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.user._id;
 
     const deletedUser = await UserReg.findByIdAndDelete(userId);
 

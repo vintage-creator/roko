@@ -1,6 +1,7 @@
 const UserReg = require("../../models/userReg");
 const bcrypt = require("bcrypt");
 const mailer = require("../../config/mailer");
+const jwt = require("jsonwebtoken");
 const generateToken = require("../../utils/generateToken");
 const { validateUserRegistration } = require("../../utils/userValidation");
 
@@ -73,6 +74,7 @@ const signUpFn = async (req, res) => {
 </div>`;
 
     mailer(email, "Roko: Verify your email address", emailContent);
+   
     return res.status(200).json({
       success:
         "Registration successful, a link has been sent to your email to verify",
@@ -128,12 +130,17 @@ const signInFn = async (req, res) => {
         .status(500)
         .json({ error: "Email or password is not correct." });
     }
-    // Set a verified variable to indicate authentication
-    req.session.verified = true;
-    req.session.userEmail = user.email;
-    req.session.role = user.role;
-    req.session.userId = user._id;
-    res.status(200).json({ message: "success" });
+    // Generate JWT token for user authentication
+    const authToken = jwt.sign(
+      { userId: user._id, email: user.email, role: user.role },
+      process.env.Secret_ID,
+      { expiresIn: "1h" }
+    );
+ 
+    res.status(200).json({
+      message: "Login successful",
+      authToken,
+    });
   } catch (err) {
     console.log(err);
     res.status(400).json({
@@ -142,15 +149,9 @@ const signInFn = async (req, res) => {
   }
 };
 
-//Logout session (GET)
 const logoutFn = (req, res) => {
-  req.session.verified = false;
-  // Clear the session cookie
-  res.clearCookie('connect.sid', {
-    secure: false,
-    httpOnly: true,
-  });
-  res.status(200).json({message: "Successfully Logged Out!"});
+  res.clearCookie('authToken');
+  res.status(200).json({ message: "Successfully Logged Out!" });
 };
 
 //Send forgot password token(POST)
@@ -187,7 +188,7 @@ const sendfgPwdFn = async (req, res) => {
 </div>
 `;
     mailer(email, "Roko: Reset your password", emailContent);
-    req.session.userEmail = email;
+    req.userEmail = email;
     res
       .status(200)
       .json({ success: "Reset token has been sent to your email" });
@@ -226,7 +227,7 @@ const sendRsTokenFn = async (req, res) => {
 const sendChangePwdFn = async (req, res) => {
   const { password, confirm_password } = req.body;
   try {
-    const email = req.session.userEmail;
+    const email = req.userEmail;
 
     // Validate the password against the pattern and confirm_password match
     const validationResult = await validateUserRegistration(

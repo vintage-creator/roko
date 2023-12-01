@@ -5,7 +5,7 @@ const mailer = require("../../config/mailer");
 //Get a user's profile
 const getUserProfileFn = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.user._id;
 
     const user = await UserReg.findById(userId, "-password");
 
@@ -23,7 +23,7 @@ const getUserProfileFn = async (req, res) => {
 // Update a user's profile
 const updateProfileFn = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.user._id;
 
     const updatedUser = await UserReg.findByIdAndUpdate(userId, req.body, {
       new: true,
@@ -44,7 +44,7 @@ const updateProfileFn = async (req, res) => {
 // Delete a user's profile
 const deleteProfileFn = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.user._id;
 
     const deletedUser = await UserReg.findByIdAndDelete(userId);
 
@@ -62,7 +62,7 @@ const deleteProfileFn = async (req, res) => {
 //Get payment status notice (Banner notification message)
 const getBannerMessageFn = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.user._id;
     const user = await UserReg.findOne({ _id: userId });
 
     if (!user) {

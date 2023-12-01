@@ -6,7 +6,7 @@ const subPlanFn = async (req, res) => {
   const got = (await import("got")).default;
   try {
     const txID = uuid.v4();
-    const email = req.session.userEmail;
+    const email = req.user.email;
     const user = await UserReg.findOne({ email }).exec();
 
     if (user.paymentStatus === "completed") {
