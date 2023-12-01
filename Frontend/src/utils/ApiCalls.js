@@ -3,7 +3,7 @@ import axios from "axios";
 const baseURL = "http://localhost:8000";
 
 export const CreateAccountApi = (Payload) => {
-  console.log("CreateAccountApi", Payload);
+  // console.log("CreateAccountApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
@@ -32,7 +32,7 @@ export const CreateAccountApi = (Payload) => {
 };
 
 export const EmailVerifyApi = (emailToken) => {
-  console.log("emailToken", emailToken);
+  // console.log("emailToken", emailToken);
 
   let config = {
     method: "get",
@@ -59,7 +59,7 @@ export const EmailVerifyApi = (emailToken) => {
 };
 
 export const SignInApi = (Payload) => {
-  console.log("SignInApi", Payload);
+  // console.log("SignInApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
@@ -83,14 +83,12 @@ export const SignInApi = (Payload) => {
       console.log("error", error);
       if (error.response.data.error) {
         throw new Error(error.response.data.error);
-      } else if (error.response.status) {
-        throw new Error(error.response.status);
-      }
+      } 
     });
 };
 
 export const ForgotPasswordApi = (Payload) => {
-  console.log("ForgotPasswordApi", Payload);
+  // console.log("ForgotPasswordApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
@@ -119,7 +117,7 @@ export const ForgotPasswordApi = (Payload) => {
 };
 
 export const ResetEmailApi = (Payload) => {
-  console.log("ResetEmailApi", Payload);
+  // console.log("ResetEmailApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
@@ -148,7 +146,7 @@ export const ResetEmailApi = (Payload) => {
 };
 
 export const NewPasswordApi = (Payload) => {
-  console.log("NewPasswordApi", Payload);
+  // console.log("NewPasswordApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
@@ -202,10 +200,10 @@ export const LogOutApi = () => {
 };
 
 export const SubscriptionApi = (Payload) => {
-  console.log("SubscriptionHospitalSizeApi", SubscriptionApi);
+  // console.log("SubscriptionHospitalSizeApi", SubscriptionApi);
 
   let data = JSON.stringify(Payload);
-  console.log("SubscriptionApi", data);
+  // console.log("SubscriptionApi", data);
   let config = {
     method: "post",
     maxBodyLength: Infinity,
@@ -224,6 +222,11 @@ export const SubscriptionApi = (Payload) => {
     })
     .catch((error) => {
       console.log("error", error);
+      if (error.response.data) {
+        throw new Error(error.response.data);
+      } else if (error.response.status) {
+        throw new Error(error.response.status);
+      }
     });
 };
 
@@ -248,11 +251,16 @@ export const GetUserProfileApi = () => {
     })
     .catch((error) => {
       console.log("error", error);
+      if (error.response.data) {
+        throw new Error(error.response.data);
+      } else if (error.response.status) {
+        throw new Error(error.response.status);
+      }
     });
 };
 
 export const FileClaimApi = (Payload) => {
-  console.log("FileClaimApi", Payload);
+  // console.log("FileClaimApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {

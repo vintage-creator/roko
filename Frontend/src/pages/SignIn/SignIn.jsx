@@ -83,9 +83,8 @@ export const SignIn = () => {
         }
       }
     } catch (error) {
-      console.error("Sign-in error:", error);
       showToast({
-        message: "An unexpected error occurred during sign-in. Please try again.",
+        message: error.message,
         type: "error",
       });
     } finally {
