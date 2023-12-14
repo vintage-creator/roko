@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import Button from "../Button";
 import { MdOutlineClose } from "react-icons/md";
 import { SubscriptionApi } from "../../utils/ApiCalls";
+import { showToast } from "../../Toastify/Toast";
 
 export const HospitalSize = ({ setOpenPolicyModal }) => {
   const [selectedBedNumber, setSelectedBedNumber] = useState("");
+  console.log();
 
   const isEmpty = selectedBedNumber === "";
 
