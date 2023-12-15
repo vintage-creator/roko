@@ -77,7 +77,7 @@ const subPlanFn = async (req, res) => {
       status: "pending",
       paymentLink: response.data.link,
     };
-
+  
     await PaymentReg.create(paymentData);
     res.redirect(response.data.link);
   } catch (err) {
