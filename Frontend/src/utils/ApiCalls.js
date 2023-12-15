@@ -59,7 +59,7 @@ export const EmailVerifyApi = (emailToken) => {
 };
 
 export const SignInApi = (Payload) => {
-  // console.log("SignInApi", Payload);
+  console.log("SignInApi", Payload);
 
   let data = JSON.stringify(Payload);
   let config = {
@@ -200,7 +200,7 @@ export const LogOutApi = () => {
 };
 
 export const SubscriptionApi = (Payload) => {
-  // console.log("SubscriptionHospitalSizeApi", SubscriptionApi);
+  console.log("SubscriptionHospitalSizeApi", Payload);
 
   let data = JSON.stringify(Payload);
   // console.log("SubscriptionApi", data);
@@ -222,8 +222,8 @@ export const SubscriptionApi = (Payload) => {
     })
     .catch((error) => {
       console.log("error", error);
-      if (error.response.data) {
-        throw new Error(error.response.data);
+      if (error.response.data.message) {
+        throw new Error(error.response.data.message);
       } else if (error.response.status) {
         throw new Error(error.response.status);
       }
