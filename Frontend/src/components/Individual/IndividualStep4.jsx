@@ -1,45 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import nurse from "../../assets/nurse.png";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 import { Button } from "../Button/Button";
 import { Link } from "react-router-dom";
 import { useMyContext } from "../../context";
 import Input from "../Input";
-import { IndividualStep5 } from "./IndividualStep5";
 import steps from "../../utils/data/steps.json";
-import { CreateAccountApi } from "../../utils/ApiCalls";
-import { showToast } from "../../Toastify/Toast";
+import { IndividualStep5 } from "./IndividualStep5";
 
 export const IndividualStep4 = ({ setPayload, payload }) => {
   const {
     activeStep,
     setActiveStep,
-    StepThree,
-    setStepThree,
-    StepFour,
     setStepFour,
     StepFive,
     setStepFive,
   } = useMyContext();
-  const [loading, setLoading] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const isStrongPassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
-    return passwordRegex.test(password);
-  };
-
-  const isPasswordMatching = (password, confirmedPassword) => {
-    return password === confirmedPassword;
-  };
 
   const [formData, setFormData] = useState({
     ...payload,
-    password: "",
-    confirm_password: "",
+    employmentStatus: "",
+    employerName: "",
+    employerAddress: "",
+    employerPhone: "",
   });
-
-  console.log("formdata", formData);
 
   const handlePayload = (e) => {
     const { name, value } = e.target;
@@ -47,53 +31,18 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
       ...formData,
       [name]: value,
     });
-
-    if (name === "password" || name === "confirm_password") {
-      setPasswordError(false);
-    }
   };
 
-  const isEmpty = formData.password === "" || formData.confirm_password === "";
+  const isEmpty =
+    formData.employmentStatus === "" ||
+    formData.employerName === "" ||
+    formData.employerAddress === "" ||
+    formData.employerPhone === "";
 
-  const handlePayment = async () => {
-    try {
-      setLoading(true);
-      if (!isPasswordMatching(formData.password, formData.confirm_password)) {
-        setPasswordError("Passwords do not match.");
-      } else if (!isStrongPassword(formData.password)) {
-        setPasswordError(
-          "Password should be at least 8 characters long and include 1 uppercase letter, 1 lowercase letter, and 1 special character."
-        );
-      } else {
-        const updatedPayload = {
-          ...payload,
-          password: formData.password,
-          confirm_password: formData.confirm_password,
-        };
-        setPasswordError(false);
-        const res = await CreateAccountApi(updatedPayload);
-        console.log("SignUpresponse", res);
-        if (res?.status === 200) {
-          showToast({
-            type: "success",
-            message: res?.data?.success,
-          });
-
-          // Reset all fields to empty
-          setFormData({
-            ...payload,
-            password: "",
-            confirm_password: "",
-          });
-        }
-      }
-    } catch (error) {
-      showToast({
-        type: "error",
-        message: error.message,
-      });
-    } finally {
-      setLoading(false);
+  const handleNext = () => {
+    setStepFive(true);
+    if (activeStep < steps.length - 1) {
+      setActiveStep(activeStep + 1);
     }
   };
 
@@ -106,114 +55,155 @@ export const IndividualStep4 = ({ setPayload, payload }) => {
 
   return (
     <>
-      <div className="flex ">
-        {/* LEFT */}
-        <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 h-screen">
-          <div className="">
-            <div className="w-[150px] h-[30px] bg-shades mb-12"></div>
-            <h1 className="md:text-thirtyPixels lg:text-[45px] font-bold leading-[50px] text-white">
-              Insurance works for you when you blah and protect
-            </h1>
-          </div>
-          <div className="md:flex md:justify-between md:items-center">
-            <img
-              src={nurse}
-              alt="An image of a Nurse"
-              width={"45%"}
-              className="h-[310px]"
-            />
-            <p className="mt-40 text-white text-eighteenPixels font-semibold cursor-pointer">
-              Help?
-            </p>
-          </div>
-        </div>
-
-        {/* RIGHT */}
-        <div className="lg:w-[50%] px-8 sm:px-10 lg:px-20 py-10  flex flex-col justify-between items-center">
-          <div>
-            <h2 className="text-twentyPixels md:text-thirtyPixels lg:text-thirtyPixels font-bold">
-              Choose a Secure Password
-            </h2>
-
-            <ProgressBar
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-            />
-
-            <p className="mt-8 text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels font-regular">
-              Enjoy amazing insurance services by creating your first account.
-              this is only going to take 5 minutes
-            </p>
-
-            <div className="mt-4 flex flex-col gap-2">
-              <label
-                htmlFor="password"
-                className="text-fourteenPixels font-semibold"
-              >
-                Choose password
-              </label>
-              <Input
-                className="w-full py-3 px-[8px] rounded-[7px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                placeholder="************"
-                name="password"
-                id="password"
-                value={formData.password}
-                onChange={handlePayload}
-                type="password"
+      {!StepFive && (
+        <div className="flex ">
+          {/* LEFT */}
+          <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 ">
+            <div className="">
+              <div className="w-[150px] h-[30px] bg-shades mb-12"></div>
+              <h1 className="md:text-thirtyPixels lg:text-[45px] font-bold leading-[50px] text-white">
+                Insurance works for you when you blah and protect
+              </h1>
+            </div>
+            <div className="md:flex md:justify-between md:items-center">
+              <img
+                src={nurse}
+                alt="An image of a Nurse"
+                width={"45%"}
+                className="h-[310px]"
               />
-            </div>
-            <div className="mt-4 flex flex-col gap-2">
-              <label
-                htmlFor="confirm_password"
-                className="text-fourteenPixels font-semibold"
-              >
-                Confirm password
-              </label>
-              <Input
-                className="w-full py-3 px-[8px] rounded-[7px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                placeholder="************"
-                name="confirm_password"
-                id="confirm_password"
-                value={formData.confirm_password}
-                onChange={handlePayload}
-                type="password"
-              />
-              {passwordError && (
-                <p className="text-[14px] text-red-500">{passwordError}</p>
-              )}
-            </div>
-          </div>
-
-          <div className="w-full mt-8">
-            <div className="flex justify-between gap-4">
-              <Button
-                text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
-                w="w-full"
-                onClick={handlePrevious}
-              >
-                Previous
-              </Button>
-              <Button
-                text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
-                w="w-full"
-                onClick={handlePayment}
-                bg={`${isEmpty ? "bg-disabled" : "bg-base"}`}
-                className={`${isEmpty ? "cursor-not-allowed" : ""}`}
-                disabled={isEmpty && true}
-                isLoading={loading}
-              >
-                Submit
-              </Button>
-            </div>
-            <Link to="/login">
-              <p className="text-twelvePixels md:text-thirteenPixels lg:text-fourteenPixels font-semibold text-center cursor-pointer mt-4">
-                Already have an account?{" "}
-                <span className="text-secondary">Sign in</span>
+              <p className="mt-40 text-white text-eighteenPixels font-semibold cursor-pointer">
+                Help?
               </p>
-            </Link>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div className="lg:w-[50%] px-8 sm:px-10 lg:px-20 py-10  flex flex-col justify-between items-center">
+            <div>
+              <h2 className="text-twentyPixels md:text-thirtyPixels lg:text-thirtyPixels font-bold">
+                Tell Us More About You
+              </h2>
+
+              <ProgressBar
+                activeStep={activeStep}
+                setActiveStep={setActiveStep}
+              />
+
+              <p className="mt-8 text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels font-regular">
+                Enjoy amazing insurance services by creating your first account.
+                This is only going to take 5 minutes
+              </p>
+
+              <div className="mt-4 flex flex-col gap-2">
+                <label
+                  htmlFor="employmentStatus"
+                  className="text-fourteenPixels font-semibold"
+                >
+                  Employment Status
+                </label>
+                <Input
+                  type="text"
+                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                  placeholder="Enter status"
+                  name="employmentStatus"
+                  id="employmentStatus"
+                  value={formData.employmentStatus}
+                  onChange={handlePayload}
+                  // rightIcon={<MdEmail color="#008080" />}
+                />
+              </div>
+              <div className="mt-4 flex flex-col gap-2">
+                <label
+                  htmlFor="employerName"
+                  className="text-fourteenPixels font-semibold"
+                >
+                  Name of Employer
+                </label>
+                <Input
+                  type="text"
+                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                  placeholder="Enter name"
+                  name="employerName"
+                  id="employerName"
+                  value={formData.employerName}
+                  onChange={handlePayload}
+                  // rightIcon={<MdEmail color="#008080" />}
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-2">
+                <label
+                  htmlFor="employerAddress"
+                  className="text-fourteenPixels font-semibold"
+                >
+                  Employer's Address
+                </label>
+                <Input
+                  type="text"
+                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                  placeholder="Enter address"
+                  name="employerAddress"
+                  id="employerAddress"
+                  value={formData.employerAddress}
+                  onChange={handlePayload}
+                  // rightIcon={<MdEmail color="#008080" />}
+                />
+              </div>
+              <div className="mt-4 flex flex-col gap-2">
+                <label
+                  htmlFor="employerPhone"
+                  className="text-fourteenPixels font-semibold"
+                >
+                  Employer's Telephone
+                </label>
+                <Input
+                  type="text"
+                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                  placeholder="Enter telephone"
+                  name="employerPhone"
+                  id="employerPhone"
+                  value={formData.employerPhone}
+                  onChange={handlePayload}
+                  // rightIcon={<MdEmail color="#008080" />}
+                />
+              </div>
+            </div>
+
+            <div className="w-full mt-8">
+              <div className="flex justify-between gap-4">
+                <Button
+                  text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
+                  w="w-full"
+                  onClick={handlePrevious}
+                >
+                  Previous
+                </Button>
+                <Button
+                  text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
+                  w="w-full"
+                  onClick={handleNext}
+                  bg={`${isEmpty ? "bg-disabled" : "bg-base"}`}
+                  className={`${isEmpty ? "cursor-not-allowed" : ""}`}
+                  disabled={isEmpty && true}
+                >
+                  Next
+                </Button>
+              </div>
+              <Link to="/login">
+                <p className="text-twelvePixels md:text-thirteenPixels lg:text-fourteenPixels font-semibold text-center cursor-pointer mt-4">
+                  Already have an account?{" "}
+                  <span className="text-secondary">Sign in</span>
+                </p>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {StepFive && (
+        <IndividualStep5 setFormData={setFormData} formData={formData} />
+      )}
     </>
   );
 };

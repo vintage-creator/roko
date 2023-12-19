@@ -14,7 +14,6 @@ export const Individual = ({ setFormData, formData }) => {
     setActiveStep,
     StepTwo,
     setStepTwo,
-    IndiviualSignUp,
     setIndiviualSignUp,
   } = useMyContext();
 
@@ -44,17 +43,41 @@ export const Individual = ({ setFormData, formData }) => {
 
   const [payload, setPayload] = useState({
     ...formData,
-    fullname: "",
+    firstName: "",
+    lastName: "",
     phone: "",
     email: "",
     dateOfBirth: "",
+    resAddress: "",
+    state: "",
+    nextofkin: "",
+    password: "",
+    confirm_password: "",
   });
 
   const isEmpty =
-    payload.fullname === "" ||
+    payload.lastName === "" ||
+    payload.firstName === "" ||
     payload.phone === "" ||
+    payload.state === "" ||
     payload.email === "" ||
+    payload.resAddress === "" ||
+    payload.confirm_password === "" ||
+    payload.password === "" ||
+    payload.nextofkin === "" ||
     payload.dateOfBirth === "";
+
+  const [passwordError, setPasswordError] = useState(false);
+
+  const isStrongPassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const isPasswordMatching = (password, confirmedPassword) => {
+    return password === confirmedPassword;
+  };
 
   const handleNext = () => {
     if (!isEmailValid(payload.email)) {
@@ -65,6 +88,16 @@ export const Individual = ({ setFormData, formData }) => {
     if (!isOver18(payload.dateOfBirth)) {
       setAgeError(true);
       return;
+    }
+
+    if (!isPasswordMatching(payload.password, payload.confirm_password)) {
+      setPasswordError("Passwords do not match.");
+    }
+
+    if (!isStrongPassword(payload.password)) {
+      setPasswordError(
+        "Password should be at least 8 characters long and include 1 uppercase letter, 1 lowercase letter, and 1 special character."
+      );
     }
 
     setStepTwo(true);
@@ -134,22 +167,41 @@ export const Individual = ({ setFormData, formData }) => {
                 This is only going to take 5 minutes
               </p>
 
-              <div className="mt-4 flex flex-col gap-2">
-                <label
-                  htmlFor="name"
-                  className="text-fourteenPixels font-semibold"
-                >
-                  Full Name
-                </label>
-                <Input
-                  type="text"
-                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter your full name"
-                  name="fullname"
-                  id="fullname"
-                  value={payload.fullname}
-                  onChange={handlePayload}
-                />
+              <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+                <div className="mt-4 flex flex-col gap-2  w-full">
+                  <label
+                    htmlFor="firstName"
+                    className="text-fourteenPixels font-semibold"
+                  >
+                    First Name
+                  </label>
+                  <Input
+                    type="text"
+                    className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                    placeholder="Enter your first name"
+                    name="firstName"
+                    id="firstName"
+                    value={payload.firstName}
+                    onChange={handlePayload}
+                  />
+                </div>
+                <div className="mt-4 flex flex-col gap-2  w-full">
+                  <label
+                    htmlFor="lastName"
+                    className="text-fourteenPixels font-semibold"
+                  >
+                    Last Name
+                  </label>
+                  <Input
+                    type="text"
+                    className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                    placeholder="Enter your last name"
+                    name="lastName"
+                    id="lastName"
+                    value={payload.lastName}
+                    onChange={handlePayload}
+                  />
+                </div>
               </div>
 
               <div className="mt-4 flex flex-col gap-2">
@@ -175,46 +227,143 @@ export const Individual = ({ setFormData, formData }) => {
                 ) : null}
               </div>
 
-              <div className="mt-4 flex flex-col gap-2">
-                <label
-                  htmlFor="phone"
-                  className="text-fourteenPixels font-semibold"
-                >
-                  Phone Number
-                </label>
-                <Input
-                  type="text"
-                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter your phone number"
-                  name="phone"
-                  id="phone"
-                  value={payload.phone}
-                  onChange={handlePayload}
-                />
+              <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+                <div className="mt-4 flex flex-col gap-2 w-full">
+                  <label
+                    htmlFor="phone"
+                    className="text-fourteenPixels font-semibold"
+                  >
+                    Phone Number
+                  </label>
+                  <Input
+                    type="text"
+                    className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                    placeholder="Enter your phone number"
+                    name="phone"
+                    id="phone"
+                    value={payload.phone}
+                    onChange={handlePayload}
+                  />
+                </div>
+                <div className="mt-4 flex flex-col gap-2 w-full">
+                  <label
+                    htmlFor="dateOfBirth"
+                    className="text-fourteenPixels font-semibold"
+                  >
+                    Date of Birth
+                  </label>
+                  <Input
+                    type="date"
+                    className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                    placeholder="Enter your date of birth"
+                    name="dateOfBirth"
+                    id="dateOfBirth"
+                    value={payload.dateOfBirth}
+                    onChange={handlePayload}
+                  />
+                </div>
               </div>
-              <div className="mt-4 flex flex-col gap-2">
-                <label
-                  htmlFor="dateOfBirth"
-                  className="text-fourteenPixels font-semibold"
-                >
-                  Date of Birth
-                </label>
-                <Input
-                  type="date"
-                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter your date of birth"
-                  name="dateOfBirth"
-                  id="dateOfBirth"
-                  value={payload.dateOfBirth}
-                  onChange={handlePayload}
-                />
-                {ageError && (
-                  <p className="text-[14px] text-red-500">
-                    You must be at least 18 years old to sign up.
-                  </p>
-                )}
+              {ageError && (
+                <p className="text-[14px] text-red-500">
+                  You must be at least 18 years old to sign up.
+                </p>
+              )}
+
+              <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+                <div className="mt-4 flex flex-col gap-2 w-full">
+                  <label
+                    htmlFor="resAddress"
+                    className="text-fourteenPixels font-semibold"
+                  >
+                    Residential Address
+                  </label>
+                  <Input
+                    type="text"
+                    className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                    placeholder="Enter your address"
+                    name="resAddress"
+                    id="resAddress"
+                    value={payload.resAddress}
+                    onChange={handlePayload}
+                  />
+                </div>
+                <div className="mt-4 flex flex-col gap-2 w-full">
+                  <label
+                    htmlFor="state"
+                    className="text-fourteenPixels font-semibold"
+                  >
+                    State of Origin
+                  </label>
+                  <Input
+                    type="text"
+                    className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                    placeholder="Enter your state"
+                    name="state"
+                    id="state"
+                    value={payload.state}
+                    onChange={handlePayload}
+                  />
+                </div>
               </div>
             </div>
+
+            <div className="mt-4 flex flex-col gap-2 w-full">
+              <label
+                htmlFor="email"
+                className="text-fourteenPixels font-semibold"
+              >
+                Next of Kin
+              </label>
+              <Input
+                type="text"
+                className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                placeholder="Enter full name of next of kin"
+                name="nextofkin"
+                id="nextofkin"
+                value={payload.nextofkin}
+                onChange={handlePayload}
+              />
+            </div>
+
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-4 w-full">
+              <div className="mt-4 flex flex-col gap-2 w-full">
+                <label
+                  htmlFor="password"
+                  className="text-fourteenPixels font-semibold"
+                >
+                  Choose a secure password
+                </label>
+                <Input
+                  className="w-full py-3 px-[8px] rounded-[7px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                  placeholder="************"
+                  name="password"
+                  id="password"
+                  value={payload.password}
+                  onChange={handlePayload}
+                  type="password"
+                />
+              </div>
+              <div className="mt-4 flex flex-col gap-2 w-full">
+                <label
+                  htmlFor="confirm_password"
+                  className="text-fourteenPixels font-semibold"
+                >
+                  Confirm password
+                </label>
+                <Input
+                  className="w-full py-3 px-[8px] rounded-[7px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                  placeholder="************"
+                  name="confirm_password"
+                  id="confirm_password"
+                  value={payload.confirm_password}
+                  onChange={handlePayload}
+                  type="password"
+                />
+              </div>
+            </div>
+            {passwordError && (
+              <p className="text-[14px] text-red-500">{passwordError}</p>
+            )}
 
             <div className="w-full mt-8">
               <div className="flex justify-between gap-4">
