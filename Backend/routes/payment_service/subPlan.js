@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const subPlanFn = require("../../controllers/payment_service/subPlanFn");
+const authenticateUser = require("../../middlewares/authenticateUser");
 
 /**
 * @swagger
@@ -90,6 +91,6 @@ const subPlanFn = require("../../controllers/payment_service/subPlanFn");
  *                   type: string
  *                   example: Internal server error
  */
-router.post("/plan(.html)?", subPlanFn);
+router.post("/plan(.html)?", authenticateUser(["user"]), subPlanFn);
 
 module.exports = router;
