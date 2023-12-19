@@ -13,49 +13,41 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
   const {
     activeStep,
     setActiveStep,
-    StepThree,
     setStepThree,
-    setStepTwo,
     setStepFour,
     StepFour,
   } = useMyContext();
 
   const [payload, setPayload] = useState({
     ...formData,
-    fieldOfPractice: "",
-    yearsOfExperience: "",
-    hasPreviousLegalAction: "",
-    summaryOfLegalAction: "",
+    plan_duration: "Choose duration",
+    hospitalSize: "1-20",
   });
+
   console.log("payload", payload);
 
   const handlePayload = (e) => {
     const { name, value } = e.target;
-    setPayload({
-      ...payload,
+    setPayload((prevPayload) => ({
+      ...prevPayload,
       [name]: value,
-    });
-  };
-
-  const isEmpty =
-    payload.fieldOfPractice === "" ||
-    payload.yearsOfExperience === "" ||
-    payload.hasPreviousLegalAction === "";
-
-  const handleCheckboxChange = (e) => {
-    const { checked, name } = e.target;
-    const value = checked ? name : "";
-    setPayload((prevFormData) => ({
-      ...prevFormData,
-      hasPreviousLegalAction: value,
     }));
   };
 
-  const handleNext = () => {
+  const handlePayment = async () => {
     setStepFour(true);
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep + 1);
     }
+    // try {
+    //   // setIsLoading(true);
+    //   // const response = await CreateAccountApi(payload);
+    //   // console.log("SignUpresponse", response);
+    // } catch (error) {
+    //   // console.error("Error creating an account", error);
+    // } finally {
+    //   // setIsLoading(false);
+    // }
   };
 
   const handlePrevious = () => {
@@ -64,6 +56,57 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
       setActiveStep(activeStep - 1);
     }
   };
+
+  const isPlanDurationSelected = payload.plan_duration === "Choose duration";
+
+  const handleHospitalSizeChange = (e) => {
+    const { name, value } = e.target;
+    setPayload((prevPayload) => ({
+      ...prevPayload,
+      [name]: value,
+    }));
+  };
+
+  const detailsByHospitalSize = {
+    "1-20": {
+      cost: "₦50,000",
+      coverage: "Up to 50,000 NGN coverage.",
+      bedsCovered: "Cover up to 20 beds.",
+      staffCovered: "Cover for 8 staff.",
+    },
+    "21-50": {
+      cost: "₦70,000",
+      coverage: "Up to 70,000 NGN coverage.",
+      bedsCovered: "Cover up to 50 beds.",
+      staffCovered: "Cover for 13 staff.",
+    },
+    "51-100": {
+      cost: "₦130,000",
+      coverage: "Up to 130,000 NGN coverage.",
+      bedsCovered: "Cover up to 100 beds.",
+      staffCovered: "Cover for 20 staff.",
+    },
+    "101-500": {
+      cost: "₦180,000",
+      coverage: "Up to 180,000 NGN coverage.",
+      bedsCovered: "Cover up to 500 beds.",
+      staffCovered: "Cover for 50 staff.",
+    },
+    "501-1000": {
+      cost: "₦250,000",
+      coverage: "Up to 250,000 NGN coverage.",
+      bedsCovered: "Cover up to 1000 beds.",
+      staffCovered: "Cover for 200 staff.",
+    },
+    // "1001 and above": {
+    //   cost: "Custom",
+    //   coverage: "Up to 250,000 NGN coverage.",
+    //   bedsCovered: "Cover up to 1000 beds.",
+    //   staffCovered: "Cover for 200 staff.",
+    // },
+  };
+
+  const selectedHospitalDetails = detailsByHospitalSize[payload.hospitalSize];
 
   return (
     <>
@@ -94,7 +137,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
           <div className="lg:w-[50%] px-8 sm:px-10 lg:px-20 py-10  flex flex-col justify-between items-center">
             <div>
               <h2 className="text-twentyPixels md:text-thirtyPixels lg:text-thirtyPixels font-bold">
-                More About Your Field
+                Select a Plan
               </h2>
 
               <ProgressBar
@@ -109,86 +152,71 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
 
               <div className="mt-4 flex flex-col gap-2">
                 <label
-                  htmlFor="fieldOfPractice"
+                  htmlFor="hospitalSize"
                   className="text-fourteenPixels font-semibold"
                 >
-                  Field of Practice
+                  Select your hospital size (based on number of beds):
                 </label>
-                <Input
-                  type="text"
-                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter your field of practice"
-                  name="fieldOfPractice"
-                  id="fieldOfPractice"
-                  value={payload.fieldOfPractice}
-                  onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
-                />
-              </div>
-              <div className="mt-4 flex flex-col gap-2">
-                <label
-                  htmlFor="yearsOfExperience"
-                  className="text-fourteenPixels font-semibold"
-                >
-                  Years of Experience
-                </label>
-                <Input
-                  type="number"
-                  className="w-full py-3 rounded-[7px] px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                  placeholder="Enter your years of experience"
-                  name="yearsOfExperience"
-                  id="yearsOfExperience"
-                  value={payload.yearsOfExperience}
-                  onChange={handlePayload}
-                  // rightIcon={<MdEmail color="#008080" />}
-                />
-              </div>
-              <div className="mt-4 flex flex-col gap-2">
-                <label
-                  htmlFor="legal_action"
-                  className="text-fourteenPixels font-semibold"
-                >
-                  Any previous legal action?
-                </label>
-                <div className="flex w-[50%] gap-4">
-                  <div className="border border-gray flex items-center rounded-[8px] pl-2 py-3 pr-6">
-                    <input
-                      type="checkbox"
-                      name="yes"
-                      checked={payload.hasPreviousLegalAction === "yes"}
-                      onChange={handleCheckboxChange}
-                      className="w-10 px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                    />
-                    <label htmlFor="yes">Yes</label>
-                  </div>
-                  <div className="border border-gray flex items-center pr-2 rounded-[8px] pl-2 py-3 pr-6">
-                    <input
-                      type="checkbox"
-                      name="no"
-                      checked={payload.hasPreviousLegalAction === "no"}
-                      onChange={handleCheckboxChange}
-                      className="w-10 px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                    />
-                    <label htmlFor="no">No</label>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 flex flex-col gap-2">
-                <label
-                  htmlFor="summaryOfLegalAction"
-                  className="text-fourteenPixels font-semibold"
-                >
-                  If Yes, please summarize here
-                </label>
-                <textarea
-                  name="summaryOfLegalAction"
-                  id="summaryOfLegalAction"
-                  value={payload.summaryOfLegalAction}
-                  onChange={handlePayload}
-                  cols="10"
-                  rows="5"
+                <select
+                  name="hospitalSize"
+                  id="hospitalSize"
+                  value={payload.hospitalSize}
+                  onChange={handleHospitalSizeChange}
                   className="w-full py-3 rounded-[7px] border border-gray px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
-                ></textarea>
+                >
+                  <option value="1-20">1-20</option>
+                  <option value="21-50">21-50</option>
+                  <option value="51-100">51-100</option>
+                  <option value="101-500">101-500</option>
+                  <option value="501-1000">501-1000</option>
+                </select>
+              </div>
+
+              <div className="border border-gray mt-8 rounded-[8px] px-4 py-6">
+                <h4 className="text-[16px] md:text-[20px] lg:text-[24px] text-base font-semibold">
+                  {selectedHospitalDetails?.cost}/
+                  <span className="text-[14px] md:text-[16px] lg:text-[18px] text-[#00000080] font-bold">
+                    Annum
+                  </span>
+                </h4>
+
+                <p className="text-[#00000080] mt-4 text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels">
+                  {selectedHospitalDetails?.coverage}
+                </p>
+
+                <ul className="mt-4">
+                  <li className="text-[10px] md:text-[12px] lg:text-[14px] text-[#00000080] font-bold">
+                    - {selectedHospitalDetails?.bedsCovered}
+                  </li>
+                  <li className="text-[10px] md:text-[12px] lg:text-[14px] text-[#00000080] font-bold">
+                    - {selectedHospitalDetails?.staffCovered}
+                  </li>
+                  <li className="text-[10px] md:text-[12px] lg:text-[14px] text-[#00000080] font-bold">
+                    - Access to educational and risk management materials.
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-4 flex flex-col gap-2">
+                <label
+                  htmlFor="summary"
+                  className="text-fourteenPixels font-semibold"
+                >
+                  Plan duration
+                </label>
+                <select
+                  name="plan_duration"
+                  id="plan_duration"
+                  value={payload.plan_duration}
+                  onChange={handlePayload}
+                  className="w-full py-3 rounded-[7px] border border-gray px-[8px] text-twelvePixels md:text-fourteenPixels lg:text-sixteenPixels outline-none"
+                >
+                  <option value="Choose duration">Choose duration</option>
+
+                  <option value="3 Months">3 Months</option>
+                  <option value="6 Months">6 Months</option>
+                  <option value="1 Year">1 Year</option>
+                </select>
               </div>
             </div>
 
@@ -204,20 +232,16 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
                 <Button
                   text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
                   w="w-full"
-                  onClick={handleNext}
-                  bg={isEmpty ? "bg-disabled" : "bg-base"}
-                  className={`${isEmpty ? "cursor-not-allowed" : ""}`}
-                  disabled={isEmpty}
+                  onClick={handlePayment}
+                  bg={`${isPlanDurationSelected ? "bg-disabled" : "bg-base"}`}
+                  className={`${
+                    isPlanDurationSelected ? "cursor-not-allowed" : ""
+                  }`}
+                  disabled={isPlanDurationSelected && true}
                 >
-                  Next
+                  Proceed to Payment
                 </Button>
               </div>
-              <Link to="/login">
-                <p className="text-twelvePixels md:text-thirteenPixels lg:text-fourteenPixels font-semibold text-center cursor-pointer mt-4">
-                  Already have an account?{" "}
-                  <span className="text-secondary">Sign in</span>
-                </p>
-              </Link>
             </div>
           </div>
         </div>
