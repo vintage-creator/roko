@@ -60,7 +60,7 @@ const subPlanFn = async (req, res) => {
             name,
           },
           customizations: {
-            title: "Roko Payments",
+            title: "Medcover Payments",
           },
         },
       })

@@ -62,8 +62,8 @@ const signUpFn = async (req, res) => {
 
     // Send an email with a link containing the token
     const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
-    <h3 style="color: #333; text-align: center;">Welcome to Roko Medical PI</h3>
-    <p style="color: #666; text-align: center;">Thank you for registering with Roko Medical PI! We're excited to have you on board.</p>
+    <h3 style="color: #333; text-align: center;">Welcome to Medcover Medical PI</h3>
+    <p style="color: #666; text-align: center;">Thank you for registering with Medcover Medical PI! We're excited to have you on board.</p>
     <p style="color: #666; text-align: center;">To get started, we just need to verify your email address. Click the button below to complete the verification process:</p>
     <div style="text-align: center; margin-top: 20px;">
         <a href="https://rokoui.onrender.com/auth/verify?token=${token}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Verify Email Address</a>
@@ -73,7 +73,7 @@ const signUpFn = async (req, res) => {
     </div>
 </div>`;
 
-    mailer(email, "Roko: Verify your email address", emailContent);
+    mailer(email, "Medcover: Verify your email address", emailContent);
    
     return res.status(200).json({
       success:
@@ -187,7 +187,7 @@ const sendfgPwdFn = async (req, res) => {
     </div>
 </div>
 `;
-    mailer(email, "Roko: Reset your password", emailContent);
+    mailer(email, "Medcover: Reset your password", emailContent);
     req.userEmail = email;
     res
       .status(200)
@@ -253,14 +253,14 @@ const sendChangePwdFn = async (req, res) => {
       <h2 style="color: #007bff; text-align: center;">Password Change Notification</h2>
       <p>Hello,</p>
       <p>We are writing to inform you that your password has been changed successfully.</p>
-      <p>If you did not make this change, please contact us immediately at <a href="mailto:rokoteam@zohomail.com" style="color: #007bff; text-decoration: none;">rokoteam@zohomail.com</a>.</p>
+      <p>If you did not make this change, please contact us immediately at <a href="mailto:medcover@zohomail.com" style="color: #007bff; text-decoration: none;">Medcoverteam@zohomail.com</a>.</p>
       <p>Thank you for using our service!</p>
   
-      <p style="color: #6c757d;">Best regards,<br>The Roko Team</p>
+      <p style="color: #6c757d;">Best regards,<br>The Medcover Team</p>
   </div>
   `;
 
-      mailer(email, "Roko Medical PI: Password changed", emailContent);
+      mailer(email, "Medcover: Password changed", emailContent);
       return res
         .status(200)
         .json({ success: "Your password has been changed" });

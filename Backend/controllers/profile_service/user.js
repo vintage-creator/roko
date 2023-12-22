@@ -91,7 +91,7 @@ const getBannerMessageFn = async (req, res) => {
       </div>`;
         mailer(
           userEmail,
-          "Roko: Policy Expiration Reminder",
+          "Medcover: Policy Expiration Reminder",
           expirationEmailContent
         );
 
@@ -119,7 +119,7 @@ const getBannerMessageFn = async (req, res) => {
           </div>`;
           mailer(
             userEmail,
-            `Roko: Policy Renewal Reminder (${daysRemaining} days remaining)`,
+            `Medcover: Policy Renewal Reminder (${daysRemaining} days remaining)`,
             reminderEmailContent
           );
 
@@ -141,7 +141,7 @@ const getBannerMessageFn = async (req, res) => {
       </div>`;
       mailer(
         userEmail,
-        "Roko: Policy Purchase Reminder",
+        "Medcover: Policy Purchase Reminder",
         paymentReminderEmailContent
       );
 
