@@ -73,8 +73,7 @@ const getBannerMessageFn = async (req, res) => {
     const lastPaymentDate = user.lastPaymentDate;
     const userEmail = user.email;
     const subscriber = await PaymentReg.findOne({ email: userEmail });
-    const userFullnames = user.fullname.split(" ");
-    const userFirstname = userFullnames[0];
+    const userFirstname = user.firstName;
 
     const currentDate = new Date();
     const paymentDate = new Date(lastPaymentDate);
