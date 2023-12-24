@@ -1,12 +1,12 @@
-# Roko
+# Medcover
 
 <h2>Introduction</h2>
 
-<p>Roko is a cutting-edge insurance platform designed to revolutionize the medical professional indemnity industry.</p>
+<p>Medcover is a cutting-edge insurance platform designed to revolutionize the medical professional indemnity industry.</p>
 
 <h2>Getting Started</h2>
 
-<p>To get started with Roko, follow these steps:</p>
+<p>To get started with Medcover, follow these steps:</p>
 
 <ol>
     <li>
@@ -25,9 +25,9 @@
 
 <pre><code>npm run server</code></pre>
 
-<h2>About Roko</h2>
+<h2>About Medcover</h2>
 
-<p>Roko is more than just an insurance platform. It's a comprehensive solution tailored to the unique needs of medical professionals. Our ongoing commitment to innovation ensures that you'll always have access to the latest tools and features.</p>
+<p>Medcover is more than just an insurance platform. It's a comprehensive solution tailored to the unique needs of medical professionals. Our ongoing commitment to innovation ensures that you'll always have access to the latest tools and features.</p>
 
 <h2>Contributing</h2>
 
@@ -35,7 +35,7 @@
 
 <h2>Disclaimer</h2>
 
-<p>Roko is an ongoing project developed for a startup. It is not a personal project. Use at your own risk.</p>
+<p>Medcover is an ongoing project developed for a startup. It is not a personal project. Use at your own risk.</p>
 
 <h2>License</h2>
 
@@ -44,4 +44,4 @@
 <hr>
 
 <p>Made with &#10084;&#65039; by <a href="https://www.linkedin.com/in/vintage-creator/">Vintage Creator</a></p>
-<p>&copy; 2023 Roko, All rights reserved.</p>
+<p>&copy; 2023 Medcover, All rights reserved.</p>
