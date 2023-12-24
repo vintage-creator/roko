@@ -41,7 +41,7 @@
 
 <!-- License Badge -->
 <p>
-  <a href="https://github.com/vintage-creator/roko/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/vintage-creator/roko" /></a>
+  <a href="https://github.com/vintage-creator/roko/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/vintage-creator/bullseyes" /></a>
     This project is licensed under the MIT License - see the <a href="[LICENSE](https://github.com/vintage-creator/roko/blob/main/LICENSE)">LICENSE</a> file for details.
 </p>
 
