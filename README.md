@@ -31,7 +31,7 @@
 
 <h2>Contributing</h2>
 
-<p>We welcome contributions from the community. If you have an idea for an improvement or find a bug, please open an issue or submit a pull request. Together, we can make Roko even better!</p>
+<p>We welcome contributions from the community. If you have an idea for an improvement or find a bug, please open an issue or submit a pull request. Together, we can make Medcover even better!</p>
 
 <h2>Disclaimer</h2>
 
@@ -39,7 +39,11 @@
 
 <h2>License</h2>
 
-<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
+<!-- License Badge -->
+<p>
+  <a href="https://github.com/vintage-creator/roko/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/vintage-creator/roko" /></a>
+    This project is licensed under the MIT License - see the <a href="[LICENSE](https://github.com/vintage-creator/roko/blob/main/LICENSE)">LICENSE</a> file for details.
+</p>
 
 <hr>
 
