@@ -2,11 +2,16 @@ const { default: mongoose } = require("mongoose");
 const { userDB } = require("../config/databases/rokoDatabase");
 
 const userSchema = new mongoose.Schema({
-  protect: {
+  resAddress: {
     type: String,
     trim: true,
   },
-  fullname: {
+  firstName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  lastName: {
     type: String,
     required: true,
     trim: true,
@@ -26,6 +31,26 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  area: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  profession: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  partners: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  rank: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   role: {
     type: String,
     default: "user",
@@ -41,17 +66,51 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  fieldOfPractice: {
+  state: {
     type: String,
     trim: true,
   },
-  yearsOfExperience: {
-    type: Number,
+  nextofkin: {
+    type: String,
+    trim: true,
   },
-  hasPreviousLegalAction: {
-    type: Boolean,
+  hospitalSize: {
+    type: String,
+    trim: true,
   },
-  summaryOfLegalAction: {
+  plan_duration: {
+    type: String,
+    trim: true,
+  },
+  employmentStatus: {
+    type: String,
+    trim: true,
+  },
+  employerName: {
+    type: String,
+    trim: true,
+  },
+  employerAddress: {
+    type: String,
+    trim: true,
+  },
+  employerPhone: {
+    type: String,
+    trim: true,
+  },
+  bvn: {
+    type: String,
+    trim: true,
+  },
+  yes: {
+    type: String,
+    trim: true,
+  },
+  no: {
+    type: String,
+    trim: true,
+  },
+  summary: {
     type: String,
     trim: true,
   },

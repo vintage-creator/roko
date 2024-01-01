@@ -25,7 +25,9 @@ const whFn = async (req, res) => {
       }
 
       const email = transactionDetails.email;
-      const fullname = transactionDetails.fullname;
+      const firstName = transactionDetails.firstName;
+      const lastName = transactionDetails.lastName;
+      const fullname =`${firstName}${lastName}`
       const response = await flw.Transaction.verify({
         id: req.body.id.toString(),
       });
@@ -65,7 +67,7 @@ const whFn = async (req, res) => {
                 </div>
             </div>
             `;
-        mailer(email, "Roko Medical PI - Payment Successful", emailContent);
+        mailer(email, "Medcover - Payment Successful", emailContent);
       } else {
         return res.status(500).json({
           message: "Webhook received but not a successful transaction.",

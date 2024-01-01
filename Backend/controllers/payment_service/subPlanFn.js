@@ -24,7 +24,7 @@ const subPlanFn = async (req, res) => {
       }
     }
 
-    const { phone: phonenumber, fullname: name } = user;
+    const { phone: phonenumber, firstName: name } = user;
     const { hospitalSize } = req.body;
 
     if (!hospitalSize) {
@@ -60,7 +60,7 @@ const subPlanFn = async (req, res) => {
             name,
           },
           customizations: {
-            title: "Roko Payments",
+            title: "Medcover Payments",
           },
         },
       })
@@ -68,7 +68,8 @@ const subPlanFn = async (req, res) => {
 
     const paymentData = {
       ref: txID,
-      fullname: name,
+      firstName: name,
+      lastName: name,
       email: email,
       phone: phonenumber,
       coverage: hospitalSize,

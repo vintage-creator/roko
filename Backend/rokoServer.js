@@ -37,7 +37,7 @@ app.use("/admin", adminProfileRoute);
 app.use("/subscribe", subscribeRoute);
 app.use("/wh", whRoute);
 app.use("/contact", contactRoute);
-app.use('/roko', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/medcover', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 const port = process.env.NODE_ENV === "production" ? process.env.PORT : 8000;
@@ -62,7 +62,7 @@ async function connectToDatabases() {
       claimsDB,
       policyDB 
     ]);
-    console.log(chalk.bgBlack("Roko:: Databases connected successfully"));
+    console.log(chalk.bgBlack("Medcover:: Databases connected successfully"));
 
     // Start the server only after both databases are connected
     app.listen(port, () => {

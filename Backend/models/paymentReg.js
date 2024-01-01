@@ -6,7 +6,12 @@ const paymentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  fullname: {
+  firstName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  lastName: {
     type: String,
     required: true,
     trim: true,

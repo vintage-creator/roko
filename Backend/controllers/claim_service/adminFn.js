@@ -78,13 +78,13 @@ const updateClaim = async (req, res) => {
     </ul>
     <p style="color: #666; text-align: center;">If you have any questions or need further assistance, please don't hesitate to contact us.</p>
     <div style="text-align: center; margin-top: 30px; color: #666;">
-        Thank you for choosing Roko.
+        Thank you for choosing Medcover.
     </div>
 </div>
 `;
     mailer(
       claimantInfo.email,
-      "Roko: Your Claim has been Processed",
+      "Medcover: Your Claim has been Processed",
       emailContent
     );
   } catch (error) {

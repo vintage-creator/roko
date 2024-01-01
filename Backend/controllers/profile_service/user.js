@@ -73,8 +73,7 @@ const getBannerMessageFn = async (req, res) => {
     const lastPaymentDate = user.lastPaymentDate;
     const userEmail = user.email;
     const subscriber = await PaymentReg.findOne({ email: userEmail });
-    const userFullnames = user.fullname.split(" ");
-    const userFirstname = userFullnames[0];
+    const userFirstname = user.firstName;
 
     const currentDate = new Date();
     const paymentDate = new Date(lastPaymentDate);
@@ -91,7 +90,7 @@ const getBannerMessageFn = async (req, res) => {
       </div>`;
         mailer(
           userEmail,
-          "Roko: Policy Expiration Reminder",
+          "Medcover: Policy Expiration Reminder",
           expirationEmailContent
         );
 
@@ -119,7 +118,7 @@ const getBannerMessageFn = async (req, res) => {
           </div>`;
           mailer(
             userEmail,
-            `Roko: Policy Renewal Reminder (${daysRemaining} days remaining)`,
+            `Medcover: Policy Renewal Reminder (${daysRemaining} days remaining)`,
             reminderEmailContent
           );
 
@@ -141,7 +140,7 @@ const getBannerMessageFn = async (req, res) => {
       </div>`;
       mailer(
         userEmail,
-        "Roko: Policy Purchase Reminder",
+        "Medcover: Policy Purchase Reminder",
         paymentReminderEmailContent
       );
 
