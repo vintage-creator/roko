@@ -3,7 +3,7 @@ import steps from "../../utils/data/steps.json";
 
 export const ProgressBar = ({ activeStep }) => {
   const getStepColor = (index) => {
-    if (index === activeStep) {
+    if (index <= activeStep) {
       return steps[index].activeColor;
     } else {
       return steps[index].color;
