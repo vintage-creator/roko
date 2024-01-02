@@ -187,6 +187,7 @@ export const IndividualStep5 = ({ setFormData, formData }) => {
                 onChange={handlePayload}
               />
             </div>
+
             <div className="mt-4 flex flex-col gap-2 w-full">
               <label
                 htmlFor="legal_action"
@@ -219,6 +220,7 @@ export const IndividualStep5 = ({ setFormData, formData }) => {
                 </div>
               </div>
             </div>
+
             <div className="mt-4 flex flex-col gap-2 w-full">
               <label
                 htmlFor="summary"
@@ -258,6 +260,7 @@ export const IndividualStep5 = ({ setFormData, formData }) => {
                   Submit
                 </Button>
               </div>
+
               <Link to="/login">
                 <p className="text-twelvePixels md:text-thirteenPixels lg:text-fourteenPixels font-semibold text-center cursor-pointer mt-4">
                   Already have an account?{" "}

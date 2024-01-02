@@ -8,15 +8,11 @@ import Input from "../Input";
 import steps from "../../utils/data/steps.json";
 import { CorporateStep4 } from "../Cooporate/CorporateStep4";
 import { IndividualStep4 } from "./IndividualStep4";
+import { SubscriptionApi } from "../../utils/ApiCalls";
 
 export const IndividualStep3 = ({ setFormData, formData }) => {
-  const {
-    activeStep,
-    setActiveStep,
-    setStepThree,
-    setStepFour,
-    StepFour,
-  } = useMyContext();
+  const { activeStep, setActiveStep, setStepThree, setStepFour, StepFour } =
+    useMyContext();
 
   const [payload, setPayload] = useState({
     ...formData,
@@ -35,19 +31,22 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
   };
 
   const handlePayment = async () => {
-    setStepFour(true);
-    if (activeStep < steps.length - 1) {
-      setActiveStep(activeStep + 1);
+    try {
+      // setIsLoading(true);
+      const response = await SubscriptionApi({hospitalSize: payload.hospitalSize});
+      console.log("PaymentApi", response);
+
+      if (response.status === 200) {
+        setStepFour(true);
+        if (activeStep < steps.length - 1) {
+          setActiveStep(activeStep + 1);
+        }
+      }
+    } catch (error) {
+     
+    } finally {
+      // setIsLoading(false);
     }
-    // try {
-    //   // setIsLoading(true);
-    //   // const response = await CreateAccountApi(payload);
-    //   // console.log("SignUpresponse", response);
-    // } catch (error) {
-    //   // console.error("Error creating an account", error);
-    // } finally {
-    //   // setIsLoading(false);
-    // }
   };
 
   const handlePrevious = () => {
