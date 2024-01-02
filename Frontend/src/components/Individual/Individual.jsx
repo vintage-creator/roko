@@ -9,13 +9,8 @@ import { useMyContext } from "../../context";
 import { IndividualStep2 } from "./IndividualStep2";
 
 export const Individual = ({ setFormData, formData }) => {
-  const {
-    activeStep,
-    setActiveStep,
-    StepTwo,
-    setStepTwo,
-    setIndiviualSignUp,
-  } = useMyContext();
+  const { activeStep, setActiveStep, StepTwo, setStepTwo, setIndiviualSignUp } =
+    useMyContext();
 
   const [emailError, setEmailError] = useState(false);
   const [ageError, setAgeError] = useState(false);
@@ -55,6 +50,8 @@ export const Individual = ({ setFormData, formData }) => {
     confirm_password: "",
   });
 
+  console.log("payload", payload)
+
   const isEmpty =
     payload.lastName === "" ||
     payload.firstName === "" ||
@@ -92,12 +89,14 @@ export const Individual = ({ setFormData, formData }) => {
 
     if (!isPasswordMatching(payload.password, payload.confirm_password)) {
       setPasswordError("Passwords do not match.");
+      return;
     }
 
     if (!isStrongPassword(payload.password)) {
       setPasswordError(
         "Password should be at least 8 characters long and include 1 uppercase letter, 1 lowercase letter, and 1 special character."
       );
+      return;
     }
 
     setStepTwo(true);
@@ -167,7 +166,7 @@ export const Individual = ({ setFormData, formData }) => {
                 This is only going to take 5 minutes
               </p>
 
-              <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+              <div className="flex flex-col lg:flex-row items-center justify-between md:gap-4">
                 <div className="mt-4 flex flex-col gap-2  w-full">
                   <label
                     htmlFor="firstName"
@@ -227,7 +226,7 @@ export const Individual = ({ setFormData, formData }) => {
                 ) : null}
               </div>
 
-              <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+              <div className="flex flex-col lg:flex-row items-center justify-between md:gap-4">
                 <div className="mt-4 flex flex-col gap-2 w-full">
                   <label
                     htmlFor="phone"
@@ -269,7 +268,7 @@ export const Individual = ({ setFormData, formData }) => {
                 </p>
               )}
 
-              <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+              <div className="flex flex-col lg:flex-row items-center justify-between md:gap-4">
                 <div className="mt-4 flex flex-col gap-2 w-full">
                   <label
                     htmlFor="resAddress"
@@ -325,7 +324,7 @@ export const Individual = ({ setFormData, formData }) => {
               />
             </div>
 
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-4 w-full">
+            <div className="flex flex-col lg:flex-row items-center justify-between md:gap-4 w-full">
               <div className="mt-4 flex flex-col gap-2 w-full">
                 <label
                   htmlFor="password"
@@ -361,8 +360,9 @@ export const Individual = ({ setFormData, formData }) => {
                 />
               </div>
             </div>
+
             {passwordError && (
-              <p className="text-[14px] text-red-500">{passwordError}</p>
+              <p className="text-[14px] text-red-500 mt-4">{passwordError}</p>
             )}
 
             <div className="w-full mt-8">
