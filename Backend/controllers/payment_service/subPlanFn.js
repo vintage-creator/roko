@@ -1,32 +1,33 @@
 const uuid = require("uuid");
 const PaymentReg = require("../../models/paymentReg");
-const UserReg = require("../../models/userReg");
+// const UserReg = require("../../models/userReg");
 
 const subPlanFn = async (req, res) => {
   const got = (await import("got")).default;
   try {
     const txID = uuid.v4();
-    const email = req.user.email;
-    const user = await UserReg.findOne({ email }).exec();
+    const {
+      hospitalSize,
+      plan_duration,
+      email,
+      phone: phonenumber,
+      firstName,
+      lastName,
+    } = req.body;
 
-    if (user.paymentStatus === "completed") {
-      return res.status(400).json({"error": "You have already purchased a policy"});
-    }
+    const existingPayment = await PaymentReg.findOne({ email });
 
-    if (user.paymentStatus === "pending") {
-      const existingPayment = await PaymentReg.findOne({
-        email,
-        status: "pending",
-      });
-
-      if (existingPayment) {
+    if (existingPayment) {
+      if (existingPayment.status === "pending") {
         return res.redirect(existingPayment.paymentLink);
+      } else if (existingPayment.status === "completed") {
+        return res
+          .status(400)
+          .json({ error: "You have already purchased a policy" });
       }
     }
 
-    const { phone: phonenumber, firstName: name } = user;
-    const { hospitalSize } = req.body;
-
+    const name = `${firstName} ${lastName}`;
     if (!hospitalSize) {
       return res.status(400).json({
         status: "error",
@@ -68,17 +69,18 @@ const subPlanFn = async (req, res) => {
 
     const paymentData = {
       ref: txID,
-      firstName: name,
-      lastName: name,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       phone: phonenumber,
       coverage: hospitalSize,
       amount: "2500",
       currency: "NGN",
       status: "pending",
+      plan_duration: plan_duration,
       paymentLink: response.data.link,
     };
-  
+
     await PaymentReg.create(paymentData);
     res.redirect(response.data.link);
   } catch (err) {

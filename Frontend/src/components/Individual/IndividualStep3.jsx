@@ -20,6 +20,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
     hospitalSize: "1-20",
   });
 
+  const {email, firstName, lastName, phone, hospitalSize, plan_duration} = payload;
   console.log("payload", payload);
 
   const handlePayload = (e) => {
@@ -33,7 +34,14 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
   const handlePayment = async () => {
     try {
       // setIsLoading(true);
-      const response = await SubscriptionApi({hospitalSize: payload.hospitalSize});
+      const response = await SubscriptionApi({
+        email,
+        firstName,
+        lastName,
+        phone,
+        hospitalSize,
+        plan_duration
+      });
       console.log("PaymentApi", response);
 
       if (response.status === 200) {
