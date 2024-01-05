@@ -45,6 +45,8 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
       console.log("PaymentApi", response);
 
       if (response.status === 200) {
+        const paymentLink = response.data.link;
+        console.log(paymentLink, "payment link");
         setStepFour(true);
         if (activeStep < steps.length - 1) {
           setActiveStep(activeStep + 1);

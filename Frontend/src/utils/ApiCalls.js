@@ -203,7 +203,7 @@ export const SubscriptionApi = (Payload) => {
   console.log("SubscriptionHospitalSizeApi", Payload);
 
   let data = JSON.stringify(Payload);
-  // console.log("SubscriptionApi", data);
+
   let config = {
     method: "post",
     maxBodyLength: Infinity,
@@ -212,6 +212,7 @@ export const SubscriptionApi = (Payload) => {
       "Content-Type": "application/json",
     },
     data: data,
+    withCredentials: true, 
   };
 
   return axios
@@ -229,6 +230,7 @@ export const SubscriptionApi = (Payload) => {
       }
     });
 };
+
 
 export const GetUserProfileApi = () => {
   const token = localStorage.getItem("token");

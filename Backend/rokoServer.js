@@ -1,8 +1,8 @@
 require("dotenv").config();
+const cors = require("cors");
 const path = require("path");
 const {userDB, paymentDB, claimsDB, policyDB} = require("./config/databases/rokoDatabase");
 const express = require("express");
-const session = require("express-session");
 const authRoute = require("./routes/auth_service/auth");
 const subscribeRoute = require("./routes/payment_service/subPlan");
 const contactRoute = require("./routes/contact_service/contact");
@@ -14,10 +14,10 @@ const userProfileRoute = require("./routes/profile_service/user");
 const adminProfileRoute = require("./routes/profile_service/admin");
 const whRoute = require("./routes/payment_service/wh");
 const app = express();
-const cors = require("cors");
 const rateLimiter = require("./middlewares/rateLimit");
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swaggerConfig');
+
 
 // Middlewares
 app.use(cors());
@@ -26,7 +26,7 @@ app.use(express.static(staticFilePath));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(rateLimiter);
+// app.use(rateLimiter);
 app.use("/auth", authRoute);
 app.use("/user", userPolicyRoute);
 app.use("/admin", adminPolicyRoute);
@@ -45,7 +45,6 @@ const port = process.env.NODE_ENV === "production" ? process.env.PORT : 8000;
 app.get("/api-docs", (req, res) => {
   res.send(swaggerSpec);
 });
-
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(staticFilePath, "index.html"));
