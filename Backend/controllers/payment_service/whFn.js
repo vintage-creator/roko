@@ -77,10 +77,8 @@ const hmFn = async (req, res) => {
       return res.status(404).json({ message: "Transaction was not found." });
     }
     console.log(transactionStatus, "status");
-    const paymentStatus = await PaymentReg.findOne({status: transactionStatus});
-    console.log(paymentStatus, "paymentStatus");
 
-    if (paymentStatus != "successful") {
+    if (transactionStatus != "successful") {
       return res.status(400).json({ message: 'Your payment was not successful.' });
     } 
     return res.status(200).json({ success: "Your payment was successful" });
