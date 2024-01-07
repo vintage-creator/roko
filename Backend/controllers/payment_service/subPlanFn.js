@@ -19,7 +19,7 @@ const subPlanFn = async (req, res) => {
 
     if (existingPayment) {
       if (existingPayment.status === "pending") {
-        return res.redirect(encodeURIComponent(existingPayment.paymentLink));
+        return res.status(200).json({responseURL: existingPayment.paymentLink});
       } else if (existingPayment.status === "completed") {
         return res
           .status(400)
@@ -84,8 +84,7 @@ const subPlanFn = async (req, res) => {
     };
 
     await PaymentReg.create(paymentData);
-    console.log('Redirecting to:', encodeURIComponent(response.data.data.link));
-    res.redirect(encodeURIComponent(response.data.data.link));
+    res.status(200).json({responseURL: response.data.data.link, txRef: txID});
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal server error' });

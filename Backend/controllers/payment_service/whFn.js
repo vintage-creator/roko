@@ -27,7 +27,7 @@ const whFn = async (req, res) => {
       const email = transactionDetails.email;
       const firstName = transactionDetails.firstName;
       const lastName = transactionDetails.lastName;
-      const fullname =`${firstName}${lastName}`
+      const fullname =`${firstName} ${lastName}`
       const response = await flw.Transaction.verify({
         id: req.body.id.toString(),
       });
@@ -50,24 +50,21 @@ const whFn = async (req, res) => {
         await user.save();
 
         const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
-                <h3 style="color: #333; text-align: center;">Welcome to Roko, ${fullname}!</h3>
+                <h3 style="color: #333; text-align: center;">Welcome to Medcover, ${fullname}!</h3>
                 <p style="color: #666; text-align: center;">
-                    Thank you for choosing Roko for your insurance needs. We're thrilled to have you as our valued customer.
+                    Thank you for choosing Medcover for your insurance needs. We're thrilled to have you as our valued customer.
                 </p>
                 <p style="color: #666; text-align: center;">
                     Your payment has been successfully processed, and your policy is now active.
                 </p>
-                <div style="text-align: center; margin-top: 20px;">
-                    <a href="https://rokoui.onrender.com/dashboard" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">
-                        Go to Dashboard
-                    </a>
-                </div>
+                
                 <div style="text-align: center; margin-top: 30px; color: #666;">
                     If you have any questions or need assistance, feel free to contact our support team.
                 </div>
             </div>
             `;
         mailer(email, "Medcover - Payment Successful", emailContent);
+        res.status(200).json({"success": "Your payment was successful"});
       } else {
         return res.status(500).json({
           message: "Webhook received but not a successful transaction.",
@@ -82,9 +79,21 @@ const whFn = async (req, res) => {
   }
 };
 
-const hmFn = (req, res) => {
+const hmFn = async (req, res) => {
   // Perform any necessary processing
-  res.status(200).json({"success": "Your payment was successful"});
+  try {
+    const txRef = req.query.txRef;
+    const transactionDetails = await PaymentReg.findOne({ ref: txRef });
+
+    if (!transactionDetails) {
+      return res.status(404).json({ message: 'Transaction not found.' });
+    }
+
+    return res.status(200).json({ "success": "Your payment was successful" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error.' });
+  }
 };
 
 module.exports = { whFn, hmFn };

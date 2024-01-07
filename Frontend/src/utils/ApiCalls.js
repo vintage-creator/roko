@@ -231,6 +231,25 @@ export const SubscriptionApi = (Payload) => {
     });
 };
 
+export const checkPaymentStatus = async (txRef) => {
+  try {
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `/wh/confirm-payment?txRef=${txRef}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.request(config);
+
+    return response.data.status === 'completed';
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
 
 export const GetUserProfileApi = () => {
   const token = localStorage.getItem("token");

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {whFn, hmFn} = require("../../controllers/payment_service/whFn");
-const changeHTTP = require("../../middlewares/changeHTTP");
+// const changeHTTP = require("../../middlewares/changeHTTP");
 
 /**
  * @swagger
@@ -79,7 +79,7 @@ const changeHTTP = require("../../middlewares/changeHTTP");
  *                   type: string
  *                   example: Internal server error.
  */
-router.post("/confirm-payment(.html)?", changeHTTP, whFn);
+router.post("/confirm-payment(.html)?", whFn);
 router.get("/confirm-payment(.html)?", hmFn);
 
 module.exports = router;

@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import nurse from "../../assets/nurse.png";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 import { Button } from "../Button/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMyContext } from "../../context";
 import Input from "../Input";
 import steps from "../../utils/data/steps.json";
 import { CorporateStep4 } from "../Cooporate/CorporateStep4";
 import { IndividualStep4 } from "./IndividualStep4";
-import { SubscriptionApi } from "../../utils/ApiCalls";
+import { SubscriptionApi, checkPaymentStatus } from "../../utils/ApiCalls";
 
 export const IndividualStep3 = ({ setFormData, formData }) => {
   const { activeStep, setActiveStep, setStepThree, setStepFour, StepFour } =
     useMyContext();
+    const navigate = useNavigate();
 
   const [payload, setPayload] = useState({
     ...formData,
@@ -21,7 +22,6 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
   });
 
   const {email, firstName, lastName, phone, hospitalSize, plan_duration} = payload;
-  console.log("payload", payload);
 
   const handlePayload = (e) => {
     const { name, value } = e.target;
@@ -45,11 +45,20 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
       console.log("PaymentApi", response);
 
       if (response.status === 200) {
-        const paymentLink = response.data.link;
-        console.log(paymentLink, "payment link");
+      const paymentLink = response.data.responseURL;
+      const txRef = response.data.txRef;
+      window.location.href = paymentLink;
+      
+      const paymentProcessed = await checkPaymentStatus(txRef);
+      if (paymentProcessed) {
+        // Payment processed successfully, update UI 
         setStepFour(true);
         if (activeStep < steps.length - 1) {
           setActiveStep(activeStep + 1);
+        }
+      } else {
+        // Payment not yet processed, handle accordingly
+        console.log('Payment not yet processed');
         }
       }
     } catch (error) {
