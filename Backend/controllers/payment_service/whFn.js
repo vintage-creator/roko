@@ -72,12 +72,12 @@ const hmFn = async (req, res) => {
   // Perform any necessary processing
   try {
     const txRef = req.query.txRef;
-    console.log(txRef);
+    console.log(txRef, "txRef");
     const transactionStatus = req.query.status;
     if (!transactionStatus) {
       return res.status(404).json({ message: "Transaction was not found." });
     }
-    console.log(transactionStatus);
+    console.log(transactionStatus, "status");
     const paymentStatus = await PaymentReg.findOne({status: transactionStatus});
 
     if (!paymentStatus) {

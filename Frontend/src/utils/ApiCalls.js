@@ -234,7 +234,7 @@ export const SubscriptionApi = (Payload) => {
 export const checkPaymentStatus = async () => {
   try {
     let config = {
-      method: "get",
+      method: "post",
       maxBodyLength: Infinity,
       url: `/wh/confirm-payment`,
       headers: {
