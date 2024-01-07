@@ -46,22 +46,26 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
 
       if (response.status === 200) {
       const paymentLink = response.data.responseURL;
-      const txRef = response.data.txRef;
-      console.log(txRef);
-      window.location.href = paymentLink;
-      
-      const paymentProcessed = await checkPaymentStatus();
-      console.log(paymentProcessed);
-      if (paymentProcessed.status === 200) {
-        // Payment processed successfully, update UI 
-        setStepFour(true);
-        if (activeStep < steps.length - 1) {
-          setActiveStep(activeStep + 1);
-        }
-      } else {
-        // Payment not yet processed, handle accordingly
-        console.log('Payment not yet processed');
-        }
+      // Open payment link in a new window
+      const paymentWindow = window.open(paymentLink, "_blank");
+
+      // Periodically check payment status
+      const checkStatusInterval = setInterval(async () => {
+          const paymentProcessed = await checkPaymentStatus();
+
+          if (paymentProcessed.status === 200) {
+              // Payment processed successfully, update UI 
+              setStepFour(true);
+              if (activeStep < steps.length - 1) {
+                  setActiveStep(activeStep + 1);
+              }
+              clearInterval(checkStatusInterval); // Stop checking
+              paymentWindow.close(); // Close the payment window
+          } else {
+              // Payment not yet processed, handle accordingly
+              console.log('Payment not yet processed');
+          }
+      }, 1000);
       }
     } catch (error) {
      

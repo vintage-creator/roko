@@ -39,18 +39,23 @@ const whFn = async (req, res) => {
         await transactionDetails.save();
        
         const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
-                <h3 style="color: #333; text-align: center;">Welcome to Medcover, ${fullname}!</h3>
-                <p style="color: #666; text-align: center;">
-                    Thank you for choosing Medcover for your insurance needs. We're thrilled to have you as our valued customer.
-                </p>
-                <p style="color: #666; text-align: center;">
-                    Your payment has been successfully processed, and your policy is now active.
-                </p>
-                
-                <div style="text-align: center; margin-top: 30px; color: #666;">
-                    If you have any questions or need assistance, feel free to contact our support team.
-                </div>
-            </div>
+        <h3 style="color: #333; text-align: center;">Welcome to Medcover, ${fullname}!</h3>
+        <p style="color: #666; text-align: center;">
+            Thank you for choosing Medcover for your insurance needs. We're thrilled to have you as our valued customer.
+        </p>
+        <p style="color: #666; text-align: center;">
+            Your payment has been successfully processed, and your policy is now active.
+        </p>
+        
+        <p style="color: #666; text-align: center;">
+            To complete your registration process, please go back to our website:
+            <a href="https://rokoui.onrender.com" style="color: #007bff; text-decoration: none;">Medcover Website</a>
+        </p>
+    
+        <div style="text-align: center; margin-top: 30px; color: #666;">
+            If you have any questions or need assistance, feel free to contact our support team.
+        </div>
+    </div>
             `;
         mailer(email, "Medcover - Payment Successful", emailContent);
         res.status(200).json({"success": "Payment was successful"});
