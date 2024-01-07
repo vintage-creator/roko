@@ -84,6 +84,8 @@ const signUpFn = async (req, res) => {
       idNumber,
       password: hashPassword,
       token,
+      paymentStatus: "completed",
+      lastPaymentDate: Date.now(),
     });
 
     // Send an email with a link containing the token

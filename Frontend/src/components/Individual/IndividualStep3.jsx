@@ -47,10 +47,11 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
       if (response.status === 200) {
       const paymentLink = response.data.responseURL;
       const txRef = response.data.txRef;
+      console.log(txRef);
       window.location.href = paymentLink;
       
-      const paymentProcessed = await checkPaymentStatus(txRef);
-      if (paymentProcessed) {
+      const paymentProcessed = await checkPaymentStatus();
+      if (paymentProcessed.status === 200) {
         // Payment processed successfully, update UI 
         setStepFour(true);
         if (activeStep < steps.length - 1) {

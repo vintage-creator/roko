@@ -231,12 +231,12 @@ export const SubscriptionApi = (Payload) => {
     });
 };
 
-export const checkPaymentStatus = async (txRef) => {
+export const checkPaymentStatus = async () => {
   try {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `/wh/confirm-payment?txRef=${txRef}`,
+      url: `/wh/confirm-payment`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -244,7 +244,7 @@ export const checkPaymentStatus = async (txRef) => {
 
     const response = await axios.request(config);
 
-    return response.data.status === 'completed';
+    return response;
   } catch (error) {
     console.error(error);
     return false;

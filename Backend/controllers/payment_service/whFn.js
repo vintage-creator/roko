@@ -4,7 +4,6 @@ const flw = new Flutterwave(
   process.env.FLW_SECRET_KEY
 );
 const PaymentReg = require("../../models/paymentReg");
-const UserReg = require("../../models/userReg");
 const mailer = require("../../config/mailer");
 
 const whFn = async (req, res) => {
@@ -21,7 +20,7 @@ const whFn = async (req, res) => {
         ref: req.body.txRef,
       });
       if (!transactionDetails) {
-        return res.status(404).json({ message: "Transaction not found." });
+        return res.status(404).json({ message: "Transaction was not found." });
       }
 
       const email = transactionDetails.email;
@@ -38,17 +37,7 @@ const whFn = async (req, res) => {
       ) {
         transactionDetails.status = "completed";
         await transactionDetails.save();
-        // Retrieve the user
-        const user = await UserReg.findOne({ email: email });
-        if (!user) {
-          return res.status(404).json({ message: "User not found." });
-        }
-
-        // Update the paymentStatus in UserReg model
-        user.paymentStatus = "completed";
-        user.lastPaymentDate = new Date();
-        await user.save();
-
+       
         const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
                 <h3 style="color: #333; text-align: center;">Welcome to Medcover, ${fullname}!</h3>
                 <p style="color: #666; text-align: center;">
@@ -83,13 +72,16 @@ const hmFn = async (req, res) => {
   // Perform any necessary processing
   try {
     const txRef = req.query.txRef;
-    const transactionDetails = await PaymentReg.findOne({ ref: txRef });
+    console.log(txRef);
+    const transactionStatus = req.query.status;
+    console.log(transactionStatus);
 
-    if (!transactionDetails) {
+    if (!transactionStatus) {
       return res.status(404).json({ message: 'Transaction not found.' });
+    } else if (transactionStatus != "successful") {
+      return res.status(400).json({ message: 'Your payment was not successful.' });
     }
-
-    return res.status(200).json({ "success": "Your payment was successful" });
+    return res.status(200).json({ success: "Your payment was successful" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error.' });
