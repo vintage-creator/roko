@@ -53,7 +53,7 @@ const whFn = async (req, res) => {
             </div>
             `;
         mailer(email, "Medcover - Payment Successful", emailContent);
-        res.status(200).json({"success": "Your payment was successful"});
+        res.status(200).json({"success": "Payment was successful"});
       } else {
         return res.status(500).json({
           message: "Webhook received but not a successful transaction.",
