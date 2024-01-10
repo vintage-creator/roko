@@ -70,7 +70,7 @@ export const Footer = () => {
       <div className="flex flex-col md:flex-row justify-between py-5 items-center">
         <div>
           <p className="font-semibold text-[12px] md:text-[16px]">
-            ROKO @ 2023. All rights reserved.
+          MEDCOVER @ 2023. All rights reserved.
           </p>
         </div>
         <div className="font-semibold mt-2 md:mt-0">

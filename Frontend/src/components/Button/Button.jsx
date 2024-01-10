@@ -8,7 +8,7 @@ export const Button = ({
   h = "h-[42px]",
   text = "text-[#fff]",
   rounded = "rounded-[16px]",
-  loadingText = "Please wait . . .",
+  loadingText = "please wait...",
   disabled = false,
   isLoading = false,
   border,
