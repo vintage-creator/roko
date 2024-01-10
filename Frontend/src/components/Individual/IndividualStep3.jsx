@@ -13,8 +13,10 @@ import { showToast } from "../../Toastify/Toast";
 
 export const IndividualStep3 = ({ setFormData, formData }) => {
   const [Isloading, setIsLoading] = useState(false);
+
   const { activeStep, setActiveStep, setStepThree, setStepFour, StepFour } =
     useMyContext();
+
   const navigate = useNavigate();
 
   const [payload, setPayload] = useState({
@@ -27,67 +29,6 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
     payload;
 
   const handlePayload = (e) => {
-    const { name, value } = e.target;
-    setPayload((prevPayload) => ({
-      ...prevPayload,
-      [name]: value,
-    }));
-  };
-
-  const handlePayment = async () => {
-    try {
-      setIsLoading(true);
-      const response = await SubscriptionApi({
-        email,
-        firstName,
-        lastName,
-        phone,
-        hospitalSize,
-        plan_duration,
-      });
-      // console.log("PaymentApi", response);
-
-      if (response.status === 200) {
-        const paymentLink = response.data.responseURL;
-        window.open(paymentLink, "_self");
-
-        const paymentProcessed = await checkPaymentStatus();
-        console.log("paymentProcessed", paymentProcessed);
-        if (paymentProcessed.status === 200) {
-          // Payment processed successfully, update UI
-          setStepFour(true);
-          if (activeStep < steps.length - 1) {
-            setActiveStep(activeStep + 1);
-          }
-        } else {
-          // Payment not yet processed, handle accordingly
-          console.log("Payment not yet processed");
-          showToast({
-            message: "Payment not yet processed",
-            type: "error",
-          });
-        }
-      }
-    } catch (error) {
-      showToast({
-        message: error.message,
-        type: "error",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handlePrevious = () => {
-    setStepThree(false);
-    if (activeStep > 0) {
-      setActiveStep(activeStep - 1);
-    }
-  };
-
-  const isPlanDurationSelected = payload.plan_duration === "Choose duration";
-
-  const handleHospitalSizeChange = (e) => {
     const { name, value } = e.target;
     setPayload((prevPayload) => ({
       ...prevPayload,
@@ -135,6 +76,104 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
   };
 
   const selectedHospitalDetails = detailsByHospitalSize[payload.hospitalSize];
+
+  const isPlanDurationSelected = payload.plan_duration === "Choose duration";
+
+  const handleHospitalSizeChange = (e) => {
+    const { name, value } = e.target;
+    setPayload((prevPayload) => ({
+      ...prevPayload,
+      [name]: value,
+    }));
+  };
+
+  const handlePayment = async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await SubscriptionApi({
+        email,
+        firstName,
+        lastName,
+        phone,
+        hospitalSize,
+        plan_duration,
+      });
+
+      if (response.status === 200) {
+        const paymentLink = response.data.responseURL;
+
+        window.open(paymentLink, "_self");
+
+        const paymentProcessed = await checkPaymentStatus();
+
+        const getUrlParameter = (name) => {
+          name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
+          const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+          const results = regex.exec(window.location.search);
+          return results === null
+            ? ""
+            : decodeURIComponent(results[1].replace(/\+/g, " "));
+        };
+    
+        // Check the status parameter in the URL
+        const paymentStatus = getUrlParameter("status");
+    
+        // Handle the success state based on the status parameter
+        if (paymentStatus === "successful") {
+          // Payment processed successfully, update UI
+          setStepFour(true);
+          if (activeStep < steps.length - 1) {
+            setActiveStep(activeStep + 1);
+          }
+        } else {
+          // Payment not successful
+          console.log("Payment not successful");
+          showToast({
+            message: "Payment not successful",
+            type: "error",
+          });
+        }
+
+        // if (paymentProcessed.status === 200) {
+        //   // Payment processed successfully, update UI
+        //   setStepFour(true);
+        //   if (activeStep < steps.length - 1) {
+        //     setActiveStep(activeStep + 1);
+        //   }
+        // } else {
+        //   // Payment processed unsuccessfully
+        //   console.log("Payment not yet processed");
+        //   showToast({
+        //     message: "Payment not yet processed",
+        //     type: "error",
+        //   });
+        // }
+      } else {
+        // Handle unexpected API response
+        console.error("Unexpected response from SubscriptionApi:", response);
+        showToast({
+          message: "Unexpected error during payment initiation",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      showToast({
+        message: error.message,
+        type: "error",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePrevious = () => {
+    setStepThree(false);
+    if (activeStep > 0) {
+      setActiveStep(activeStep - 1);
+    }
+  };
+
 
   return (
     <>

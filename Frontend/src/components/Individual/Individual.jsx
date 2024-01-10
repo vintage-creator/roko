@@ -184,7 +184,7 @@ export const Individual = ({ setFormData, formData }) => {
                     onChange={handlePayload}
                   />
                 </div>
-                <div className="mt-4 flex flex-col gap-2  w-full">
+                <div className="lg:mt-4 flex flex-col gap-2  w-full">
                   <label
                     htmlFor="lastName"
                     className="text-fourteenPixels font-semibold"
@@ -244,7 +244,7 @@ export const Individual = ({ setFormData, formData }) => {
                     onChange={handlePayload}
                   />
                 </div>
-                <div className="mt-4 flex flex-col gap-2 w-full">
+                <div className="lg:mt-4 flex flex-col gap-2 w-full">
                   <label
                     htmlFor="dateOfBirth"
                     className="text-fourteenPixels font-semibold"
@@ -286,7 +286,7 @@ export const Individual = ({ setFormData, formData }) => {
                     onChange={handlePayload}
                   />
                 </div>
-                <div className="mt-4 flex flex-col gap-2 w-full">
+                <div className="lg:mt-4 flex flex-col gap-2 w-full">
                   <label
                     htmlFor="state"
                     className="text-fourteenPixels font-semibold"
@@ -342,7 +342,7 @@ export const Individual = ({ setFormData, formData }) => {
                   type="password"
                 />
               </div>
-              <div className="mt-4 flex flex-col gap-2 w-full">
+              <div className="lg:mt-4 flex flex-col gap-2 w-full">
                 <label
                   htmlFor="confirm_password"
                   className="text-fourteenPixels font-semibold"
