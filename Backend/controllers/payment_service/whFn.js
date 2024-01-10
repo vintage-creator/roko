@@ -78,16 +78,14 @@ const hmFn = async (req, res) => {
   try {
   
     const transactionStatus = req.query.status;
-    const txRef = req.query.tx_ref;
-    console.log(txRef, "txref");
+  
     if (!transactionStatus) {
       return res.status(404).json({ message: "Transaction was not found." });
     }
     console.log(transactionStatus, "status");
  
-    const successfulPayment = await PaymentReg.findOne({ref: txRef });
-    console.log(successfulPayment);
-    if (successfulPayment.status == "completed") {
+
+    if (transactionStatus == "successful") {
       return res.status(200).json({ success: "Your payment was successful" });
     }
     return res.status(400).json({ message: "Your payment was not successful." });
