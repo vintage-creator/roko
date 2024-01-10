@@ -41,7 +41,7 @@ export const WhyRoko = () => {
         </div>
       </div>
       <div className="lg:w-[50%]  py-2 pb-8 lg:py-8 lg:pl-10">
-        <p className="text-secOrange font-semibold">Why ROKO?</p>
+        <p className="text-secOrange font-semibold">Why MEDCOVER?</p>
 
         <h4 className="text-[25px] lg:text-[40px] leading-[25px] lg:leading-[40px] lg:pr-20 font-bold mt-3">
           Why we are more than regular insurance
