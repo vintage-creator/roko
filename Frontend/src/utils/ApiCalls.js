@@ -223,8 +223,8 @@ export const SubscriptionApi = (Payload) => {
     })
     .catch((error) => {
       console.log("error", error);
-      if (error.response.data.message) {
-        throw new Error(error.response.data.message);
+      if (error.response.data.error) {
+        throw new Error(error.response.data.error);
       } else if (error.response.status) {
         throw new Error(error.response.status);
       }
