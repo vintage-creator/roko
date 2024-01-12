@@ -118,10 +118,12 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
     
         // Check the status parameter in the URL
         const paymentStatus = getUrlParameter("status");
+        console.log(paymentStatus, "payment statust -UI")
     
         // Handle the success state based on the status parameter
         if (paymentStatus === "successful") {
           // Payment processed successfully, update UI
+          window.open("https://www.google.com", "_self");
           setStepFour(true);
           if (activeStep < steps.length - 1) {
             setActiveStep(activeStep + 1);
