@@ -10,9 +10,14 @@ import { CorporateStep4 } from "../Cooporate/CorporateStep4";
 import { IndividualStep4 } from "./IndividualStep4";
 import { SubscriptionApi, checkPaymentStatus } from "../../utils/ApiCalls";
 import { showToast } from "../../Toastify/Toast";
+import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 
 export const IndividualStep3 = ({ setFormData, formData }) => {
+  //   const publicKey = process.env.VITE_FLW_PUBLIC_KEY;
+  // console.log(publicKey);
+
   const [Isloading, setIsLoading] = useState(false);
+  const [IsSuccessful, setIsSuccessful] = useState(false);
 
   const { activeStep, setActiveStep, setStepThree, setStepFour, StepFour } =
     useMyContext();
@@ -27,6 +32,12 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
 
   const { email, firstName, lastName, phone, hospitalSize, plan_duration } =
     payload;
+
+  console.log("PDetails", {
+    name: firstName,
+    email: email,
+    phone: phone,
+  });
 
   const handlePayload = (e) => {
     const { name, value } = e.target;
@@ -87,87 +98,115 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
     }));
   };
 
-  const handlePayment = async () => {
-    try {
-      setIsLoading(true);
+  const handleFlutterWaveButtonClick = () => {
+    setIsLoading(true);
+  };
 
-      const response = await SubscriptionApi({
-        email,
-        firstName,
-        lastName,
-        phone,
-        hospitalSize,
-        plan_duration,
-      });
+  const config = {
+    public_key: "FLWPUBK_TEST-6c6621803cf4b5730a2304e17b10e949-X",
+    tx_ref: Date.now(),
+    amount: 10000,
+    currency: "NGN",
+    payment_options: "card,mobilemoney,ussd",
+    customer: {
+      email: email,
+      phone_number: phone,
+      name: firstName,
+    },
+    customizations: {
+      title: "Medcover",
+      description: "Payment for Insurance Service",
+      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+    },
+  };
 
-      if (response.status === 200) {
-        const paymentLink = response.data.responseURL;
+  const fwConfig = {
+    ...config,
+    text: "Proceed with Payment",
+    callback: (response) => {
+      console.log(response);
+      closePaymentModal();
+      setIsLoading(false);
 
-        window.open(paymentLink, "_self");
+      if (response.status == "successful") {
+        showToast({
+          message: "Payment Successful",
+          type: "success",
+        });
 
-        const paymentProcessed = await checkPaymentStatus();
-
-        const getUrlParameter = (name) => {
-          name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
-          const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-          const results = regex.exec(window.location.search);
-          return results === null
-            ? ""
-            : decodeURIComponent(results[1].replace(/\+/g, " "));
-        };
-    
-        // Check the status parameter in the URL
-        const paymentStatus = getUrlParameter("status");
-        console.log(paymentStatus, "payment statust -UI")
-    
-        // Handle the success state based on the status parameter
-        if (paymentStatus === "successful") {
-          // Payment processed successfully, update UI
-          window.open("https://www.google.com", "_self");
+        setTimeout(() => {
           setStepFour(true);
           if (activeStep < steps.length - 1) {
             setActiveStep(activeStep + 1);
           }
-        } else {
-          // Payment not successful
-          console.log("Payment not successful");
-          showToast({
-            message: "Payment not successful",
-            type: "error",
-          });
-        }
-
-        // if (paymentProcessed.status === 200) {
-        //   // Payment processed successfully, update UI
-        //   setStepFour(true);
-        //   if (activeStep < steps.length - 1) {
-        //     setActiveStep(activeStep + 1);
-        //   }
-        // } else {
-        //   // Payment processed unsuccessfully
-        //   console.log("Payment not yet processed");
-        //   showToast({
-        //     message: "Payment not yet processed",
-        //     type: "error",
-        //   });
-        // }
+        }, 2000);
       } else {
-        // Handle unexpected API response
-        console.error("Unexpected response from SubscriptionApi:", response);
         showToast({
-          message: "Unexpected error during payment initiation",
+          message: "Payment not successful",
           type: "error",
         });
       }
-    } catch (error) {
-      showToast({
-        message: error.message,
-        type: "error",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    },
+    onClose: () => {},
   };
+
+  // const handlePayment = async () => {
+  //   try {
+  //     setIsLoading(true);
+
+  //     // if (response.status === 200) {
+  //     //   // const paymentLink = response.data.responseURL;
+
+  //     //   // window.open(paymentLink, "_self");
+
+  //     //   // const paymentProcessed = await checkPaymentStatus();
+
+  //     //   // const getUrlParameter = (name) => {
+  //     //   //   name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
+  //     //   //   const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+  //     //   //   const results = regex.exec(window.location.search);
+  //     //   //   return results === null
+  //     //   //     ? ""
+  //     //   //     : decodeURIComponent(results[1].replace(/\+/g, " "));
+  //     //   // };
+
+  //     //   // // Check the status parameter in the URL
+  //     //   // const paymentStatus = getUrlParameter("status");
+
+  //     //   // Handle the success state based on the status parameter
+  //     //   // if (paymentStatus === "successful") {
+  //     //   //   // Payment processed successfully, update UI
+  //     //   //   setStepFour(true);
+  //     //   //   if (activeStep < steps.length - 1) {
+  //     //   //     setActiveStep(activeStep + 1);
+  //     //   //   }
+  //     //   // } else {
+  //     //   //   // Payment not successful
+  //     //   //   console.log("Payment not successful");
+  // showToast({
+  //   message: "Payment not successful",
+  //   type: "error",
+  // });
+  //     //   // }
+
+  //     // } else {
+  //     //   // Handle unexpected API response
+  //     //   console.error("Unexpected response from SubscriptionApi:", response);
+  //     //   showToast({
+  //     //     message: "Unexpected error during payment initiation",
+  //     //     type: "error",
+  //     //   });
+  //     // }
+
+  //   } catch (error) {
+  // showToast({
+  //   message: error.message,
+  //   type: "error",
+  // });
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const handlePrevious = () => {
     setStepThree(false);
@@ -175,7 +214,6 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
       setActiveStep(activeStep - 1);
     }
   };
-
 
   return (
     <>
@@ -301,7 +339,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
                 <Button
                   text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
                   w="w-full"
-                  onClick={handlePayment}
+                  onClick={handleFlutterWaveButtonClick}
                   bg={`${isPlanDurationSelected ? "bg-disabled" : "bg-base"}`}
                   className={`${
                     isPlanDurationSelected ? "cursor-not-allowed" : ""
@@ -309,7 +347,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
                   disabled={isPlanDurationSelected && true}
                   isLoading={Isloading}
                 >
-                  Proceed to Payment
+                  <FlutterWaveButton {...fwConfig} />
                 </Button>
               </div>
             </div>
