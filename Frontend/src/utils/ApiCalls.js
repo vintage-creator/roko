@@ -234,7 +234,7 @@ export const SubscriptionApi = (Payload) => {
 export const checkPaymentStatus = async () => {
   try {
     let config = {
-      method: "post",
+      method: "get",
       maxBodyLength: Infinity,
       url: `/wh/confirm-payment`,
       headers: {
@@ -243,7 +243,7 @@ export const checkPaymentStatus = async () => {
     };
 
     const response = await axios.request(config);
-
+    console.log(response);
     return response;
   } catch (error) {
     console.error(error);

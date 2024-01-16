@@ -57,7 +57,7 @@ const whFn = async (req, res) => {
         </div>
     </div>
             `;
-        mailer(email, "Medcover - Payment Successful", emailContent);
+        // mailer(email, "Medcover - Payment Successful", emailContent);
         res.status(200).json({"success": "Payment was successful"});
       } else {
         return res.status(500).json({
@@ -96,4 +96,4 @@ const hmFn = async (req, res) => {
   }
 };
 
-module.exports = { whFn, hmFn };
+module.exports = { whFn };

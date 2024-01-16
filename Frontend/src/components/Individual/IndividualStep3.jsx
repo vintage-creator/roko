@@ -103,9 +103,9 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
       if (response.status === 200) {
         const paymentLink = response.data.responseURL;
 
-        window.open(paymentLink, "_self");
+        window.open(paymentLink, "_blank");
 
-        const paymentProcessed = await checkPaymentStatus();
+        // const paymentProcessed = await checkPaymentStatus();
 
         const getUrlParameter = (name) => {
           name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
@@ -130,9 +130,9 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
           }
         } else {
           // Payment not successful
-          console.log("Payment not successful");
+          console.log("Payment was not successful.");
           showToast({
-            message: "Payment not successful",
+            message: "Payment was not successful. Please try again or contact support.",
             type: "error",
           });
         }
