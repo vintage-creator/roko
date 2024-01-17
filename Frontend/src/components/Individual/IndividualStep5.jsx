@@ -5,7 +5,6 @@ import { Button } from "../Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useMyContext } from "../../context";
 import Input from "../Input";
-import steps from "../../utils/data/steps.json";
 import { CreateAccountApi } from "../../utils/ApiCalls";
 import { showToast } from "../../Toastify/Toast";
 import { SignUpSuccess } from "../SignUpSuccess";
