@@ -8,11 +8,16 @@ import Input from "../Input";
 import steps from "../../utils/data/steps.json";
 import { CorporateStep4 } from "../Cooporate/CorporateStep4";
 import { IndividualStep4 } from "./IndividualStep4";
-import { SubscriptionApi, checkPaymentStatus } from "../../utils/ApiCalls";
+import { SubscriptionApi, sendEmail } from "../../utils/ApiCalls";
 import { showToast } from "../../Toastify/Toast";
+// import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 
 export const IndividualStep3 = ({ setFormData, formData }) => {
+  const publicKey = import.meta.env.FLW_PUBLIC_KEY;
+  console.log(publicKey);
+
   const [Isloading, setIsLoading] = useState(false);
+  const [IsSuccessful, setIsSuccessful] = useState(false);
 
   const { activeStep, setActiveStep, setStepThree, setStepFour, StepFour } =
     useMyContext();
@@ -27,6 +32,12 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
 
   const { email, firstName, lastName, phone, hospitalSize, plan_duration } =
     payload;
+
+  console.log("PDetails", {
+    name: firstName,
+    email: email,
+    phone: phone,
+  });
 
   const handlePayload = (e) => {
     const { name, value } = e.target;
@@ -87,11 +98,63 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
     }));
   };
 
+  // const handleFlutterWaveButtonClick = () => {
+  //   setIsLoading(true);
+  // };
+
+  // const config = {
+  //   public_key: "FLWPUBK_TEST-6c6621803cf4b5730a2304e17b10e949-X",
+  //   tx_ref: Date.now(),
+  //   amount: 10000,
+  //   currency: "NGN",
+  //   payment_options: "card,mobilemoney,ussd",
+  //   customer: {
+  //     email: email,
+  //     phone_number: phone,
+  //     name: firstName,
+  //   },
+  //   customizations: {
+  //     title: "Medcover",
+  //     description: "Payment for Insurance Service",
+  //     logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+  //   },
+  // };
+
+  // const fwConfig = {
+  //   ...config,
+  //   text: "Proceed with Payment",
+  //   callback: (response) => {
+  //     console.log(response);
+  //     closePaymentModal();
+  //     setIsLoading(false);
+
+  //     if (response.status == "successful") {
+  //       showToast({
+  //         message: "Payment Successful",
+  //         type: "success",
+  //       });
+  //       sendEmail(email);
+
+  //       setTimeout(() => {
+  //         setStepFour(true);
+  //         if (activeStep < steps.length - 1) {
+  //           setActiveStep(activeStep + 1);
+  //         }
+  //       }, 2000);
+  //     } else {
+  //       showToast({
+  //         message: "Payment not successful",
+  //         type: "error",
+  //       });
+  //     }
+  //   },
+  //   onClose: () => {},
+  // };
+
   const handlePayment = async () => {
     try {
       setIsLoading(true);
-
-      const response = await SubscriptionApi({
+      const response = SubscriptionApi({
         email,
         firstName,
         lastName,
@@ -103,9 +166,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
       if (response.status === 200) {
         const paymentLink = response.data.responseURL;
 
-        window.open(paymentLink, "_blank");
-
-        // const paymentProcessed = await checkPaymentStatus();
+        window.location.href = paymentLink;
 
         const getUrlParameter = (name) => {
           name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
@@ -115,42 +176,26 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
             ? ""
             : decodeURIComponent(results[1].replace(/\+/g, " "));
         };
-    
+
         // Check the status parameter in the URL
         const paymentStatus = getUrlParameter("status");
-        console.log(paymentStatus, "payment statust -UI")
-    
+        console.log(paymentStatus, "URLParameter");
+
         // Handle the success state based on the status parameter
         if (paymentStatus === "successful") {
           // Payment processed successfully, update UI
-          window.open("https://www.google.com", "_self");
           setStepFour(true);
           if (activeStep < steps.length - 1) {
             setActiveStep(activeStep + 1);
           }
         } else {
           // Payment not successful
-          console.log("Payment was not successful.");
+          console.log("Payment not successful");
           showToast({
-            message: "Payment was not successful. Please try again or contact support.",
+            message: "Payment not successful",
             type: "error",
           });
         }
-
-        // if (paymentProcessed.status === 200) {
-        //   // Payment processed successfully, update UI
-        //   setStepFour(true);
-        //   if (activeStep < steps.length - 1) {
-        //     setActiveStep(activeStep + 1);
-        //   }
-        // } else {
-        //   // Payment processed unsuccessfully
-        //   console.log("Payment not yet processed");
-        //   showToast({
-        //     message: "Payment not yet processed",
-        //     type: "error",
-        //   });
-        // }
       } else {
         // Handle unexpected API response
         console.error("Unexpected response from SubscriptionApi:", response);
@@ -175,7 +220,6 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
       setActiveStep(activeStep - 1);
     }
   };
-
 
   return (
     <>
@@ -302,6 +346,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
                   text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
                   w="w-full"
                   onClick={handlePayment}
+                  //  onClick={handleFlutterWaveButtonClick}
                   bg={`${isPlanDurationSelected ? "bg-disabled" : "bg-base"}`}
                   className={`${
                     isPlanDurationSelected ? "cursor-not-allowed" : ""
@@ -309,7 +354,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
                   disabled={isPlanDurationSelected && true}
                   isLoading={Isloading}
                 >
-                  Proceed to Payment
+                  <FlutterWaveButton {...fwConfig} />
                 </Button>
               </div>
             </div>

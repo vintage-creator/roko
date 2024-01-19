@@ -76,6 +76,7 @@ const whFn = async (req, res) => {
 const hmFn = async (req, res) => {
   // Perform any necessary processing
   try {
+    const {email} = req;
   
     const transactionStatus = req.query.status;
   

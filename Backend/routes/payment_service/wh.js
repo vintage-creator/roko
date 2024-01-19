@@ -80,6 +80,6 @@ const changeHTTP = require("../../middlewares/changeHTTP");
  *                   example: Internal server error.
  */
 router.post("/confirm-payment(.html)?", whFn);
-// router.get("/confirm-payment(.html)?", hmFn);
+// router.post("/send_email(.html)?",hmFn);
 
 module.exports = router;

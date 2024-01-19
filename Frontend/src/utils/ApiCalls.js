@@ -178,7 +178,7 @@ export const LogOutApi = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/auth/signup`,
+    url: `/auth/logout`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -231,15 +231,17 @@ export const SubscriptionApi = (Payload) => {
     });
 };
 
-export const checkPaymentStatus = async () => {
+export const sendEmail = async (Payload) => {
+  let data = JSON.stringify(Payload);
   try {
     let config = {
-      method: "get",
+      method: "post",
       maxBodyLength: Infinity,
-      url: `/wh/confirm-payment`,
+      url: `/wh/send_email7`,
       headers: {
         "Content-Type": "application/json",
       },
+      data: data,
     };
 
     const response = await axios.request(config);

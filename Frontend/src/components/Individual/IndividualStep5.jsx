@@ -27,6 +27,8 @@ export const IndividualStep5 = ({ setFormData, formData }) => {
     summary: "",
   });
 
+  console.log("payload", payload);
+
   const handleIdTypeChange = (e) => {
     const { value } = e.target;
 
@@ -77,8 +79,26 @@ export const IndividualStep5 = ({ setFormData, formData }) => {
     }
   };
 
-  const handleSubmission = () => {
-    setSuccess(true);
+  const handleSubmission = async (e) => {
+    setLoading(true);
+    try {
+      const res = await CreateAccountApi(payload);
+
+      console.log("RegData", res);
+
+      if (res?.status === 200) {
+        setSuccess(true);
+
+        // nav("/login");
+      }
+    } catch (error) {
+      showToast({
+        message: error.message,
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
