@@ -7,6 +7,7 @@ const PaymentReg = require("../../models/paymentReg");
 const mailer = require("../../config/mailer");
 
 const whFn = async (req, res) => {
+  console.log("1")
   const secretHash = process.env.WEBHOOK_SECRET;
   const signature = req.headers["verif-hash"];
 
@@ -30,12 +31,14 @@ const whFn = async (req, res) => {
       const response = await flw.Transaction.verify({
         id: req.body.id.toString(),
       });
+      console.log("2")
       if (
         response.data.status === "successful" ||
         response.data.amount === transactionDetails.amount ||
         response.data.currency === "NGN"
       ) {
         transactionDetails.status = "completed";
+        console.log(req.body, "3")
         await transactionDetails.save();
        
         const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
@@ -76,25 +79,24 @@ const whFn = async (req, res) => {
 const hmFn = async (req, res) => {
   // Perform any necessary processing
   try {
-    const {email} = req;
+    const { txRef } = req.query;
   
-    const transactionStatus = req.query.status;
-  
-    if (!transactionStatus) {
-      return res.status(404).json({ message: "Transaction was not found." });
+    if (!txRef) {
+      return res.status(400).json({ error: 'txRef parameter is missing in the query' });
     }
-    console.log(transactionStatus, "status");
  
+    const transactionDetails = await PaymentReg.findOne({ ref: txRef });
 
-    if (transactionStatus == "successful") {
-      return res.status(200).json({ success: "Your payment was successful" });
+    if (!transactionDetails) {
+      return res.status(404).json({ message: 'Transaction was not found.' });
     }
-    return res.status(400).json({ message: "Your payment was not successful." });
 
+    res.status(200).json({ status: transactionDetails.status });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Internal server error.' });
+    res.status(500).json({ message: 'Internal server error.' });
   }
 };
 
-module.exports = { whFn };
+
+module.exports = { whFn, hmFn };

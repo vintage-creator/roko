@@ -168,49 +168,57 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
 
         window.location.href = paymentLink;
 
-        const getUrlParameter = (name) => {
-          name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
-          const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-          const results = regex.exec(window.location.search);
-          return results === null
-            ? ""
-            : decodeURIComponent(results[1].replace(/\+/g, " "));
-        };
+        const txRef = response.data.txRef;
 
-        // Check the status parameter in the URL
-        const paymentStatus = getUrlParameter("status");
-        console.log(paymentStatus, "URLParameter");
+        // Start checking payment status
+        const intervalId = setInterval(async () => {
+          const paymentStatusResponse = await checkPaymentStatus(txRef);
 
-        // Handle the success state based on the status parameter
-        if (paymentStatus === "successful") {
-          // Payment processed successfully, update UI
-          setStepFour(true);
-          if (activeStep < steps.length - 1) {
-            setActiveStep(activeStep + 1);
+          if (paymentStatusResponse.status === "completed") {
+            console.log("f1")
+            // Payment was successful, navigate to another page
+            clearInterval(intervalId);
+            showToast({
+              message: "Payment was successful!",
+              type: "success",
+            });
+            setStepFour(true);
+            if (activeStep < steps.length - 1) {
+              setActiveStep(activeStep + 1);
+            }
+          } else if (paymentStatusResponse.status === "pending") {
+            // Payment is still pending, continue checking
+            console.log("Payment is still pending...");
+          } else {
+            // Payment failed or encountered an error, handle accordingly
+            clearInterval(intervalId);
+            setStepFour(false);
+            showToast({
+              message: "Your payment was not successful.",
+              type: "error",
+            });
           }
-        } else {
-          // Payment not successful
-          console.log("Payment not successful");
-          showToast({
-            message: "Payment not successful",
-            type: "error",
-          });
-        }
-      } else {
-        // Handle unexpected API response
-        console.error("Unexpected response from SubscriptionApi:", response);
-        showToast({
-          message: "Unexpected error during payment initiation",
-          type: "error",
-        });
+        }, 5000);
       }
     } catch (error) {
-      showToast({
-        message: error.message,
-        type: "error",
-      });
+      console.error(error);
+      // Handle error
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Function to check payment status
+  const checkPaymentStatus = async (txRef) => {
+    try {
+      const response = await axios.get(
+        `/wh/check-payment-status?txRef=${txRef}`
+      );
+      console.log(response, "checkpayment")
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      // Handle error
     }
   };
 
