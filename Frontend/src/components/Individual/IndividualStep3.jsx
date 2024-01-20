@@ -8,7 +8,7 @@ import Input from "../Input";
 import steps from "../../utils/data/steps.json";
 import { CorporateStep4 } from "../Cooporate/CorporateStep4";
 import { IndividualStep4 } from "./IndividualStep4";
-import { SubscriptionApi, sendEmail } from "../../utils/ApiCalls";
+import { SubscriptionApi, checkPaymentStatus } from "../../utils/ApiCalls";
 import { showToast } from "../../Toastify/Toast";
 // import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 
@@ -208,19 +208,6 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
     }
   };
 
-  // Function to check payment status
-  const checkPaymentStatus = async (txRef) => {
-    try {
-      const response = await axios.get(
-        `/wh/check-payment-status?txRef=${txRef}`
-      );
-      console.log(response, "checkpayment")
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      // Handle error
-    }
-  };
 
   const handlePrevious = () => {
     setStepThree(false);

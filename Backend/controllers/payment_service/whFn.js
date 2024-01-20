@@ -7,7 +7,6 @@ const PaymentReg = require("../../models/paymentReg");
 const mailer = require("../../config/mailer");
 
 const whFn = async (req, res) => {
-  console.log("1")
   const secretHash = process.env.WEBHOOK_SECRET;
   const signature = req.headers["verif-hash"];
 
@@ -31,14 +30,13 @@ const whFn = async (req, res) => {
       const response = await flw.Transaction.verify({
         id: req.body.id.toString(),
       });
-      console.log("2")
+      
       if (
         response.data.status === "successful" ||
         response.data.amount === transactionDetails.amount ||
         response.data.currency === "NGN"
       ) {
         transactionDetails.status = "completed";
-        console.log(req.body, "3")
         await transactionDetails.save();
        
         const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
@@ -80,12 +78,14 @@ const hmFn = async (req, res) => {
   // Perform any necessary processing
   try {
     const { txRef } = req.query;
+    console.log("1")
   
     if (!txRef) {
       return res.status(400).json({ error: 'txRef parameter is missing in the query' });
     }
  
     const transactionDetails = await PaymentReg.findOne({ ref: txRef });
+    console.log("2")
 
     if (!transactionDetails) {
       return res.status(404).json({ message: 'Transaction was not found.' });

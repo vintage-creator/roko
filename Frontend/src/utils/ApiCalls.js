@@ -231,25 +231,17 @@ export const SubscriptionApi = (Payload) => {
     });
 };
 
-export const sendEmail = async (Payload) => {
-  let data = JSON.stringify(Payload);
+// Function to check payment status
+export const checkPaymentStatus = async (txRef) => {
   try {
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: `/wh/send_email7`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    const response = await axios.request(config);
-    console.log(response);
-    return response;
+    const response = await axios.get(
+      `/wh/check-payment-status?txRef=${txRef}`
+    );
+    console.log(response, "checkpayment")
+    return response.data;
   } catch (error) {
     console.error(error);
-    return false;
+    // Handle error
   }
 };
 
