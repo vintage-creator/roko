@@ -154,7 +154,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
   const handlePayment = async () => {
     try {
       setIsLoading(true);
-      const response = SubscriptionApi({
+      const response = await SubscriptionApi({
         email,
         firstName,
         lastName,
@@ -347,6 +347,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
                   w="w-full"
                   onClick={handlePayment}
                   //  onClick={handleFlutterWaveButtonClick}
+                  // <FlutterWaveButton {...fwConfig} />
                   bg={`${isPlanDurationSelected ? "bg-disabled" : "bg-base"}`}
                   className={`${
                     isPlanDurationSelected ? "cursor-not-allowed" : ""
@@ -354,7 +355,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
                   disabled={isPlanDurationSelected && true}
                   isLoading={Isloading}
                 >
-                  <FlutterWaveButton {...fwConfig} />
+                  Next
                 </Button>
               </div>
             </div>
