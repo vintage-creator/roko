@@ -80,6 +80,6 @@ const {whFn, hmFn} = require("../../controllers/payment_service/whFn");
  *                   example: Internal server error.
  */
 router.post("/confirm-payment(.html)?", whFn);
-router.get("/check-payment-status", hmFn);
+router.get("/confirm-payment", hmFn);
 
 module.exports = router;

@@ -168,11 +168,11 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
 
         window.location.href = paymentLink;
 
-        const txRef = response.data.txRef;
+        // const txRef = response.data.txRef;
 
         // Start checking payment status
         const intervalId = setInterval(async () => {
-          const paymentStatusResponse = await checkPaymentStatus(txRef);
+          const paymentStatusResponse = await checkPaymentStatus();
 
           if (paymentStatusResponse.status === "completed") {
             console.log("f1")

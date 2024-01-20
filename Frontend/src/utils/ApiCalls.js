@@ -232,12 +232,12 @@ export const SubscriptionApi = (Payload) => {
 };
 
 // Function to check payment status
-export const checkPaymentStatus = async (txRef) => {
+export const checkPaymentStatus = async () => {
   try {
     const response = await axios.get(
-      `/wh/check-payment-status?txRef=${txRef}`
+      `/wh/confirm-payment`
     );
-    console.log(response, "checkpayment")
+    console.log(response, "confirm-payment")
     return response.data;
   } catch (error) {
     console.error(error);
