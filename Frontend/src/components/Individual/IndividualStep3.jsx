@@ -159,46 +159,47 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
   
       if (response.status === 200) {
         const paymentLink = response.data.responseURL;
+        const txRef = response.data.txRef;
+        console.log(txRef, "txref");
   
         window.location.href = paymentLink;
-        setStepFour(true);
+        
+        // Start checking payment status
+        const intervalId = setInterval(async () => {
+          try {
+            console.log("check");
+            const paymentStatusResponse = await checkPaymentStatus(txRef);
+            console.log("Payment Status Response:", paymentStatusResponse);
   
-        // // Start checking payment status
-        // const intervalId = setInterval(async () => {
-        //   try {
-        //     console.log("check");
-        //     const paymentStatusResponse = await checkPaymentStatus();
-        //     console.log("Payment Status Response:", paymentStatusResponse);
-  
-        //     if (paymentStatusResponse.status === "completed") {
-        //       console.log("f1");
-        //       // Payment was successful, navigate to another page
-        //       clearInterval(intervalId);
-        //       showToast({
-        //         message: "Payment was successful!",
-        //         type: "success",
-        //       });
-        //       setStepFour(true);
-        //       if (activeStep < steps.length - 1) {
-        //         setActiveStep(activeStep + 1);
-        //       }
-        //     } else if (paymentStatusResponse.status === "pending") {
-        //       // Payment is still pending, continue checking
-        //       console.log("Payment is still pending...");
-        //     } else {
-        //       // Payment failed or encountered an error, handle accordingly
-        //       clearInterval(intervalId);
-        //       setStepFour(false);
-        //       showToast({
-        //         message: "Your payment was not successful.",
-        //         type: "error",
-        //       });
-        //     }
-        //   } catch (error) {
-        //     console.error("Error checking payment status:", error);
-        //   }
-        // }, 5000);
-        // console.log(response, "response")
+            if (paymentStatusResponse.status === "completed") {
+              console.log("f1");
+              // Payment was successful, navigate to another page
+              clearInterval(intervalId);
+              showToast({
+                message: "Payment was successful!",
+                type: "success",
+              });
+              setStepFour(true);
+              if (activeStep < steps.length - 1) {
+                setActiveStep(activeStep + 1);
+              }
+            } else if (paymentStatusResponse.status === "pending") {
+              // Payment is still pending, continue checking
+              console.log("Payment is still pending...");
+            } else {
+              // Payment failed or encountered an error, handle accordingly
+              clearInterval(intervalId);
+              setStepFour(false);
+              showToast({
+                message: "Your payment was not successful.",
+                type: "error",
+              });
+            }
+          } catch (error) {
+            console.error("Error checking payment status:", error);
+          }
+        }, 5000);
+        console.log(response, "response")
       } else if (response.data && response.data.message == "You have already purchased a policy") {
         setStepFour(true);
         showToast({

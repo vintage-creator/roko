@@ -77,14 +77,14 @@ const whFn = async (req, res) => {
 const hmFn = async (req, res) => {
   // Perform any necessary processing
   try {
-    const { tx_ref } = req.query;
-    console.log("1")
+    const { txRef } = req.query;
+    console.log(txRef, "tx from back")
   
-    if (!tx_ref) {
+    if (!txRef) {
       return res.status(400).json({ error: 'Transaction reference is missing in the query' });
     }
  
-    const transactionDetails = await PaymentReg.findOne({ ref: tx_ref });
+    const transactionDetails = await PaymentReg.findOne({ ref: txRef });
     console.log("2")
 
     if (!transactionDetails) {
