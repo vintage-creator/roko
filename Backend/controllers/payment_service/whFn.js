@@ -50,7 +50,7 @@ const whFn = async (req, res) => {
         
         <p style="color: #666; text-align: center;">
             To complete your registration process, please go back to our website:
-            <a href="https://rokoui.onrender.com" style="color: #007bff; text-decoration: none;">Medcover Website</a>
+            <a href="https://rokoui.onrender.com/register" style="color: #007bff; text-decoration: none;">Medcover Website</a>
         </p>
     
         <div style="text-align: center; margin-top: 30px; color: #666;">
@@ -58,7 +58,7 @@ const whFn = async (req, res) => {
         </div>
     </div>
             `;
-        // mailer(email, "Medcover - Payment Successful", emailContent);
+        mailer(email, "Medcover - Payment Successful", emailContent);
         res.status(200).json({"success": "Payment was successful"});
       } else {
         return res.status(500).json({

@@ -160,19 +160,16 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
       if (response.data.responseURL) {
         const paymentLink = response.data.responseURL;
         const txRef = response.data.txRef;
-        console.log(txRef, "txref");
   
         const paymentWindow = window.open(paymentLink, "_blank");
         
         // Start checking payment status
         const intervalId = setInterval(async () => {
           try {
-            console.log("check");
             const paymentStatusResponse = await checkPaymentStatus(txRef);
-            console.log("Payment Status Response:", paymentStatusResponse);
   
             if (paymentStatusResponse.status === "completed") {
-              console.log("f1");
+      
               // Payment was successful, navigate to another page
               clearInterval(intervalId);
               setStepFour(true);
@@ -202,14 +199,14 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
             console.error("Error checking payment status:", error);
           }
         }, 5000);
-        console.log(response, "response")
+
       } else if (response.data.message == "You have already purchased a policy") {
         setStepFour(true);
         if (activeStep < steps.length - 1) {
            setActiveStep(activeStep + 1);
         }
         showToast({
-          message: "Let's pick up from where you left.",
+          message: "Complete your details to start using Medcover",
           type: "success",
         });
       } else if (response.data.message == "Already registered. Please sign in!") {
