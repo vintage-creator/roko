@@ -1,4 +1,5 @@
 const UserReg = require("../../models/userReg");
+const PaymentReg = require("../../models/paymentReg");
 const bcrypt = require("bcrypt");
 const mailer = require("../../config/mailer");
 const jwt = require("jsonwebtoken");
@@ -39,6 +40,16 @@ const signUpFn = async (req, res) => {
   try {
     //validate form fields
     await validateUserRegistration(email, password, confirm_password);
+
+    // Check if the user has paid for a policy
+    const paidUser = await PaymentReg.findOne({ email }).exec();
+    if (!paidUser) {
+      return res.status(400).json({ error: "You haven't paid for a policy yet!" });
+    }
+
+    if (paidUser.status === "pending") {
+      return res.status(400).json({ error: "Your payment is still pending. Please wait for confirmation." });
+    }
 
     // Check if user is less than 18 years old
     const today = new Date();
