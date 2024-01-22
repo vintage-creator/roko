@@ -22,16 +22,17 @@ const subPlanFn = async (req, res) => {
         return res.status(200).json({responseURL: existingPayment.paymentLink});
       } else if (existingPayment.status === "completed") {
         return res
-          .status(400)
-          .json({ error: "You have already purchased a policy" });
+          .status(200)
+          .json({ message: "You have already purchased a policy" });
       }
     }
 
     const name = `${firstName} ${lastName}`;
-    if (!hospitalSize) {
+    if (!hospitalSize || !plan_duration ||
+      !email || !firstName || !lastName) {
       return res.status(400).json({
         status: "error",
-        message: "Please select your hospital size",
+        message: "Please select your hospital size or enter details",
       });
     }
 
