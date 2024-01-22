@@ -162,18 +162,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
         const txRef = response.data.txRef;
         console.log(txRef, "txref");
   
-        function redirectTo(url) {
-          return new Promise(resolve => {
-            window.location.href = url;
-            resolve();
-          });
-        }
-        
-        // Redirect to a new URL
-        redirectTo(paymentLink)
-          .then(() => {
-            console.log('After redirect');
-          });
+            window.open(paymentLink, "_blank");
         
         // Start checking payment status
         const intervalId = setInterval(async () => {
