@@ -90,8 +90,8 @@ const signUpFn = async (req, res) => {
 
     // Send an email with a link containing the token
     const emailContent = `<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
-    <h3 style="color: #333; text-align: center;">Welcome to Medcover Medical PI</h3>
-    <p style="color: #666; text-align: center;">Thank you for registering with Medcover Medical PI! We're excited to have you on board.</p>
+    <h3 style="color: #333; text-align: center;">Welcome to Medcover, ${firstName}!</h3>
+    <p style="color: #666; text-align: center;">Thank you for registering with Medcover Insurance! We're excited to have you on board.</p>
     <p style="color: #666; text-align: center;">To get started, we just need to verify your email address. Click the button below to complete the verification process:</p>
     <div style="text-align: center; margin-top: 20px;">
         <a href="https://rokoui.onrender.com/auth/verify?token=${token}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Verify Email Address</a>

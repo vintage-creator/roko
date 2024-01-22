@@ -157,12 +157,12 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
         plan_duration,
       });
   
-      if (response.status === 200) {
+      if (response.data.responseURL) {
         const paymentLink = response.data.responseURL;
         const txRef = response.data.txRef;
         console.log(txRef, "txref");
   
-            window.open(paymentLink, "_blank");
+        const paymentWindow = window.open(paymentLink, "_blank");
         
         // Start checking payment status
         const intervalId = setInterval(async () => {
@@ -175,14 +175,17 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
               console.log("f1");
               // Payment was successful, navigate to another page
               clearInterval(intervalId);
-              showToast({
-                message: "Payment was successful!",
-                type: "success",
-              });
               setStepFour(true);
               if (activeStep < steps.length - 1) {
                 setActiveStep(activeStep + 1);
               }
+              if (paymentWindow) {
+                paymentWindow.close();
+              }
+              showToast({
+                message: "Payment was successful!",
+                type: "success",
+              });
             } else if (paymentStatusResponse.status === "pending") {
               // Payment is still pending, continue checking
               console.log("Payment is still pending...");
@@ -200,15 +203,21 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
           }
         }, 5000);
         console.log(response, "response")
-      } else if (response.data && response.data.message == "You have already purchased a policy") {
+      } else if (response.data.message == "You have already purchased a policy") {
         setStepFour(true);
+        if (activeStep < steps.length - 1) {
+           setActiveStep(activeStep + 1);
+        }
         showToast({
           message: "Let's pick up from where you left.",
           type: "success",
         });
-        if (activeStep < steps.length - 1) {
-           setActiveStep(activeStep + 1);
-        }
+      } else if (response.data.message == "Already registered. Please sign in!") {
+        navigate("/login");
+        showToast({
+          message: "Already registered. Please sign in!",
+          type: "success",
+        });
       }
     } catch (error) {
       console.error("Error in handlePayment:", error);

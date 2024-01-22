@@ -1,5 +1,6 @@
 const uuid = require("uuid");
 const PaymentReg = require("../../models/paymentReg");
+const UserReg = require("../../models/userReg");
 const axios = require('axios');
 
 
@@ -16,17 +17,19 @@ const subPlanFn = async (req, res) => {
     } = req.body;
 
     const existingPayment = await PaymentReg.findOne({ email });
+    const user = await UserReg.findOne({ email });
 
     if (existingPayment) {
       if (existingPayment.status === "pending") {
-        return res.status(200).json({responseURL: existingPayment.paymentLink});
+        return res.status(200).json({ responseURL: existingPayment.paymentLink });
       } else if (existingPayment.status === "completed") {
-        return res
-          .status(200)
-          .json({ message: "You have already purchased a policy" });
+        if (user) {
+          return res.status(200).json({ message: "Already registered. Please sign in!" });
+        } else {
+          return res.status(200).json({ message: "You have already purchased a policy" });
+        }
       }
     }
-
     const name = `${firstName} ${lastName}`;
     if (!hospitalSize || !plan_duration ||
       !email || !firstName || !lastName) {
