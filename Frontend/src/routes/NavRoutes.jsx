@@ -27,15 +27,7 @@ export const NavRoutes = () => {
         <Route path="/courses/:id" element={<SingleCourse />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/auth/verify" element={<Verification />} />
-        <Route
-          path="/email-verification"
-          element={
-            <ProtectedRoutes
-              element={<EmailVerified />}
-              isAuthenticated={isAuthenticated}
-            />
-          }
-        />
+        <Route path="/email-verification" element={<EmailVerified />} />
 
         <Route
           path="/dashboard"
