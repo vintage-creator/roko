@@ -10,8 +10,6 @@ export const PaymentSuccess = ({ setPayload, payload }) => {
 
   const handleReg = () => {};
 
-  // const res = await
-
   setStepFour(true);
   if (activeStep < steps.length - 1) {
     setActiveStep(activeStep + 1);
