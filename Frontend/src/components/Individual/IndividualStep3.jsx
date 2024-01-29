@@ -170,14 +170,14 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
         // const paymentWindow = window.open(paymentLink, "_blank");
 
         // Start checking payment status
-        const intervalId = setInterval(async () => {
+        // const intervalId = setInterval(async () => {
           try {
             const paymentStatusResponse = await checkPaymentStatus(txRef);
             console.log("paymentStatusResponse", paymentStatusResponse);
 
             if (paymentStatusResponse?.status === "completed") {
               // Payment was successful, navigate to another page
-              clearInterval(intervalId);
+              // clearInterval(intervalId);
               setStepFour(true);
               if (activeStep < steps.length - 1) {
                 setActiveStep(activeStep + 1);
@@ -191,7 +191,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
               });
             } else if (paymentStatusResponse?.status === "successful") {
               // Payment was successful, navigate to another page
-              clearInterval(intervalId);
+              // clearInterval(intervalId);
               setStepFour(true);
               if (activeStep < steps.length - 1) {
                 setActiveStep(activeStep + 1);
@@ -208,7 +208,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
               console.log("Payment is still pending...");
             } else {
               // Payment failed or encountered an error, handle accordingly
-              clearInterval(intervalId);
+              // clearInterval(intervalId);
               setStepFour(false);
               showToast({
                 message: "Your payment was not successful.",
@@ -218,7 +218,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
           } catch (error) {
             console.error("Error checking payment status:", error);
           }
-        }, 5000);
+        // }, 5000);
       } else if (
         response.data.message == "You have already purchased a policy"
       ) {
