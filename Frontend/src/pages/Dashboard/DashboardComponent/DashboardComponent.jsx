@@ -56,10 +56,10 @@ const DashboardComponent = ({userDetails}) => {
                   <div className="w-12 h-12 bg-white rounded-[50%]"></div>
                   <div className="leading-4">
                     <h2 className="text-[20px] text-white font-bold">
-                    {userDetails.fullname}
+                    {userDetails.firstName}{" "}{userDetails.lastName}
                     </h2>
                     <p className="text-[10px] text-white font-thin">
-                    {userDetails.fieldOfPractice}
+                    {userDetails.profession}
                     </p>
                   </div>
                 </div>
@@ -81,7 +81,7 @@ const DashboardComponent = ({userDetails}) => {
                     Policy Duration:
                   </h6>
                   <p className="text-[14px] text-white font-regular">
-                    $234,456
+                  {userDetails.plan_duration}
                   </p>
                 </div>
               </div>
