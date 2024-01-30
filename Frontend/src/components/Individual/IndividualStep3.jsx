@@ -10,6 +10,7 @@ import { CorporateStep4 } from "../Cooporate/CorporateStep4";
 import { IndividualStep4 } from "./IndividualStep4";
 import { SubscriptionApi, checkPaymentStatus } from "../../utils/ApiCalls";
 import { showToast } from "../../Toastify/Toast";
+import { PendingPayment } from "../PendingPayment";
 // import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 
 export const IndividualStep3 = ({ setFormData, formData }) => {
@@ -18,6 +19,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
 
   const [Isloading, setIsLoading] = useState(false);
   const [IsSuccessful, setIsSuccessful] = useState(false);
+  const [IsPending, setIsPending] = useState(false);
 
   const { activeStep, setActiveStep, setStepThree, setStepFour, StepFour } =
     useMyContext();
@@ -156,22 +158,26 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
         hospitalSize,
         plan_duration,
       });
-  
+
+      console.log("respponse", response);
+
       if (response.data.responseURL) {
         const paymentLink = response.data.responseURL;
+        console.log("paymentLink", paymentLink);
         const txRef = response.data.txRef;
-  
-        const paymentWindow = window.open(paymentLink, "_blank");
-        
+
+        const paymentWindow = window.open(paymentLink);
+        // const paymentWindow = window.open(paymentLink, "_blank");
+
         // Start checking payment status
-        const intervalId = setInterval(async () => {
+        // const intervalId = setInterval(async () => {
           try {
             const paymentStatusResponse = await checkPaymentStatus(txRef);
-  
-            if (paymentStatusResponse.status === "completed") {
-      
+            console.log("paymentStatusResponse", paymentStatusResponse);
+
+            if (paymentStatusResponse?.status === "completed") {
               // Payment was successful, navigate to another page
-              clearInterval(intervalId);
+              // clearInterval(intervalId);
               setStepFour(true);
               if (activeStep < steps.length - 1) {
                 setActiveStep(activeStep + 1);
@@ -183,12 +189,26 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
                 message: "Payment was successful!",
                 type: "success",
               });
-            } else if (paymentStatusResponse.status === "pending") {
-              // Payment is still pending, continue checking
+            } else if (paymentStatusResponse?.status === "successful") {
+              // Payment was successful, navigate to another page
+              // clearInterval(intervalId);
+              setStepFour(true);
+              if (activeStep < steps.length - 1) {
+                setActiveStep(activeStep + 1);
+              }
+              if (paymentWindow) {
+                paymentWindow.close();
+              }
+              showToast({
+                message: "Payment was successful!",
+                type: "success",
+              });
+            } else if (paymentStatusResponse?.status === "pending") {
+              setIsPending(true);
               console.log("Payment is still pending...");
             } else {
               // Payment failed or encountered an error, handle accordingly
-              clearInterval(intervalId);
+              // clearInterval(intervalId);
               setStepFour(false);
               showToast({
                 message: "Your payment was not successful.",
@@ -198,18 +218,21 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
           } catch (error) {
             console.error("Error checking payment status:", error);
           }
-        }, 5000);
-
-      } else if (response.data.message == "You have already purchased a policy") {
+        // }, 5000);
+      } else if (
+        response.data.message == "You have already purchased a policy"
+      ) {
         setStepFour(true);
         if (activeStep < steps.length - 1) {
-           setActiveStep(activeStep + 1);
+          setActiveStep(activeStep + 1);
         }
         showToast({
           message: "Complete your details to start using Medcover",
           type: "success",
         });
-      } else if (response.data.message == "Already registered. Please sign in!") {
+      } else if (
+        response.data.message == "Already registered. Please sign in!"
+      ) {
         navigate("/login");
         showToast({
           message: "Already registered. Please sign in!",
@@ -217,13 +240,17 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
         });
       }
     } catch (error) {
+      showToast({
+        message: error.response.data.message,
+        type: "error",
+      });
       console.error("Error in handlePayment:", error);
       // Handle error
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   const handlePrevious = () => {
     setStepThree(false);
     if (activeStep > 0) {
@@ -233,7 +260,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
 
   return (
     <>
-      {!StepFour && (
+      {!StepFour && !IsPending && (
         <div className="flex">
           {/* LEFT */}
           <div className="lg:w-[50%] bg-base hidden lg:flex lg:flex-col lg:justify-between px-[60px] pt-8 ">
@@ -373,9 +400,11 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
         </div>
       )}
 
-      {StepFour && (
+      {StepFour && !IsPending && (
         <IndividualStep4 setPayload={setPayload} payload={payload} />
       )}
+
+      {IsPending && <PendingPayment />}
     </>
   );
 };

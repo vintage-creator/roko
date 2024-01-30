@@ -41,7 +41,7 @@ export const SignIn = () => {
       const authToken = res?.data.authToken;
 
       // Store token in local storage
-      localStorage.setItem("token", authToken);
+      localStorage.setItem("MC_Token", authToken);
         const resProfile = await GetUserProfileApi();
         console.log("UserProfile", resProfile);
   
