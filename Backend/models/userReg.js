@@ -2,23 +2,40 @@ const { default: mongoose } = require("mongoose");
 const { userDB } = require("../config/databases/rokoDatabase");
 
 const userSchema = new mongoose.Schema({
-  resAddress: {
+  name: {
+    type: String,
+    trim: true,
+  },
+  address: {
+    type: String,
+    trim: true,
+  },
+  reg_number: {
+    type: String,
+    trim: true,
+  },
+  staff_number: {
+    type: String,
+    trim: true,
+  },
+  company_number: {
+    type: String,
+    trim: true,
+  },
+  bed_number: {
     type: String,
     trim: true,
   },
   firstName: {
     type: String,
-    required: true,
     trim: true,
   },
   lastName: {
     type: String,
-    required: true,
     trim: true,
   },
   email: {
     type: String,
-    required: true,
     unique: true,
     trim: true,
   },
@@ -36,19 +53,20 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  resAddress: {
+    type: String,
+    trim: true,
+  },
   profession: {
     type: String,
-    required: true,
     trim: true,
   },
   partners: {
     type: String,
-    required: true,
     trim: true,
   },
   rank: {
     type: String,
-    required: true,
     trim: true,
   },
   role: {
@@ -68,6 +86,7 @@ const userSchema = new mongoose.Schema({
   },
   state: {
     type: String,
+    required: True,
     trim: true,
   },
   nextofkin: {

@@ -7,14 +7,21 @@ const axios = require('axios');
 const subPlanFn = async (req, res) => {
   try {
     const txID = uuid.v4();
-    const {
-      hospitalSize,
-      plan_duration,
-      email,
-      phone: phonenumber,
-      firstName,
-      lastName,
-    } = req.body;
+
+    let hospitalSize, plan_duration, email, phonenumber, firstName, lastName, name;
+
+    // Check if the payload structure is for hospitalSize, plan_duration, email, etc.
+    if (req.body.bed_number) {
+      hospitalSize = req.body.bed_number;  
+      plan_duration = req.body.plan_duration;
+      email = req.body.email;
+      phonenumber = req.body.phone;
+      name = req.body.name;
+    } else {
+      // Use the existing payload structure
+      ({ hospitalSize, plan_duration, email, phone: phonenumber, firstName, lastName } = req.body);
+      name = `${firstName} ${lastName}`;
+    }
 
     const existingPayment = await PaymentReg.findOne({ email });
     const user = await UserReg.findOne({ email });
@@ -30,12 +37,11 @@ const subPlanFn = async (req, res) => {
         }
       }
     }
-    const name = `${firstName} ${lastName}`;
-    if (!hospitalSize || !plan_duration ||
-      !email || !firstName || !lastName) {
+
+    if (!hospitalSize || !plan_duration || !email || !firstName || !lastName) {
       return res.status(400).json({
         status: "error",
-        message: "Please select your hospital size or enter details",
+        message: "Please provide all required details",
       });
     }
 
@@ -75,25 +81,32 @@ const subPlanFn = async (req, res) => {
 
     const paymentData = {
       ref: txID,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
+      firstName,
+      lastName,
+      email,
       phone: phonenumber,
       coverage: hospitalSize,
       amount: '2500',
       currency: 'NGN',
       status: 'pending',
-      plan_duration: plan_duration,
+      plan_duration,
       paymentLink: response.data.data.link,
     };
 
-    await PaymentReg.create(paymentData);
-    res.status(200).json({responseURL: response.data.data.link, txRef: txID});
+    if (existingPayment) {
+      // Update the payment link in the existing payment record
+      await PaymentReg.updateOne({ email }, { $set: { paymentLink: response.data.data.link } });
+    } else {
+      // Create a new payment record if none exists
+      await PaymentReg.create(paymentData);
+    }
+
+    res.status(200).json({ responseURL: response.data.data.link, txRef: txID });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-
 module.exports = subPlanFn;
+

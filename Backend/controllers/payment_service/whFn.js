@@ -47,11 +47,6 @@ const whFn = async (req, res) => {
         <p style="color: #666; text-align: center;">
             Your payment has been successfully processed, and your policy is now active.
         </p>
-        
-        <p style="color: #666; text-align: center;">
-            To complete your registration process, please go back to our website:
-            <a href="https://rokoui.onrender.com/register" style="color: #007bff; text-decoration: none;">Medcover Website</a>
-        </p>
     
         <div style="text-align: center; margin-top: 30px; color: #666;">
             If you have any questions or need assistance, feel free to contact our support team.
