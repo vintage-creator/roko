@@ -86,7 +86,7 @@ const userSchema = new mongoose.Schema({
   },
   state: {
     type: String,
-    required: True,
+    required: true,
     trim: true,
   },
   nextofkin: {
