@@ -17,7 +17,7 @@ export const PendingPayment = () => {
       <Link to="/">
         <Button
           text="text-fourteenPixels md:text-sixteenPixels lg:text-eighteenPixels text-white font-semibold"
-          w="w-[50%]"
+          w="w-[100%]"
         >
           Back to Home
         </Button>

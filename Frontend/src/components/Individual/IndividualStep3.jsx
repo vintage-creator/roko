@@ -204,7 +204,7 @@ export const IndividualStep3 = ({ setFormData, formData }) => {
                 type: "success",
               });
             } else if (paymentStatusResponse?.status === "pending") {
-              setIsPending(true);
+              // setIsPending(true);
               console.log("Payment is still pending...");
             } else {
               // Payment failed or encountered an error, handle accordingly
