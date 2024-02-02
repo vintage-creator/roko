@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
@@ -14,6 +14,7 @@ import Verification from "../pages/EmailVerify/Verification";
 import { useMyContext } from "../context";
 import { EmailVerified } from "../pages/EmailVerify/EmailVerified";
 import ReactDOM from "react-dom";
+import { IndividualStep4 } from "../components/Individual/IndividualStep4";
 
 export const NavRoutes = () => {
   const { isAuthenticated } = useMyContext();
