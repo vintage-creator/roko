@@ -45,7 +45,7 @@ export const NavRoutes = () => {
         <Route path="/email-verification" element={<EmailVerified />} />
 
         <Route
-          path="/wh/confirm-payment/IndividualStep4"
+          path="/wh/confirm-payment"
           element={<IndividualStep4 />}
         />
 
